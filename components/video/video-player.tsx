@@ -4,7 +4,7 @@ import "plyr-react/plyr.css";
 
 interface VideoPlayerProps {
 	source: {
-		type: string;
+		type: any;
 		sources: { src: string; }[];
 	};
 	options?: Plyr.Options;

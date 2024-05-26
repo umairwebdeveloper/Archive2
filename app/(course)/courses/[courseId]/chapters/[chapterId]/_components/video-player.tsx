@@ -17,7 +17,7 @@ interface VideoPlayerProps {
 	nextChapterId?: string;
 	completeOnEnd: boolean;
 	title: string;
-	videoUrl: string;
+	videoUrl: any;
 }
 
 export const VideoPlayer = ({
