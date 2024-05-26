@@ -42,7 +42,7 @@ export async function GET() {
       },
     });
 
-    return NextResponse.json(courses);
+    return NextResponse.json({'courses': courses});
   } catch (error) {
     console.log("[COURSES]", error);
     return new NextResponse("Internal Error", { status: 500 });
