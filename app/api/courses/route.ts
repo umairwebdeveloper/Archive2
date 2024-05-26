@@ -1,50 +1,49 @@
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
+import { PrismaClient } from "@prisma/client";
 
-import { db } from "@/lib/db";
+const prisma = new PrismaClient();
 
-export async function POST(
-  req: Request,
-) {
-  try {
-    const { userId } = auth();
-    const { title } = await req.json();
+export async function POST(req: Request) {
+	try {
+		const { userId } = auth();
+		const { title } = await req.json();
 
-    if (!userId ) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
+		if (!userId) {
+			return new NextResponse("Unauthorized", { status: 401 });
+		}
 
-    const course = await db.course.create({
-      data: {
-        userId,
-        title,
-      }
-    });
+		const course = await prisma.course.create({
+			data: {
+				userId,
+				title,
+			},
+		});
 
-    return NextResponse.json(course);
-  } catch (error) {
-    console.log("[COURSES]", error);
-    return new NextResponse("Internal Error", { status: 500 });
-  }
+		return NextResponse.json(course);
+	} catch (error) {
+		console.log("[COURSES]", error);
+		return new NextResponse("Internal Error", { status: 500 });
+	}
 }
 
 export async function GET() {
-  try {
-    const { userId } = auth();
+	try {
+		const { userId } = auth();
 
-    if (!userId) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
+		if (!userId) {
+			return new NextResponse("Unauthorized", { status: 401 });
+		}
 
-    const courses = await db.course.findMany({
-      where: {
-        userId,
-      },
-    });
+		const courses = await prisma.course.findMany({
+			where: {
+				userId,
+			},
+		});
 
-    return NextResponse.json(courses);
-  } catch (error) {
-    console.log("[COURSES]", error);
-    return new NextResponse("Internal Error", { status: 500 });
-  }
+		return NextResponse.json(courses);
+	} catch (error) {
+		console.log("[COURSES]", error);
+		return new NextResponse("Internal Error", { status: 500 });
+	}
 }
