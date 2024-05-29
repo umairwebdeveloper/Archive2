@@ -48,26 +48,26 @@ export const CourseSidebar = async ({
 			<div className="p-8 flex flex-col border-b">
 				<h1>
 					<Link href={`/vakken/subject`}>
-						<span className="text-lg font-semibold text-blue-400 hover:text-blue-600 hover:underline">
+						<span className="text-sm text-blue-400 hover:text-blue-600 hover:underline">
 							Subject
 						</span>
 					</Link>
-					<span className="text-lg font-semibold text-blue-600">
+					<span className="text-sm text-blue-600">
 						{" "}
 						&gt;{" "}
 					</span>
 					<Link
 						href={`/vakken/subject/${courses?.category?.subject?.id}`}
 					>
-						<span className="text-lg font-semibold text-blue-400 hover:text-blue-600 hover:underline">
+						<span className="text-sm text-blue-400 hover:text-blue-600 hover:underline">
 							{courses?.category?.subject?.title}
 						</span>
 					</Link>
-					<span className="text-lg font-semibold text-blue-600">
+					<span className="text-sm text-blue-600">
 						{" "}
 						&gt;{" "}
 					</span>
-					<span className="text-lg font-semibold text-blue-600">
+					<span className="text-sm text-blue-600">
 						{course.title}
 					</span>
 				</h1>
