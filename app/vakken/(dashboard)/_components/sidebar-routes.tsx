@@ -1,29 +1,24 @@
 "use client";
 
-import { BarChart, Compass, List, Radio, Lock, Puzzle } from "lucide-react";
+import { BarChart, Compass, List, Radio, Lock, Puzzle, icons, Book } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import { SidebarItem } from "./sidebar-item";
 
 const guestRoutes = [
 	{
-		icon: Compass,
-		label: "Browse",
-		href: "/vakken/search",
-	},
-	{
-		icon: Puzzle,
-		label: "Quiz",
-		href: "/vakken/quiz",
-	},
-	{
-		icon: Radio,
-		label: "Livestream",
-		href: "/vakken/livestream",
+		icon: Book,
+		label: "Subjects",
+		href: "/vakken/subject",
 	},
 ];
 
 const teacherRoutes = [
+	{
+		icon: Book,
+		label: "Subjects",
+		href: "/vakken/teacher/subject",
+	},
 	{
 		icon: List,
 		label: "Courses",

@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 export async function POST(req: Request) {
 	try {
 		const { userId } = auth();
-		const { name } = await req.json();
+		const { name, subjectId } = await req.json();
 
 		if (!userId) {
 			return new NextResponse("Unauthorized", { status: 401 });
@@ -17,6 +17,7 @@ export async function POST(req: Request) {
 		const category = await prisma.category.create({
 			data: {
 				name: name,
+				subjectId: subjectId,
 			},
 		});
 

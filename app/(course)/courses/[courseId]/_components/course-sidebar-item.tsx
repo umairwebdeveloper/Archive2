@@ -32,6 +32,7 @@ export const CourseSidebarItem = ({
   }
 
   return (
+    
     <button
       onClick={onClick}
       type="button"

@@ -1,5 +1,5 @@
 datasource db {
-  provider     = "mysql"
+  provider     = "postgresql"
   url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
@@ -7,6 +7,24 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
   previewFeatures = ["fullTextSearch", "fullTextIndex"]
+}
+
+model Level {
+  id String @id @default(uuid())
+  title String
+  subjects Subject[]
+}
+
+
+
+model Subject {
+  id String @id @default(uuid())
+  levelId      String
+  level        Level  @relation(fields: [levelId], references: [id], onDelete: Cascade)
+  imageUrl String? @db.Text
+  isPublished Boolean @default(false)
+  title String
+  categorys Category[]
 }
 
 model Course {
@@ -29,12 +47,14 @@ model Course {
   updatedAt DateTime @updatedAt
 
   @@index([categoryId])
-  @@fulltext([title])
+  // @@fulltext([title])
 }
 
 model Category {
   id String @id @default(uuid())
   name String @unique
+  subjectId String
+  subject Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
   courses Course[]
 }
 

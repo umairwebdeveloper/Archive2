@@ -41,7 +41,7 @@ export const Heading =() => {
 
             {isAuthenticated && !isLoading && (
               <Button className="ml-1" asChild>
-                <Link href="/vakken/search">
+                <Link href="/vakken/subject">
                  Enter LMS
                  <ArrowRight className="h-4 w-4 ml-2"/>
                  </Link>
