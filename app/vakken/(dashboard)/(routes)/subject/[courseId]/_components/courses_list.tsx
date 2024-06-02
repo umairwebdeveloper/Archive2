@@ -6,12 +6,14 @@ import { Button } from "@/components/ui/button";
 import { Pen } from "lucide-react";
 import Link from "next/link";
 import Progress from "./progress";
+import { useProgress } from "@/hooks/context/ProgressContext";
 
 interface QuizTypeProps {
 	quizTypeId: string;
 }
 
 const QuizList: React.FC<QuizTypeProps> = ({ quizTypeId }) => {
+	const { setProgressId, setTitle } = useProgress();
 	const [quizzes, setQuizzes] = useState<any>([]);
 	const [loading, setLoading] = useState<boolean>(true);
 	const router = useRouter();
@@ -27,6 +29,8 @@ const QuizList: React.FC<QuizTypeProps> = ({ quizTypeId }) => {
 					const data = await response.json();
 					console.log(data);
 					setQuizzes(data);
+					setProgressId(quizTypeId); // Set the progressId in context
+					setTitle(data.title); // Set the title in context
 				} else {
 					console.error("Failed to fetch quizzes");
 				}
@@ -41,7 +45,7 @@ const QuizList: React.FC<QuizTypeProps> = ({ quizTypeId }) => {
 		};
 
 		fetchQuizzes();
-	}, [quizTypeId]);
+	}, [quizTypeId, setProgressId, setTitle]);
 
 	const handlePush = (id: number) => {
 		router.push(`/courses/${id}`);
@@ -63,7 +67,6 @@ const QuizList: React.FC<QuizTypeProps> = ({ quizTypeId }) => {
 				</div>
 			) : (
 				<>
-					<Progress progressId={quizTypeId} title={quizzes.title} />
 					<div className="p-6">
 						<h1 className="text-center text-3xl font-bold">
 							{quizzes.title}

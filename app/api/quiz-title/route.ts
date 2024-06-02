@@ -28,19 +28,20 @@ export async function POST(req: Request) {
 	}
 }
 
-
 export async function GET(req: Request) {
-    try {
-        const { userId } = auth();
-        if (!userId) {
-            return new NextResponse("Unauthorized", { status: 401 });
-        }
-        const quizzes = await prisma.quiz.findMany();
-        return NextResponse.json(quizzes);
-    } catch (error) {
-        console.error(error);
-        return NextResponse.json(error);
-    }
+	try {
+		const { userId } = auth();
+		if (!userId) {
+			return new NextResponse("Unauthorized", { status: 401 });
+		}
+		console.log(userId);
+
+		const quizzes = await prisma.quiz.findMany();
+		return NextResponse.json(quizzes);
+	} catch (error) {
+		console.error(error);
+		return NextResponse.json(error);
+	}
 }
 
 export async function DELETE(req: Request) {
@@ -51,7 +52,6 @@ export async function DELETE(req: Request) {
 		if (!userId) {
 			return new NextResponse("Unauthorized", { status: 401 });
 		}
-
 		await prisma.quiz.delete({
 			where: { id: Number(id) },
 		});

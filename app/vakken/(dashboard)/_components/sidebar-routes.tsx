@@ -1,9 +1,19 @@
 "use client";
 
-import { BarChart, Compass, List, Radio, Lock, Puzzle, icons, Book } from "lucide-react";
+import {
+	BarChart,
+	Compass,
+	List,
+	Radio,
+	Lock,
+	Puzzle,
+	icons,
+	Book,
+} from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import { SidebarItem } from "./sidebar-item";
+import Progress from "./progress";
 
 const guestRoutes = [
 	{
@@ -37,22 +47,23 @@ const teacherRoutes = [
 ];
 
 export const SidebarRoutes = () => {
-  const pathname = usePathname();
+	const pathname = usePathname();
 
-  const isTeacherPage = pathname?.includes("/vakken/teacher");
+	const isTeacherPage = pathname?.includes("/vakken/teacher");
 
-  const routes = isTeacherPage ? teacherRoutes : guestRoutes;
+	const routes = isTeacherPage ? teacherRoutes : guestRoutes;
 
-  return (
-    <div className="flex flex-col justify-between w-full">
-      {routes.map((route) => (
-        <SidebarItem
-          key={route.href}
-          icon={route.icon}
-          label={route.label}
-          href={route.href}
-        />
-      ))}
-    </div>
-  )
-}
+	return (
+		<div className="flex flex-col justify-between w-full">
+			<Progress />
+			{routes.map((route) => (
+				<SidebarItem
+					key={route.href}
+					icon={route.icon}
+					label={route.label}
+					href={route.href}
+				/>
+			))}
+		</div>
+	);
+};
