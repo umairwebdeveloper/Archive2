@@ -13,7 +13,6 @@ export async function POST(req: Request) {
 			return new NextResponse("Unauthorized", { status: 401 });
 		}
 
-
 		// Create the question and its options
 		const createdQuestion = await prisma.question.create({
 			data: {
@@ -22,6 +21,7 @@ export async function POST(req: Request) {
 				questionText: question.questionText,
 				type: question.type,
 				correctAnswer: question.correctAnswer,
+				explanation: question.explanation,
 				options: {
 					create: question.options,
 				},

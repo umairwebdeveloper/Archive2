@@ -75,6 +75,19 @@ const QuizSidebar: React.FC<QuizTypeProps> = ({ courseId }) => {
 		}
 	}, [isActive, courseId]);
 
+	const getAnswerColor = (question: any, userAnswer: any) => {
+		if (question.type === "multiple-choice" && userAnswer) {
+			const userAnswerText = userAnswer.answer;
+			const correctAnswer = question.correctAnswer;
+			if (userAnswerText === correctAnswer) {
+				return "bg-green-200";
+			} else {
+				return "bg-red-200";
+			}
+		}
+		return "";
+	};
+
 	return (
 		<div>
 			<button
@@ -113,10 +126,9 @@ const QuizSidebar: React.FC<QuizTypeProps> = ({ courseId }) => {
 						<div className="text-sm text-slate-600">
 							{links.map((link: any, index: number) => (
 								<>
-									<div>
+									<div key={index}>
 										<hr className="my-3" />
 										<div
-											key={index}
 											onClick={() =>
 												router.push(
 													`/courses/${courseId}/quiz/${link.id}`
@@ -128,23 +140,42 @@ const QuizSidebar: React.FC<QuizTypeProps> = ({ courseId }) => {
 													: ""
 											}`}
 										>
-											<span className="">
+											<span className="text-xl">
 												{index + 1}: {link.title}
 											</span>
 										</div>
 										<div>
 											{link.questions.map(
 												(
-													option: any,
-													optionIndex: number
-												) => (
-													<div key={optionIndex}>
-														<p className="px-2 mb-1">
-															{optionIndex + 1}: {" "}
-															{option.title}
-														</p>
-													</div>
-												)
+													question: any,
+													questionIndex: number
+												) => {
+													const userAnswer =
+														link.answers.find(
+															(answer: any) =>
+																answer.questionId ===
+																question.id
+														);
+													return (
+														<div
+															key={questionIndex}
+															className="mb-1"
+														>
+															<a
+																href={`#question${questionIndex + 1}`}
+																className={`px-2 w-100 hover:bg-blue-50 text-lg ${getAnswerColor(
+																	question,
+																	userAnswer
+																)}`}
+															>
+																{questionIndex +
+																	1}
+																:{" "}
+																{question.title}
+															</a>
+														</div>
+													);
+												}
 											)}
 										</div>
 									</div>

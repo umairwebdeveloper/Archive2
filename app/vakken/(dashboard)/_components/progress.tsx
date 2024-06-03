@@ -60,7 +60,7 @@ const Progress: React.FC = () => {
 		videosCount > 0 ? (completedVideos / videosCount) * 100 : 0;
 
 	return (
-		<div className="ml-64 fixed top-1/5 left-0 w-60">
+		<div className="m-5">
 			<div className="flex justify-start mb-5">
 				<Link href="/vakken/subject">
 					<span className="text-blue-400 hover:underline hover:text-blue-600">

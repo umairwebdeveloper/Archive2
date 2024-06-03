@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
+import { Spinner } from "../spinner";
 
 // Dynamically import React Quill with SSR disabled
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
@@ -16,6 +17,7 @@ const AddQuestion: React.FC = () => {
 		"multiple-choice"
 	);
 	const [correctAnswer, setCorrectAnswer] = useState("");
+	const [explanation, setExplanation] = useState("")
 	const [options, setOptions] = useState([{ label: "A", value: "" }]);
 	const [loading, setLoading] = useState(false);
 	const [quizLoading, setQuizLoading] = useState(false);
@@ -57,6 +59,10 @@ const AddQuestion: React.FC = () => {
 			label: String.fromCharCode(65 + i),
 		}));
 		setOptions(updatedOptions);
+		// Update correctAnswer if the correct option is removed
+		if (correctAnswer === options[index].label) {
+			setCorrectAnswer("");
+		}
 	};
 
 	const handleSubmit = async (e: React.FormEvent) => {
@@ -68,6 +74,7 @@ const AddQuestion: React.FC = () => {
 			questionText,
 			type,
 			correctAnswer,
+			explanation,
 			options,
 		};
 
@@ -89,7 +96,6 @@ const AddQuestion: React.FC = () => {
 			setCorrectAnswer("");
 			setOptions([{ label: "A", value: "" }]);
 			toast.success("Question added successfully");
-			router.push("/vakken/teacher/quiz");
 		} else {
 			console.error("Failed to add question");
 			toast.error("Failed to add question");
@@ -129,26 +135,7 @@ const AddQuestion: React.FC = () => {
 						</select>
 						{quizLoading && (
 							<div className="text-center mt-2">
-								<svg
-									className="animate-spin h-5 w-5 text-gray-900"
-									xmlns="http://www.w3.org/2000/svg"
-									fill="none"
-									viewBox="0 0 24 24"
-								>
-									<circle
-										className="opacity-25"
-										cx="12"
-										cy="12"
-										r="10"
-										stroke="currentColor"
-										strokeWidth="4"
-									></circle>
-									<path
-										className="opacity-75"
-										fill="currentColor"
-										d="M4 12a8 8 0 018-8V0C6.477 0 2 4.477 2 10h2zm2 5.291A7.963 7.963 0 014 12H2c0 2.042.632 3.938 1.709 5.291l1.292-1.292z"
-									></path>
-								</svg>
+								<Spinner />
 							</div>
 						)}
 					</div>
@@ -202,11 +189,10 @@ const AddQuestion: React.FC = () => {
 						<textarea
 							className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
 							placeholder="Question Explanation"
-							onChange={(e) => setCorrectAnswer(e.target.value)}
-							required
-						>
-							{correctAnswer}
-						</textarea>
+							value={explanation}
+							onChange={(e) => setExplanation(e.target.value)}
+							required={type === "text"}
+						/>
 					</div>
 					{type === "multiple-choice" && (
 						<div>
@@ -250,6 +236,31 @@ const AddQuestion: React.FC = () => {
 							>
 								Add Option
 							</button>
+							<div className="mt-4">
+								<label className="block text-lg font-medium text-gray-700">
+									Correct Option
+								</label>
+								<select
+									className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
+									value={correctAnswer}
+									onChange={(e) =>
+										setCorrectAnswer(e.target.value)
+									}
+									required
+								>
+									<option value="" disabled>
+										Select correct option
+									</option>
+									{options.map((option) => (
+										<option
+											key={option.label}
+											value={option.label}
+										>
+											{option.label}
+										</option>
+									))}
+								</select>
+							</div>
 						</div>
 					)}
 					<button
@@ -257,28 +268,7 @@ const AddQuestion: React.FC = () => {
 						disabled={loading}
 						className="px-4 py-2 bg-gray-900 text-white rounded-md shadow flex items-center justify-center"
 					>
-						{loading && (
-							<svg
-								className="animate-spin h-5 w-5 mr-3 text-white"
-								xmlns="http://www.w3.org/2000/svg"
-								fill="none"
-								viewBox="0 0 24 24"
-							>
-								<circle
-									className="opacity-25"
-									cx="12"
-									cy="12"
-									r="10"
-									stroke="currentColor"
-									strokeWidth="4"
-								></circle>
-								<path
-									className="opacity-75"
-									fill="currentColor"
-									d="M4 12a8 8 0 018-8V0C6.477 0 2 4.477 2 10h2zm2 5.291A7.963 7.963 0 014 12H2c0 2.042.632 3.938 1.709 5.291l1.292-1.292z"
-								></path>
-							</svg>
-						)}
+						{loading && <Spinner />}
 						{loading ? "Submitting..." : "Submit"}
 					</button>
 				</form>

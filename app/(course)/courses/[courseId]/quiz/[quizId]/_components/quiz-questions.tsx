@@ -1,4 +1,3 @@
-// pages/quiz/[quizId].tsx
 import { useState, useEffect, useRef } from "react";
 import { Spinner } from "@/components/spinner";
 import { Button } from "@/components/ui/button";
@@ -58,6 +57,9 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 	const [explanations, setExplanations] = useState<{
 		[key: number]: boolean;
 	}>({});
+	const [isCorrect, setIsCorrect] = useState<{
+		[key: number]: boolean;
+	}>({});
 	const questionRefs = useRef<(HTMLDivElement | null)[]>([]);
 	const router = useRouter();
 
@@ -93,40 +95,18 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 		fetchQuiz();
 	}, [quizId]);
 
-	useEffect(() => {
-		const observer = new IntersectionObserver(
-			(entries) => {
-				entries.forEach((entry) => {
-					if (entry.isIntersecting) {
-						const index = questionRefs.current.findIndex(
-							(ref) => ref === entry.target
-						);
-						if (index !== -1) {
-							setActiveIndex(index);
-						}
-					}
-				});
-			},
-			{
-				threshold: 0.5,
-			}
-		);
-
-		questionRefs.current.forEach((ref) => {
-			if (ref) observer.observe(ref);
-		});
-
-		return () => {
-			questionRefs.current.forEach((ref) => {
-				if (ref) observer.unobserve(ref);
-			});
-		};
-	}, [quiz]);
-
 	const handleOptionClick = (questionId: number, option: string) => {
+		const question = quiz?.questions.find((q) => q.id === questionId);
+		const isAnswerCorrect = question?.correctAnswer === option;
+
 		setSelectedAnswers((prev) => ({
 			...prev,
 			[questionId]: option,
+		}));
+
+		setIsCorrect((prev) => ({
+			...prev,
+			[questionId]: isAnswerCorrect,
 		}));
 	};
 
@@ -180,30 +160,6 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 		}));
 	};
 
-	const handleBack = () => {
-		router.back();
-	};
-
-	const handleLinkClick = (index: number) => {
-		setActiveIndex(index);
-		scrollToQuestion(index);
-	};
-
-	const scrollToQuestion = (index: number) => {
-		const offset = 100; // Adjust this value as needed
-		const element = document.getElementById(`question${index + 1}`);
-		if (element) {
-			const elementPosition =
-				element.getBoundingClientRect().top + window.pageYOffset;
-			const offsetPosition = elementPosition - offset;
-
-			window.scrollTo({
-				top: offsetPosition,
-				behavior: "smooth",
-			});
-		}
-	};
-
 	if (!quiz) {
 		return (
 			<div className="flex items-center justify-center mt-5">
@@ -215,149 +171,149 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 	return (
 		<div className="container mx-auto mt-5">
 			<div className="">
-				<SideBox
-					quizTitle={quiz.title}
-					questions={quiz.questions}
-					activeIndex={activeIndex}
-					onLinkClick={handleLinkClick}
-					
-				/>
-				<div className="ml-64 p-6">
+				<div className="p-6">
 					<h1 className="text-center text-3xl font-bold mb-3">
 						Quiz Questions
 					</h1>
-					<div id="quiz-container" className="mt-4">
-						{quiz.questions && quiz.questions.length > 0 ? (
-							quiz.questions.map((question, index) => (
-								<div
-									key={index}
-									id={`question${index + 1}`}
-									ref={(el: any) =>
-										(questionRefs.current[index] = el)
-									}
-									className="card mb-6 border rounded-lg shadow-sm"
-								>
-									<div className="card-body p-4">
-										<h5 className="card-title font-bold text-start">
-											{index + 1}: {question.title}
-										</h5>
-										<hr className="my-3" />
-										<p
-											className="card-text text-start mb-3"
-											dangerouslySetInnerHTML={{
-												__html: question.questionText,
-											}}
-										></p>
-										{question.type === "multiple-choice" ? (
-											<div
-												className="flex flex-col space-y-3"
-												data-question={`question${index}`}
-											>
-												{question.options?.map(
-													(option) => (
-														<div
-															key={option.id}
-															className="flex items-center"
-														>
+					<div className="flex justify-center">
+						<div
+							id="quiz-container"
+							className="mt-4 grid grid-cols-1 gap-3 w-1/2"
+						>
+							{quiz.questions && quiz.questions.length > 0 ? (
+								quiz.questions.map((question, index) => (
+									<div
+										key={index}
+										id={`question${index + 1}`}
+										ref={(el: any) =>
+											(questionRefs.current[index] = el)
+										}
+										className="card mb-6 border rounded-lg shadow-sm"
+									>
+										<div className="card-body p-4">
+											<h5 className="card-title font-bold text-start">
+												{index + 1}: {question.title}
+											</h5>
+											<hr className="my-3" />
+											<p
+												className="card-text text-start mb-3"
+												dangerouslySetInnerHTML={{
+													__html: question.questionText,
+												}}
+											></p>
+											{question.type ===
+											"multiple-choice" ? (
+												<div
+													className="flex flex-col space-y-3"
+													data-question={`question${index}`}
+												>
+													{question.options?.map(
+														(option) => (
 															<div
-																className={`w-12 font-semibold h-8 border rounded-lg flex justify-center items-center cursor-pointer user-select-none ${
-																	selectedAnswers[
-																		question
-																			.id
-																	] ===
-																	option.label
-																		? "bg-sky-200 text-white border-sky-200"
-																		: "border-sky-200"
-																}`}
-																onClick={() =>
-																	handleOptionClick(
-																		question.id,
-																		option.label
-																	)
-																}
+																key={option.id}
+																className="flex items-center"
 															>
-																{option.label}
-															</div>
-															<div className="ml-3">
-																<p className="m-0">
-																	{
-																		option.value
+																<div
+																	className={`w-12 font-semibold h-8 border rounded-lg flex justify-center items-center cursor-pointer user-select-none ${
+																		selectedAnswers[
+																			question
+																				.id
+																		] ===
+																		option.label
+																			? isCorrect[
+																					question
+																						.id
+																				]
+																				? "bg-green-200 text-white border-green-200"
+																				: "bg-red-200 text-white border-red-200"
+																			: "border-sky-200"
+																	}`}
+																	onClick={() =>
+																		handleOptionClick(
+																			question.id,
+																			option.label
+																		)
 																	}
-																</p>
+																>
+																	{
+																		option.label
+																	}
+																</div>
+																<div className="ml-3">
+																	<p className="m-0">
+																		{
+																			option.value
+																		}
+																	</p>
+																</div>
 															</div>
-														</div>
-													)
-												)}
-											</div>
-										) : (
-											<div className="flex flex-col space-y-3">
-												<ReactQuill
-													value={
-														selectedAnswers[
+														)
+													)}
+												</div>
+											) : (
+												<div className="flex flex-col space-y-3">
+													<ReactQuill
+														value={
+															selectedAnswers[
+																question.id
+															] || ""
+														}
+														onChange={(value) =>
+															handleTextChange(
+																question.id,
+																value
+															)
+														}
+														className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
+													/>
+												</div>
+											)}
+											<hr className="my-3" />
+											<div className="flex justify-start">
+												<Button
+													onClick={() =>
+														handleSubmit(
 															question.id
-														] || ""
-													}
-													onChange={(value) =>
-														handleTextChange(
-															question.id,
-															value
 														)
 													}
-													className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
-												/>
+													disabled={
+														isSubmitting[
+															question.id
+														]
+													}
+												>
+													{isSubmitting[question.id]
+														? "Submitting..."
+														: "Submit"}
+												</Button>
 											</div>
-										)}
-										<hr className="my-3" />
-										<div className="flex justify-start">
-											<Button
-												onClick={() =>
-													handleSubmit(question.id)
-												}
-												disabled={
-													isSubmitting[question.id]
-												}
-											>
-												{isSubmitting[question.id]
-													? "Submitting..."
-													: "Submit"}
-											</Button>
+											{selectedAnswers[question.id] && (
+												<>
+													{explanations[
+														question.id
+													] && (
+														<div className="mt-2 p-2 bg-gray-100 border rounded-lg">
+															<p className="font-semibold">
+																Explanation:
+															</p>
+															<p>
+																{
+																	question.explanation
+																}
+															</p>
+														</div>
+													)}
+												</>
+											)}
 										</div>
-										{selectedAnswers[question.id] && (
-											<>
-												<div className="mt-2 p-2 bg-gray-100 border rounded-lg">
-													<p className="font-semibold">
-														Your Answer:
-													</p>
-													<p
-														dangerouslySetInnerHTML={{
-															__html: selectedAnswers[
-																question.id
-															],
-														}}
-													></p>
-												</div>
-												{explanations[question.id] && (
-													<div className="mt-2 p-2 bg-gray-100 border rounded-lg">
-														<p className="font-semibold">
-															Explanation:
-														</p>
-														<p>
-															{
-																question.correctAnswer
-															}
-														</p>
-													</div>
-												)}
-											</>
-										)}
 									</div>
+								))
+							) : (
+								<div className="text-center my-5">
+									No questions found for this quiz.
 								</div>
-							))
-						) : (
-							<div className="text-center my-5">
-								No questions found for this quiz.
-							</div>
-						)}
+							)}
+						</div>
 					</div>
 				</div>
 			</div>

@@ -35,11 +35,6 @@ const teacherRoutes = [
 		href: "/vakken/teacher/courses",
 	},
 	{
-		icon: Puzzle,
-		label: "Quiz",
-		href: "/vakken/teacher/quiz",
-	},
-	{
 		icon: Radio,
 		label: "Livestream",
 		href: "/livestream",
@@ -50,12 +45,13 @@ export const SidebarRoutes = () => {
 	const pathname = usePathname();
 
 	const isTeacherPage = pathname?.includes("/vakken/teacher");
+	const isSubjectPage = /\/vakken\/subject\/[0-9a-fA-F-]{36}/.test(pathname); // Regex to match /vakken/subject/[uuid]
 
 	const routes = isTeacherPage ? teacherRoutes : guestRoutes;
 
 	return (
 		<div className="flex flex-col justify-between w-full">
-			<Progress />
+			{isSubjectPage && <Progress />}
 			{routes.map((route) => (
 				<SidebarItem
 					key={route.href}
