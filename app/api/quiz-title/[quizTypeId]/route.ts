@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
+import { auth } from "@clerk/nextjs";
 
 const prisma = new PrismaClient();
 
@@ -8,6 +9,12 @@ export async function GET(
 	{ params }: { params: { quizTypeId: string } }
 ) {
 	try {
+		const { userId } = auth();
+
+		if (!userId) {
+			return new NextResponse("Unauthorized", { status: 401 });
+		}
+
 		// find one course by id
 		const quizTitle = await prisma.course.findUnique({
 			where: {
@@ -21,7 +28,11 @@ export async function GET(
 								options: true,
 							},
 						},
-						answers: true,
+						answers: {
+							where: {
+								userId: userId,
+							},
+						},
 					},
 				},
 			},

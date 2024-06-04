@@ -71,13 +71,13 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 				const data = await response.json();
 				setQuiz(data.quiz);
 				setCourse(data.course);
-				await fetchSubmittedAnswers();
+				await fetchSubmittedAnswers(data.quiz.questions);
 			} else {
 				console.error("Failed to fetch quiz");
 			}
 		};
 
-		const fetchSubmittedAnswers = async () => {
+		const fetchSubmittedAnswers = async (questions: Question[]) => {
 			const response = await fetch(`/api/quiz/${quizId}/answers`);
 			if (response.ok) {
 				const data = await response.json();
@@ -89,6 +89,11 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 					{}
 				);
 				setSelectedAnswers(initialAnswers);
+				const initialIsCorrect = questions.reduce((acc: { [key: number]: boolean }, question) => {
+					acc[question.id] = initialAnswers[question.id] === question.correctAnswer;
+					return acc;
+				}, {});
+				setIsCorrect(initialIsCorrect);
 			}
 		};
 
