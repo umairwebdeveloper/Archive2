@@ -123,7 +123,7 @@ const SubjectsAndLevels: React.FC = () => {
 							>
 								{subject.imageUrl ? (
 									<img
-										src={`/uploads/${subject.imageUrl}`}
+										src={`${subject.imageUrl.startsWith("https") ? subject.imageUrl : "/uploads/" + subject.imageUrl}`}
 										alt={subject.title}
 										className="mb-4 w-full h-48 object-cover rounded-md"
 									/>
@@ -137,7 +137,7 @@ const SubjectsAndLevels: React.FC = () => {
 									</>
 								)}
 
-								<hr/>
+								<hr />
 
 								<div className="px-6 py-4">
 									<div className="font-bold text-xl mb-2">

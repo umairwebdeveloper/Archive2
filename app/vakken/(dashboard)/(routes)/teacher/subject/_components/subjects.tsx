@@ -148,7 +148,7 @@ const SubjectsAndLevels: React.FC = () => {
 							>
 								{subject.imageUrl ? (
 									<img
-										src={`/uploads/${subject.imageUrl}`}
+										src={`${subject.imageUrl.startsWith("https") ? subject.imageUrl : "/uploads/" + subject.imageUrl}`}
 										alt={subject.title}
 										className="mt-2 mb-4 w-full h-48 object-cover rounded-md"
 									/>

@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import { auth } from "@clerk/nextjs";
-import { writeFile } from "fs/promises";
+// import { writeFile } from "fs/promises";
+import { put } from "@vercel/blob";
 
 const prisma = new PrismaClient();
 
@@ -36,21 +37,26 @@ export async function POST(req: Request) {
 			});
 		}
 
-		const byteData = await image.arrayBuffer();
-		const buffer = Buffer.from(byteData);
-		const path = `./public/uploads/${image.name}`;
-		await writeFile(path, buffer);
+		// const byteData = await image.arrayBuffer();
+		// const buffer = Buffer.from(byteData);
+		// const path = `./public/uploads/${image.name}`;
+		// await writeFile(path, buffer);
+
+		const upload = await put(image.name, image, {
+			access: "public",
+		});
 
 		const subject = await prisma.subject.create({
 			data: {
 				title: title as string,
 				levelId: levelId as string,
-				imageUrl: image.name as string,
+				imageUrl: upload.url,
 			},
 		});
 		return NextResponse.json({
 			message: "form submit successfully",
 			data: subject,
+			upload: upload,
 		});
 	} catch (error) {
 		console.error(error);
