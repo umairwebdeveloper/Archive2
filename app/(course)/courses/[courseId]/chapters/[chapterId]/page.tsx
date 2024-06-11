@@ -7,7 +7,7 @@ import { Banner } from "@/components/banner";
 import { Separator } from "@/components/ui/separator";
 import { Preview } from "@/components/preview-lms";
 
-import { VideoPlayer } from "./_components/video-player";
+import VideoPlayer from "./_components/video-player";
 import { CourseProgressButton } from "./_components/course-progress-button";
 
 const ChapterIdPage = async ({
@@ -48,9 +48,9 @@ const ChapterIdPage = async ({
 					label="You already completed this chapter."
 				/>
 			)}
-			<div className="flex flex-col max-w-4xl mx-auto pb-20">
+			<div className="flex flex-col pb-20 px-4">
 				{muxData?.playbackId ? (
-					<div className="p-4">
+					<div className="pt-4">
 						<VideoPlayer
 							chapterId={params.chapterId}
 							title={chapter.title}
@@ -71,7 +71,7 @@ const ChapterIdPage = async ({
 						</div>
 					</div>
 				)}
-				<div className="p-4 flex flex-col md:flex-row-reverse	items-center justify-between">
+				<div className="pt-4 flex items-center justify-start">
 					<CourseProgressButton
 						chapterId={params.chapterId}
 						courseId={params.courseId}

@@ -22,6 +22,12 @@ const SubjectPage = () => {
 							New Course
 						</Button>
 					</Link>
+					<Link href="/vakken/teacher/resume">
+						<Button>
+							<PlusCircle className="h-4 w-4 mr-2" />
+							New Resume
+						</Button>
+					</Link>
 					<Link href="/vakken/teacher/quiz/create">
 						<Button>
 							<PlusCircle className="h-4 w-4 mr-2" />

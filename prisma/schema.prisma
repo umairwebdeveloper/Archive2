@@ -1,5 +1,5 @@
 datasource db {
-  provider     = "postgresql"
+  provider     = "mysql"
   url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
@@ -42,12 +42,49 @@ model Course {
   chapters Chapter[]
   purchases Purchase[]
   quiz   Quiz[]
+  resume Resume[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([categoryId])
-  // @@fulltext([title])
+  @@fulltext([title])
+}
+
+
+model Resume {
+  id        String @id @default(uuid())
+  text      String @db.Text
+  courseId  String @unique
+  course    Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  highlights Highlight[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Highlight {
+  id                String    @id @default(uuid())
+  meta              String    @db.Text
+  text              String    @db.Text
+  textId            String    @unique
+  textClassName     String
+  startContainerText String   @db.Text
+  endContainerText   String   @db.Text
+  resumeId          String
+  resume            Resume   @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  userId            String
+  note              Note?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model Note {
+  id          String    @id @default(uuid())
+  content     String    @db.Text
+  highlightId String    @unique
+  highlight   Highlight @relation(fields: [highlightId], references: [textId], onDelete: Cascade)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model Category {
@@ -87,7 +124,7 @@ model Chapter {
 
   courseId String
   course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
-
+  userVideoNote UserVideoNote[]
   attachments Attachment[]
   userProgress UserProgress[]
 
@@ -96,6 +133,17 @@ model Chapter {
 
   @@index([courseId])
 }
+
+model UserVideoNote {
+   id String @id @default(uuid())
+   userId     String
+   content    String @db.Text
+   time       String
+   chapterId  String
+   chapter    Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+}
+
 
 model MuxData {
   id String @id @default(uuid())
@@ -170,7 +218,7 @@ model Question {
   quizId        Int
   quiz          Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
   title         String   @default("Question")
-  questionText  String
+  questionText  String   @db.Text
   type          String
   correctAnswer String
   explanation   String    @default("Explanation")
@@ -194,6 +242,6 @@ model Answer {
   quiz       Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
   questionId Int
   question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
-  answer     String
+  answer     String   @db.Text
   createdAt  DateTime @default(now())
 }

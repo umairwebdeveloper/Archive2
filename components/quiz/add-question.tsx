@@ -2,11 +2,12 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import dynamic from "next/dynamic";
+import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Spinner } from "../spinner";
 
 // Dynamically import React Quill with SSR disabled
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+// const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 const AddQuestion: React.FC = () => {
 	const [quizzes, setQuizzes] = useState<any[]>([]);
@@ -17,7 +18,7 @@ const AddQuestion: React.FC = () => {
 		"multiple-choice"
 	);
 	const [correctAnswer, setCorrectAnswer] = useState("");
-	const [explanation, setExplanation] = useState("")
+	const [explanation, setExplanation] = useState("");
 	const [options, setOptions] = useState([{ label: "A", value: "" }]);
 	const [loading, setLoading] = useState(false);
 	const [quizLoading, setQuizLoading] = useState(false);
@@ -107,6 +108,20 @@ const AddQuestion: React.FC = () => {
 		setSelectedQuiz(quizId);
 	};
 
+	const modules = {
+		toolbar: {
+			container: [
+				[{ header: [1, 2, 3, 4, 5, 6] }],
+				[{ size: [] }],
+				["bold", "italic", "underline", "strike", "blockquote"],
+				[{ list: "ordered" }, { list: "bullet" }],
+				["link", "image", "video"],
+				["clean"],
+				["code-block"],
+			],
+		},
+	};
+
 	return (
 		<div className="container mx-auto py-6">
 			<h1 className="text-3xl font-bold text-center mb-6">
@@ -160,6 +175,7 @@ const AddQuestion: React.FC = () => {
 							value={questionText}
 							onChange={setQuestionText}
 							className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
+							modules={modules}
 						/>
 					</div>
 					<div>

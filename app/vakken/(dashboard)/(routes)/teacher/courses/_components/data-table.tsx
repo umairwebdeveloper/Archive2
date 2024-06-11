@@ -78,6 +78,12 @@ export function DataTable<TData, TValue>({
 							New Course
 						</Button>
 					</Link>
+					<Link href="/vakken/teacher/resume">
+						<Button className="ml-2">
+							<PlusCircle className="h-4 w-4 mr-2" />
+							New Resume
+						</Button>
+					</Link>
 					<Link href="/vakken/teacher/quiz/create">
 						<Button className="mx-2">
 							<PlusCircle className="h-4 w-4 mr-2" />

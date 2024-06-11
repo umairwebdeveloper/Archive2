@@ -9,6 +9,7 @@ import { CourseProgress } from "@/components/course-progress";
 import { Button } from "@/components/ui/button";
 import QuizSidebar from "./quiz-sidebar";
 import Link from "next/link";
+import ResumeSidebar from "./resume-sidebar";
 
 interface CourseSidebarProps {
 	course: Course & {
@@ -42,7 +43,6 @@ export const CourseSidebar = async ({
 		},
 	});
 
-
 	return (
 		<div className="h-full border-r flex flex-col overflow-y-auto shadow-sm">
 			<div className="p-8 flex flex-col border-b">
@@ -52,10 +52,7 @@ export const CourseSidebar = async ({
 							Subject
 						</span>
 					</Link>
-					<span className="text-sm text-blue-600">
-						{" "}
-						&gt;{" "}
-					</span>
+					<span className="text-sm text-blue-600"> &gt; </span>
 					<Link
 						href={`/vakken/subject/${courses?.category?.subject?.id}`}
 					>
@@ -63,10 +60,7 @@ export const CourseSidebar = async ({
 							{courses?.category?.subject?.title}
 						</span>
 					</Link>
-					<span className="text-sm text-blue-600">
-						{" "}
-						&gt;{" "}
-					</span>
+					<span className="text-sm text-blue-600"> &gt; </span>
 					<span className="text-sm text-blue-600">
 						{course.title}
 					</span>
@@ -85,6 +79,7 @@ export const CourseSidebar = async ({
 						courseId={course.id}
 					/>
 				))}
+				<ResumeSidebar courseId={course.id} />
 				<QuizSidebar courseId={course.id} />
 			</div>
 		</div>

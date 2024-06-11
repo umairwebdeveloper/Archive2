@@ -1,14 +1,8 @@
 "use client";
-
-import axios from "axios";
-import MuxPlayer from "@mux/mux-player-react";
-import { useState } from "react";
-import { toast } from "react-hot-toast";
-import { useRouter } from "next/navigation";
-import { Loader2, Lock } from "lucide-react";
-import PlyrVideoPlayer from "@/components/video/video-player";
-
-import { cn } from "@/lib/utils";
+import React, { useRef, useEffect, useState } from "react";
+import Plyr from "plyr";
+import "plyr/dist/plyr.css";
+import VideoNote from "./video-note";
 
 interface VideoPlayerProps {
 	playbackId: string;
@@ -20,7 +14,7 @@ interface VideoPlayerProps {
 	videoUrl: any;
 }
 
-export const VideoPlayer = ({
+const VideoPlayer = ({
 	playbackId,
 	courseId,
 	chapterId,
@@ -29,55 +23,85 @@ export const VideoPlayer = ({
 	title,
 	videoUrl,
 }: VideoPlayerProps) => {
-	const [isReady, setIsReady] = useState(false);
-	const router = useRouter();
+	const playerRef = useRef<HTMLVideoElement>(null);
+	const [currentTime, setCurrentTime] = useState<number>(0);
 
-	const onEnd = async () => {
-		try {
-			if (completeOnEnd) {
-				await axios.put(
-					`/api/courses/${courseId}/chapters/${chapterId}/progress`,
-					{
-						isCompleted: true,
-					}
+	const formatTime = (time: number) => {
+		const minutes = Math.floor(time / 60);
+		const seconds = Math.floor(time % 60);
+		return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+	};
+
+	useEffect(() => {
+		const player = playerRef.current;
+
+		if (player) {
+			const plyr = new Plyr(player, {
+				controls: [
+					"play-large",
+					"restart",
+					"play",
+					"progress",
+					"current-time",
+					"mute",
+					"volume",
+					"settings",
+					"fullscreen",
+					"airplay",
+					"download",
+					"settings",
+				],
+			});
+
+			const handleTimeUpdate = () => {
+				const currentTime = player.currentTime;
+				setCurrentTime(currentTime);
+				localStorage.setItem(
+					`videoTime_${chapterId}`,
+					currentTime.toString()
 				);
+			};
 
-				toast.success("Progress updated");
-				router.refresh();
-
-				if (nextChapterId) {
-					router.push(
-						`/courses/${courseId}/chapters/${nextChapterId}`
-					);
-				}
+			const savedTime = localStorage.getItem(`videoTime_${chapterId}`);
+			if (savedTime) {
+				player.currentTime = parseFloat(savedTime);
 			}
-		} catch {
-			toast.error("Something went wrong");
+
+			player.addEventListener("timeupdate", handleTimeUpdate);
+
+			return () => {
+				player.removeEventListener("timeupdate", handleTimeUpdate);
+			};
+		}
+	}, [chapterId]);
+
+	const seekToTime = (time: number) => {
+		if (playerRef.current) {
+			playerRef.current.currentTime = time;
+			playerRef.current.play();
 		}
 	};
 
 	return (
 		<>
 			<h1 className="text-2xl mb-3">{title}</h1>
-
-			<div className="relative aspect-video">
-				{!isReady && (
-					<div className="absolute inset-0 flex items-center justify-center bg-slate-800">
-						<Loader2 className="h-8 w-8 animate-spin text-secondary" />
-					</div>
-				)}
-
-				<PlyrVideoPlayer
-					source={{
-						type: "video",
-						sources: [
-							{
-								src: videoUrl,
-							},
-						],
-					}}
-				/>
+			<div className="flex">
+				<div className="w-3/4 video-player">
+					<video ref={playerRef} controls>
+						<source src={videoUrl} type="video/mp4" />
+					</video>
+				</div>
+				<div className="w-1/4">
+					<VideoNote
+						chapterId={chapterId}
+						currentTime={currentTime}
+						formatTime={formatTime}
+						seekToTime={seekToTime}
+					/>
+				</div>
 			</div>
 		</>
 	);
 };
+
+export default VideoPlayer;

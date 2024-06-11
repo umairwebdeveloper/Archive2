@@ -89,10 +89,15 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 					{}
 				);
 				setSelectedAnswers(initialAnswers);
-				const initialIsCorrect = questions.reduce((acc: { [key: number]: boolean }, question) => {
-					acc[question.id] = initialAnswers[question.id] === question.correctAnswer;
-					return acc;
-				}, {});
+				const initialIsCorrect = questions.reduce(
+					(acc: { [key: number]: boolean }, question) => {
+						acc[question.id] =
+							initialAnswers[question.id] ===
+							question.correctAnswer;
+						return acc;
+					},
+					{}
+				);
 				setIsCorrect(initialIsCorrect);
 			}
 		};
@@ -163,6 +168,17 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 			...prev,
 			[questionId]: false,
 		}));
+	};
+
+	const modules = {
+		toolbar: {
+			container: [
+				[{ header: [1, 2, 3, 4, 5, 6, false] }],
+				[{ list: "ordered" }, { list: "bullet" }],
+				["bold", "italic", "underline"],
+				["link", "image"],
+			],
+		},
 	};
 
 	if (!quiz) {
@@ -270,6 +286,7 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 															)
 														}
 														className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
+														modules={modules}
 													/>
 												</div>
 											)}
