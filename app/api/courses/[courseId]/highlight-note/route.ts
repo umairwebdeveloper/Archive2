@@ -12,7 +12,7 @@ export async function GET(
 ) {
 	try {
 		
-		const highlights = await prisma.highlight.findUnique({
+		const highlights = await prisma.note.findUnique({
 			where: {
 				highlightId: params.courseId,
 			},

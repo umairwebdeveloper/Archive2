@@ -12,10 +12,15 @@ export async function GET(
 ) {
 	try {
 		const { userId } = auth();
+
+		if (!userId) {
+			return new NextResponse("Unauthorized", { status: 401 });
+		}
+		
 		const highlights = await prisma.highlight.findMany({
 			where: {
 				resumeId: params.courseId,
-				userId,
+				userId: userId,
 			},
 			include: {
 				note: true,
