@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import dynamic from "next/dynamic";
-import ReactQuill from "react-quill";
+// import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Spinner } from "../spinner";
 
 // Dynamically import React Quill with SSR disabled
-// const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 const AddQuestion: React.FC = () => {
 	const [quizzes, setQuizzes] = useState<any[]>([]);

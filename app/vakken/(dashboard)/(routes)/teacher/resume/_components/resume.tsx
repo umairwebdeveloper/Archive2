@@ -1,9 +1,12 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import { Spinner } from "@/components/spinner";
-import ReactQuill from "react-quill";
+// import ReactQuill from "react-quill";
+import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
+
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 const Resume: React.FC = () => {
 	const [courses, setCourses] = useState<any[]>([]);
@@ -11,7 +14,7 @@ const Resume: React.FC = () => {
 	const [selectedCourse, setSelectedCourse] = useState("");
 	const [courseLoading, setCourseLoading] = useState(true);
 	const [resumeContent, setResumeContent] = useState("");
-	const quillRef = useRef<any>(null);
+	// const quillRef = useRef<any>(null);
 
 	useEffect(() => {
 		const fetchCourses = async () => {
@@ -132,7 +135,6 @@ const Resume: React.FC = () => {
 								Resume Content
 							</label>
 							<ReactQuill
-								ref={quillRef}
 								value={resumeContent}
 								onChange={setResumeContent}
 								className="mt-1"
