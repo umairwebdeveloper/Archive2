@@ -33,7 +33,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "app/vakken/(dashboard)/(routes)/teacher/exam/_components/delete_exam_pdftsx"  ],
   "exclude": [
     "node_modules"
   ]

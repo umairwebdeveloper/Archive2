@@ -245,3 +245,49 @@ model Answer {
   answer     String   @db.Text
   createdAt  DateTime @default(now())
 }
+
+
+model ExamLevel {
+  id            String @id @default(uuid())
+  name          String
+  examSubjects  ExamSubject[]
+}
+
+model ExamSubject {
+  id        String @id @default(uuid())
+  name      String
+  category  ExamSubjectCategory
+  examLevelId   String
+  examLevel     ExamLevel  @relation(fields: [examLevelId], references: [id], onDelete: Cascade)
+  examSubjectPeriods  ExamSubjectPeriod[]
+}
+
+enum ExamSubjectCategory {
+  EXACT
+  SOCIAL
+  LANGUAGE
+}
+
+model ExamSubjectPeriod {
+  id        String   @id @default(uuid())
+  name      String   @default("Period")
+  date      DateTime
+  examSubjectId   String 
+  examSubject     ExamSubject  @relation(fields: [examSubjectId], references: [id], onDelete: Cascade)
+  examSubjectPdf  ExamSubjectPdf[]
+}
+
+model ExamSubjectPdf {
+  id        String   @id @default(uuid())
+  category  ExamPdfCategory
+  file      String @db.Text
+  examSubjectPeriodId   String
+  examSubjectPeriod     ExamSubjectPeriod  @relation(fields: [examSubjectPeriodId], references: [id], onDelete: Cascade)
+}
+
+enum ExamPdfCategory {
+  EXAM
+  CORRECTION_MODEL
+  WORK_APPENDIX
+  CORRECTION_MODEL_ADDITION
+}

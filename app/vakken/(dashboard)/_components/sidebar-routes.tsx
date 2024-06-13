@@ -9,6 +9,7 @@ import {
 	Puzzle,
 	icons,
 	Book,
+	BookCheck
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 
@@ -20,6 +21,11 @@ const guestRoutes = [
 		icon: Book,
 		label: "Subjects",
 		href: "/vakken/subject",
+	},
+	{
+		icon: BookCheck,
+		label: "Exam",
+		href: "/vakken/exam",
 	},
 ];
 
@@ -33,6 +39,11 @@ const teacherRoutes = [
 		icon: List,
 		label: "Courses",
 		href: "/vakken/teacher/courses",
+	},
+	{
+		icon: BookCheck,
+		label: "Exam",
+		href: "/vakken/teacher/exam",
 	},
 	{
 		icon: Radio,
