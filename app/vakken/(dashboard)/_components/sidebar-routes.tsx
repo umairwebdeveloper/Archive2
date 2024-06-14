@@ -9,7 +9,8 @@ import {
 	Puzzle,
 	icons,
 	Book,
-	BookCheck
+	BookCheck,
+	ShoppingCart,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 
@@ -26,6 +27,11 @@ const guestRoutes = [
 		icon: BookCheck,
 		label: "Exam",
 		href: "/vakken/exam",
+	},
+	{
+		icon: ShoppingCart,
+		label: "Purchase Subjects",
+		href: "/vakken/purchase",
 	},
 ];
 
