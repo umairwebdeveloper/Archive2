@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
 			line_items: [
 				{
 					price_data: {
-						currency: "usd",
+                        currency: "eur",
 						product_data: {
 							name: `Level: ${leveName}`,
 							description: `Subjects: ${subjectNames}`,
