@@ -17,7 +17,11 @@ const ResizeComp = ({ course, courses, progressCount, children }: any) => {
 				className="h-[80px] fixed inset-y-0 w-full z-50"
 				style={{ paddingLeft: `${sidebarWidth}px` }}
 			>
-				<CourseNavbar course={course} progressCount={progressCount} />
+				<CourseNavbar
+					course={course}
+					courses={courses}
+					progressCount={progressCount}
+				/>
 			</div>
 			<CourseSidebar
 				course={course}
