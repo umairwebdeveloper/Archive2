@@ -4,71 +4,76 @@ import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { getProgress } from "@/actions/get-progress";
 
-import { CourseSidebar } from "./_components/course-sidebar";
-import { CourseNavbar } from "./_components/course-navbar";
+import ResizeComp from "./_components/resize";
 
 const CourseLayout = async ({
-  children,
-  params
+	children,
+	params,
 }: {
-  children: React.ReactNode;
-  params: { courseId: string };
+	children: React.ReactNode;
+	params: { courseId: string };
 }) => {
-  const { userId } = auth();
-  console.log(userId)
+	const { userId } = auth();
+	console.log(userId);
 
-  if (!userId) {
-    return redirect("/")
-  }
+	if (!userId) {
+		return redirect("/");
+	}
 
-  const course = await db.course.findUnique({
-    where: {
-      id: params.courseId,
-    },
-    include: {
-      chapters: {
-        where: {
-          isPublished: true,
-        },
-        include: {
-          userProgress: {
-            where: {
-              userId,
-            }
-          }
-        },
-        orderBy: {
-          position: "asc"
-        }
-      },
-    },
-  });
 
-  if (!course) {
-    return redirect("/");
-  }
+	const course = await db.course.findUnique({
+		where: {
+			id: params.courseId,
+		},
+		include: {
+			chapters: {
+				where: {
+					isPublished: true,
+				},
+				include: {
+					userProgress: {
+						where: {
+							userId,
+						},
+					},
+				},
+				orderBy: {
+					position: "asc",
+				},
+			},
+		},
+	});
 
-  const progressCount = await getProgress(userId, course.id);
+	const courses: any = await db.course.findUnique({
+		where: {
+			id: course?.id,
+		},
+		include: {
+			category: {
+				include: {
+					subject: true,
+				},
+			},
+		},
+	});
 
-  return (
-    <div className="h-full">
-      <div className="h-[80px] md:pl-80 fixed inset-y-0 w-full z-50">
-        <CourseNavbar
-          course={course}
-          progressCount={progressCount}
-        />
-      </div>
-      <div className="hidden md:flex h-full w-80 flex-col fixed inset-y-0 z-50">
-        <CourseSidebar
-          course={course}
-          progressCount={progressCount}
-        />
-      </div>
-      <main className="md:pl-80 pt-[80px] h-full">
-        {children}
-      </main>
-    </div>
-  )
-}
+	if (!course) {
+		return redirect("/");
+	}
 
-export default CourseLayout
+	const progressCount = await getProgress(userId, course.id);
+
+	return (
+		<div className="h-full">
+			
+			<ResizeComp
+        course={course}
+        courses={courses}
+        progressCount={progressCount}
+        children={children}
+      />
+		</div>
+	);
+};
+
+export default CourseLayout;

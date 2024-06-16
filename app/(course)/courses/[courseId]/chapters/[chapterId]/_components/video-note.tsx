@@ -124,10 +124,10 @@ const VideoNote = ({
 							<Spinner />
 						</div>
 					) : (
-						notes.map((note) => (
+						notes?.map((note) => (
 							<div key={note.id} className="border-t py-2">
 								<div className="flex justify-between">
-									<div>
+									<div className="max-w-[90%]">
 										<span
 											className="cursor-pointer font-bold text-blue-400 hover:text-blue-600 hover:underline"
 											onClick={() =>
@@ -137,6 +137,7 @@ const VideoNote = ({
 											{note.time}
 										</span>
 										<div
+											className="break-words"
 											dangerouslySetInnerHTML={{
 												__html: note.content,
 											}}
