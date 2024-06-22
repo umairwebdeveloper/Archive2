@@ -14,7 +14,7 @@ const AddQuestion: React.FC = () => {
 	const [selectedQuiz, setSelectedQuiz] = useState("");
 	const [questionTitle, setQuestionTitle] = useState("");
 	const [questionText, setQuestionText] = useState("");
-	const [type, setType] = useState<"multiple-choice" | "text">(
+	const [type, setType] = useState<"multiple-choice" | "text" | "debit-credit">(
 		"multiple-choice"
 	);
 	const [correctAnswer, setCorrectAnswer] = useState("");
@@ -187,7 +187,7 @@ const AddQuestion: React.FC = () => {
 							value={type}
 							onChange={(e) =>
 								setType(
-									e.target.value as "multiple-choice" | "text"
+									e.target.value as "multiple-choice" | "text" | "debit-credit"
 								)
 							}
 							required
@@ -196,6 +196,7 @@ const AddQuestion: React.FC = () => {
 								Multiple Choice
 							</option>
 							<option value="text">Text</option>
+							<option value="debit-credit">Debit Credit</option>
 						</select>
 					</div>
 					<div>

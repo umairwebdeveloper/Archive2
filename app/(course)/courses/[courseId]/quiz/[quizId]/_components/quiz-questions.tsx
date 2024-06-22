@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import Link from "next/link";
 import "react-quill/dist/quill.snow.css";
 import SideBox from "./side-box";
+import DebitCredit from "./debit_credit";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
@@ -22,7 +23,7 @@ interface Question {
 	quizId: number;
 	title: string;
 	questionText: string;
-	type: "multiple-choice" | "text";
+	type: "multiple-choice" | "text" | "debit-credit";
 	correctAnswer: string;
 	explanation: string;
 	options: Option[];
@@ -271,6 +272,10 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 														)
 													)}
 												</div>
+											) : question.type === "debit-credit" ? (
+												<>
+													<DebitCredit />
+												</>
 											) : (
 												<div className="flex flex-col space-y-3">
 													<ReactQuill
