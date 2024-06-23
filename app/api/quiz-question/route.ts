@@ -22,6 +22,8 @@ export async function POST(req: Request) {
 				type: question.type,
 				correctAnswer: question.correctAnswer,
 				explanation: question.explanation,
+				debitAmount: question.debitCredit?.debit.toString(),
+				creditAmount: question.debitCredit?.credit.toString(),
 				options: {
 					create: question.options,
 				},

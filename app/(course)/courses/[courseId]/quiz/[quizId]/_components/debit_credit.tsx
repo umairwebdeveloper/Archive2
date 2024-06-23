@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import Modal from "./modal";
+import toast, { Toaster } from "react-hot-toast";
+import { Button } from "@/components/ui/button";
 
 interface Entry {
 	label: string;
@@ -9,7 +11,19 @@ interface Entry {
 	category: string;
 }
 
-const DebitCredit: React.FC = () => {
+interface DebitCreditProps {
+	answerDebitAmount: string;
+	answerCreditAmount: string;
+	questionID: any;
+	onChildFunctionCall: (questionID: any) => void;
+}
+
+const DebitCredit: React.FC<DebitCreditProps> = ({
+	answerDebitAmount,
+	answerCreditAmount,
+	questionID,
+	onChildFunctionCall,
+}) => {
 	const [debits, setDebits] = useState<Entry[]>([]);
 	const [credits, setCredits] = useState<Entry[]>([]);
 	const [isDebitModalOpen, setIsDebitModalOpen] = useState(false);
@@ -63,7 +77,7 @@ const DebitCredit: React.FC = () => {
 				{ label: "Deferred Revenue", value: 0 },
 				{ label: "Interest Payable", value: 0 },
 				{ label: "Long-term Debt", value: 0 },
-				{ label: "bills", value: 0 },
+				{ label: "Bills", value: 0 },
 			],
 		},
 		{
@@ -92,9 +106,12 @@ const DebitCredit: React.FC = () => {
 		value: number,
 		category: string
 	) => {
+		if (totalCredits + value > totalDebits) {
+			toast.error("Total credits cannot exceed total debits.");
+			return;
+		}
 		setCredits([...credits, { label, value, category }]);
 	};
-
 
 	const handleDeleteDebit = (index: number) => {
 		setDebits(debits.filter((_, i) => i !== index));
@@ -112,17 +129,37 @@ const DebitCredit: React.FC = () => {
 
 	const handleCreditChange = (index: number, newValue: number) => {
 		const newCredits = [...credits];
+		const updatedTotalCredits =
+			totalCredits - newCredits[index].value + newValue;
+
+		if (updatedTotalCredits > totalDebits) {
+			toast.error("Total credits cannot exceed total debits.");
+			return;
+		}
+
 		newCredits[index].value = newValue;
 		setCredits(newCredits);
 	};
 
+	const handleCheckTotals = () => {
+		if (
+			totalDebits === parseFloat(answerDebitAmount) &&
+			totalCredits === parseFloat(answerCreditAmount)
+		) {
+			toast.success("Totals(Debit & Credit) match the expected values!");
+		} else {
+			toast.error(
+				"Totals(Debit & Credit) do not match the expected values."
+			);
+		}
+		onChildFunctionCall(questionID);
+	};
+
 	return (
 		<div className="">
-			<div className="flex justify-between w-full mx-auto border-b">
-				<h3 className="text-xl font-bold border w-full p-3">Debet</h3>
-				<h3 className="text-xl font-bold border w-full p-3">Credit</h3>
-			</div>
-			<div className="flex justify-between w-full mx-auto">
+			<Toaster />
+			<div className="flex flex-col w-full mx-auto">
+				<h3 className="text-xl font-bold border w-full p-3">Debits</h3>
 				<div className="bg-white mb-4 border w-full h-full">
 					<ul className="mt-4 p-4">
 						{debits.map((debit, index) => (
@@ -151,7 +188,6 @@ const DebitCredit: React.FC = () => {
 								>
 									<X />
 								</span>
-								
 							</li>
 						))}
 					</ul>
@@ -167,7 +203,10 @@ const DebitCredit: React.FC = () => {
 						<strong>Total:</strong> {totalDebits}
 					</div>
 				</div>
+			</div>
 
+			<div className="flex flex-col w-full mx-auto">
+				<h3 className="text-xl font-bold border w-full p-3">Credits</h3>
 				<div className="bg-white mb-4 border w-full h-full">
 					<ul className="mt-4 p-4">
 						{credits.map((credit, index) => (
@@ -211,17 +250,25 @@ const DebitCredit: React.FC = () => {
 					</div>
 				</div>
 			</div>
+			<hr className="mb-3" />
+			<div className="flex justify-start">
+				<Button onClick={handleCheckTotals}>Check Answer</Button>
+			</div>
 
 			<Modal
 				isOpen={isDebitModalOpen}
 				onClose={() => setIsDebitModalOpen(false)}
-				onSubmit={handleAddDebit}
+				onSubmit={(label, value, category) =>
+					handleAddDebit(label, value, category)
+				}
 				predefinedValues={predefinedDebitValues}
 			/>
 			<Modal
 				isOpen={isCreditModalOpen}
 				onClose={() => setIsCreditModalOpen(false)}
-				onSubmit={handleAddCredit}
+				onSubmit={(label, value, category) =>
+					handleAddCredit(label, value, category)
+				}
 				predefinedValues={predefinedCreditValues}
 			/>
 		</div>

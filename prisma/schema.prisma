@@ -222,6 +222,8 @@ model Question {
   type          String
   correctAnswer String
   explanation   String    @default("Explanation")
+  debitAmount   String    @default("0")
+  creditAmount  String    @default("0")
   options       Option[]
   answers   Answer[]
   createdAt     DateTime      @default(now())

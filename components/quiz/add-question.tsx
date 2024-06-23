@@ -22,6 +22,10 @@ const AddQuestion: React.FC = () => {
 	const [options, setOptions] = useState([{ label: "A", value: "" }]);
 	const [loading, setLoading] = useState(false);
 	const [quizLoading, setQuizLoading] = useState(false);
+	const [debitCredit, setDebitCredit] = useState<{
+		debit: number;
+		credit: number;
+	}>({ debit: 0, credit: 0 });
 	const router = useRouter();
 
 	useEffect(() => {
@@ -76,6 +80,7 @@ const AddQuestion: React.FC = () => {
 			type,
 			correctAnswer,
 			explanation,
+			debitCredit,
 			options,
 		};
 
@@ -120,6 +125,27 @@ const AddQuestion: React.FC = () => {
 				["code-block"],
 			],
 		},
+	};
+
+	const handleDebitChange = (e: any) => {
+		const newDebit = Number(e.target.value);
+		setDebitCredit((prevState) => ({
+			...prevState,
+			debit: newDebit,
+			credit: newDebit < prevState.credit ? newDebit : prevState.credit,
+		}));
+	};
+
+	const handleCreditChange = (e: any) => {
+		const newCredit = Number(e.target.value);
+		if (newCredit > debitCredit.debit) {
+			toast.error("Credit amount cannot exceed debit amount");
+		} else {
+			setDebitCredit((prevState) => ({
+				...prevState,
+				credit: newCredit,
+			}));
+		}
 	};
 
 	return (
@@ -187,7 +213,10 @@ const AddQuestion: React.FC = () => {
 							value={type}
 							onChange={(e) =>
 								setType(
-									e.target.value as "multiple-choice" | "text" | "debit-credit"
+									e.target.value as
+										| "multiple-choice"
+										| "text"
+										| "debit-credit"
 								)
 							}
 							required
@@ -280,6 +309,41 @@ const AddQuestion: React.FC = () => {
 							</div>
 						</div>
 					)}
+					{type === "debit-credit" && (
+						<>
+							<div>
+								<div className="flex justify-between gap-3">
+									<div className="w-full">
+										<label className="block text-lg font-medium text-gray-700">
+											Debit Amount Answer
+										</label>
+										<input
+											type="number"
+											className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm w-1/2"
+											placeholder="Debit Amount"
+											value={debitCredit.debit}
+											onChange={handleDebitChange}
+											required
+										/>
+									</div>
+									<div className="w-full">
+										<label className="block text-lg font-medium text-gray-700">
+											Credit Amount Answer
+										</label>
+										<input
+											type="number"
+											className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm w-1/2"
+											placeholder="Credit Amount"
+											value={debitCredit.credit}
+											onChange={handleCreditChange}
+											required
+										/>
+									</div>
+								</div>
+							</div>
+						</>
+					)}
+
 					<button
 						type="submit"
 						disabled={loading}

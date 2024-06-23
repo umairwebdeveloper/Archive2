@@ -25,6 +25,8 @@ interface Question {
 	questionText: string;
 	type: "multiple-choice" | "text" | "debit-credit";
 	correctAnswer: string;
+	debitAmount: string;
+	creditAmount: string;
 	explanation: string;
 	options: Option[];
 }
@@ -182,6 +184,13 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 		},
 	};
 
+	const handleChildFunctionCall = (questionID: any) => {
+		setExplanations((prev) => ({
+			...prev,
+			[questionID]: true,
+		}));
+	};
+
 	if (!quiz) {
 		return (
 			<div className="flex items-center justify-center mt-5">
@@ -218,7 +227,7 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 											</h5>
 											<hr className="my-3" />
 											<p
-												className="card-text text-start mb-3"
+												className="card-text text-start mb-3 bg-gray-100 p-3 rounded-lg"
 												dangerouslySetInnerHTML={{
 													__html: question.questionText,
 												}}
@@ -272,9 +281,21 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 														)
 													)}
 												</div>
-											) : question.type === "debit-credit" ? (
+											) : question.type ===
+											  "debit-credit" ? (
 												<>
-													<DebitCredit />
+													<DebitCredit
+														answerDebitAmount={
+															question.debitAmount
+														}
+														answerCreditAmount={
+															question.creditAmount
+														}
+														questionID={question.id}
+														onChildFunctionCall={
+															handleChildFunctionCall
+														}
+													/>
 												</>
 											) : (
 												<div className="flex flex-col space-y-3">
@@ -295,26 +316,40 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 													/>
 												</div>
 											)}
-											<hr className="my-3" />
+
 											<div className="flex justify-start">
-												<Button
-													onClick={() =>
-														handleSubmit(
-															question.id
-														)
-													}
-													disabled={
-														isSubmitting[
-															question.id
-														]
-													}
-												>
-													{isSubmitting[question.id]
-														? "Submitting..."
-														: "Submit"}
-												</Button>
+												{question.type ===
+												"debit-credit" ? (
+													<></>
+												) : (
+													<>
+														<div className="w-full border-t mt-3">
+															<Button
+																className="mt-3"
+																onClick={() =>
+																	handleSubmit(
+																		question.id
+																	)
+																}
+																disabled={
+																	isSubmitting[
+																		question
+																			.id
+																	]
+																}
+															>
+																{isSubmitting[
+																	question.id
+																]
+																	? "Submitting..."
+																	: "Submit"}
+															</Button>
+														</div>
+													</>
+												)}
 											</div>
-											{selectedAnswers[question.id] && (
+											{question.type ===
+											"debit-credit" ? (
 												<>
 													{explanations[
 														question.id
@@ -329,6 +364,29 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 																}
 															</p>
 														</div>
+													)}
+												</>
+											) : (
+												<>
+													{selectedAnswers[
+														question.id
+													] && (
+														<>
+															{explanations[
+																question.id
+															] && (
+																<div className="mt-2 p-2 bg-gray-100 border rounded-lg">
+																	<p className="font-semibold">
+																		Explanation:
+																	</p>
+																	<p>
+																		{
+																			question.explanation
+																		}
+																	</p>
+																</div>
+															)}
+														</>
 													)}
 												</>
 											)}
