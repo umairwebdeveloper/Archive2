@@ -29,6 +29,8 @@ interface Question {
 	creditAmount: string;
 	explanation: string;
 	options: Option[];
+	debits: any[];
+	credits: any[];
 }
 
 interface Quiz {
@@ -290,6 +292,12 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 														}
 														answerCreditAmount={
 															question.creditAmount
+														}
+														answerCredits={
+															question.credits
+														}
+														answerDebits={
+															question.debits
 														}
 														questionID={question.id}
 														onChildFunctionCall={

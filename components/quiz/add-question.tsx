@@ -5,27 +5,35 @@ import dynamic from "next/dynamic";
 // import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Spinner } from "../spinner";
+import DebitCredit from "./debit_credit";
 
 // Dynamically import React Quill with SSR disabled
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+
+interface Entry {
+	label: string;
+	value: number;
+	category: string;
+}
 
 const AddQuestion: React.FC = () => {
 	const [quizzes, setQuizzes] = useState<any[]>([]);
 	const [selectedQuiz, setSelectedQuiz] = useState("");
 	const [questionTitle, setQuestionTitle] = useState("");
 	const [questionText, setQuestionText] = useState("");
-	const [type, setType] = useState<"multiple-choice" | "text" | "debit-credit">(
-		"multiple-choice"
-	);
+	const [type, setType] = useState<
+		"multiple-choice" | "text" | "debit-credit"
+	>("multiple-choice");
 	const [correctAnswer, setCorrectAnswer] = useState("");
 	const [explanation, setExplanation] = useState("");
 	const [options, setOptions] = useState([{ label: "A", value: "" }]);
 	const [loading, setLoading] = useState(false);
 	const [quizLoading, setQuizLoading] = useState(false);
-	const [debitCredit, setDebitCredit] = useState<{
-		debit: number;
-		credit: number;
-	}>({ debit: 0, credit: 0 });
+	const [debits, setDebits] = useState<Entry[]>([]);
+	const [credits, setCredits] = useState<Entry[]>([]);
+	const [totalDebits, setTotalDebits] = useState(0);
+	const [totalCredits, setTotalCredits] = useState(0);
+	
 	const router = useRouter();
 
 	useEffect(() => {
@@ -46,9 +54,15 @@ const AddQuestion: React.FC = () => {
 		fetchQuizzes();
 	}, []);
 
+	useEffect(() => {
+		setTotalDebits(debits.reduce((acc, debit) => acc + debit.value, 0));
+		setTotalCredits(credits.reduce((acc, credit) => acc + credit.value, 0));
+	}, [debits, credits]);
+
 	const handleAddOption = () => {
 		const newLabel = String.fromCharCode(65 + options.length); // ASCII 65 is 'A'
 		setOptions([...options, { label: newLabel, value: "" }]);
+
 	};
 
 	const handleOptionChange = (index: number, value: string) => {
@@ -74,6 +88,11 @@ const AddQuestion: React.FC = () => {
 		e.preventDefault();
 		setLoading(true);
 
+		let debitCredit = {
+			debit: totalDebits,
+			credit: totalCredits,
+		};
+
 		const question = {
 			questionTitle,
 			questionText,
@@ -82,6 +101,8 @@ const AddQuestion: React.FC = () => {
 			explanation,
 			debitCredit,
 			options,
+			debits,
+			credits,
 		};
 
 		const response = await fetch(`/api/quiz-question/`, {
@@ -113,6 +134,42 @@ const AddQuestion: React.FC = () => {
 		setSelectedQuiz(quizId);
 	};
 
+	const handleAddDebit = (label: string, value: number, category: string) => {
+		setDebits([...debits, { label, value, category }]);
+		toast.success(`Added debit: ${label} - €${value}`);
+	};
+
+	const handleAddCredit = (
+		label: string,
+		value: number,
+		category: string
+	) => {
+		setCredits([...credits, { label, value, category }]);
+		toast.success(`Added credit: ${label} - €${value}`);
+	};
+
+	const handleDeleteDebit = (index: number) => {
+		setDebits(debits.filter((_, i) => i !== index));
+		toast.success("Deleted debit");
+	};
+
+	const handleDeleteCredit = (index: number) => {
+		setCredits(credits.filter((_, i) => i !== index));
+		toast.success("Deleted credit");
+	};
+
+	const handleDebitChange = (index: number, newValue: number) => {
+		const newDebits = [...debits];
+		newDebits[index].value = newValue;
+		setDebits(newDebits);
+	};
+
+	const handleCreditChange = (index: number, newValue: number) => {
+		const newCredits = [...credits];
+		newCredits[index].value = newValue;
+		setCredits(newCredits);
+	};
+
 	const modules = {
 		toolbar: {
 			container: [
@@ -125,27 +182,6 @@ const AddQuestion: React.FC = () => {
 				["code-block"],
 			],
 		},
-	};
-
-	const handleDebitChange = (e: any) => {
-		const newDebit = Number(e.target.value);
-		setDebitCredit((prevState) => ({
-			...prevState,
-			debit: newDebit,
-			credit: newDebit < prevState.credit ? newDebit : prevState.credit,
-		}));
-	};
-
-	const handleCreditChange = (e: any) => {
-		const newCredit = Number(e.target.value);
-		if (newCredit > debitCredit.debit) {
-			toast.error("Credit amount cannot exceed debit amount");
-		} else {
-			setDebitCredit((prevState) => ({
-				...prevState,
-				credit: newCredit,
-			}));
-		}
 	};
 
 	return (
@@ -311,36 +347,18 @@ const AddQuestion: React.FC = () => {
 					)}
 					{type === "debit-credit" && (
 						<>
-							<div>
-								<div className="flex justify-between gap-3">
-									<div className="w-full">
-										<label className="block text-lg font-medium text-gray-700">
-											Debit Amount Answer
-										</label>
-										<input
-											type="number"
-											className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm w-1/2"
-											placeholder="Debit Amount"
-											value={debitCredit.debit}
-											onChange={handleDebitChange}
-											required
-										/>
-									</div>
-									<div className="w-full">
-										<label className="block text-lg font-medium text-gray-700">
-											Credit Amount Answer
-										</label>
-										<input
-											type="number"
-											className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm w-1/2"
-											placeholder="Credit Amount"
-											value={debitCredit.credit}
-											onChange={handleCreditChange}
-											required
-										/>
-									</div>
-								</div>
-							</div>
+							<DebitCredit
+								debits={debits}
+								credits={credits}
+								totalDebits={totalDebits}
+								totalCredits={totalCredits}
+								handleAddDebit={handleAddDebit}
+								handleAddCredit={handleAddCredit}
+								handleDeleteDebit={handleDeleteDebit}
+								handleDeleteCredit={handleDeleteCredit}
+								handleDebitChange={handleDebitChange}
+								handleCreditChange={handleCreditChange}
+							/>
 						</>
 					)}
 

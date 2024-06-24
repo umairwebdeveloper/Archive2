@@ -27,6 +27,12 @@ export async function POST(req: Request) {
 				options: {
 					create: question.options,
 				},
+				debits: {
+					create: question.debits,
+				},
+				credits: {
+					create: question.credits,
+				},
 			},
 		});
 

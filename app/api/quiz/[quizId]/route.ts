@@ -14,6 +14,8 @@ export async function GET(
 				questions: {
 					include: {
 						options: true,
+						debits: true,
+						credits: true,
 					},
 				},
 			},

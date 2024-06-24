@@ -14,6 +14,8 @@ interface Entry {
 interface DebitCreditProps {
 	answerDebitAmount: string;
 	answerCreditAmount: string;
+	answerCredits: Entry[];
+	answerDebits: Entry[];
 	questionID: any;
 	onChildFunctionCall: (questionID: any) => void;
 }
@@ -21,6 +23,8 @@ interface DebitCreditProps {
 const DebitCredit: React.FC<DebitCreditProps> = ({
 	answerDebitAmount,
 	answerCreditAmount,
+	answerCredits,
+	answerDebits,
 	questionID,
 	onChildFunctionCall,
 }) => {
@@ -95,6 +99,7 @@ const DebitCredit: React.FC<DebitCreditProps> = ({
 	useEffect(() => {
 		setTotalDebits(debits.reduce((acc, debit) => acc + debit.value, 0));
 		setTotalCredits(credits.reduce((acc, credit) => acc + credit.value, 0));
+
 	}, [debits, credits]);
 
 	const handleAddDebit = (label: string, value: number, category: string) => {
@@ -106,10 +111,10 @@ const DebitCredit: React.FC<DebitCreditProps> = ({
 		value: number,
 		category: string
 	) => {
-		if (totalCredits + value > totalDebits) {
-			toast.error("Total credits cannot exceed total debits.");
-			return;
-		}
+		// if (totalCredits + value > totalDebits) {
+		// 	toast.error("Total credits cannot exceed total debits.");
+		// 	return;
+		// }
 		setCredits([...credits, { label, value, category }]);
 	};
 
@@ -129,27 +134,44 @@ const DebitCredit: React.FC<DebitCreditProps> = ({
 
 	const handleCreditChange = (index: number, newValue: number) => {
 		const newCredits = [...credits];
-		const updatedTotalCredits =
-			totalCredits - newCredits[index].value + newValue;
+		// const updatedTotalCredits =
+		// 	totalCredits - newCredits[index].value + newValue;
 
-		if (updatedTotalCredits > totalDebits) {
-			toast.error("Total credits cannot exceed total debits.");
-			return;
-		}
+		// if (updatedTotalCredits > totalDebits) {
+		// 	toast.error("Total credits cannot exceed total debits.");
+		// 	return;
+		// }
 
 		newCredits[index].value = newValue;
 		setCredits(newCredits);
 	};
 
+	function matchLists(list1: any, list2: any): boolean {
+		 const isMatch = list1.every((obj1: any) =>
+				list2.some(
+					(obj2: any) =>
+						obj1.label === obj2.label &&
+						obj1.value === obj2.value &&
+						obj1.category === obj2.category
+				)
+			);
+
+		console.log(isMatch, list1, list2);
+		return isMatch;
+	}
+
+
 	const handleCheckTotals = () => {
 		if (
 			totalDebits === parseFloat(answerDebitAmount) &&
-			totalCredits === parseFloat(answerCreditAmount)
+			totalCredits === parseFloat(answerCreditAmount) &&
+			matchLists(debits, answerDebits) &&
+			matchLists(credits, answerCredits)
 		) {
-			toast.success("Totals(Debit & Credit) match the expected values!");
+			toast.success("Your answer is correct!");
 		} else {
 			toast.error(
-				"Totals(Debit & Credit) do not match the expected values."
+				"Your answer is incorrect. Please check your entries and try again."
 			);
 		}
 		onChildFunctionCall(questionID);

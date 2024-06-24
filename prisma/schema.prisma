@@ -225,7 +225,9 @@ model Question {
   debitAmount   String    @default("0")
   creditAmount  String    @default("0")
   options       Option[]
-  answers   Answer[]
+  debits        Debit[]
+  credits       Credit[]
+  answers       Answer[]
   createdAt     DateTime      @default(now())
 }
 
@@ -233,6 +235,24 @@ model Option {
   id         Int      @id @default(autoincrement())
   label      String
   value      String
+  questionId Int
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+}
+
+model Debit {
+  id         Int      @id @default(autoincrement())
+  category   String
+  label      String
+  value      Int
+  questionId Int
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+}
+
+model Credit {
+  id         Int      @id @default(autoincrement())
+  category   String
+  label      String
+  value      Int
   questionId Int
   question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
 }
