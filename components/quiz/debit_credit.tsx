@@ -43,6 +43,14 @@ const DebitCredit: React.FC<DebitCreditProps> = ({
 			values: [
 				{ label: "Land", value: 0 },
 				{ label: "Buildings", value: 0 },
+				{ label: "Machinery", value: 0 },
+				{ label: "Vehicles", value: 0 },
+				{ label: "Furniture", value: 0 },
+				{ label: "IT Equipment", value: 0 },
+				{ label: "Plant Equipment", value: 0 },
+				{ label: "Leasehold Improvements", value: 0 },
+				{ label: "Tools", value: 0 },
+				{ label: "Intangible Assets", value: 0 },
 			],
 		},
 		{
@@ -50,6 +58,14 @@ const DebitCredit: React.FC<DebitCreditProps> = ({
 			values: [
 				{ label: "Cash", value: 0 },
 				{ label: "Accounts Receivable", value: 0 },
+				{ label: "Inventory", value: 0 },
+				{ label: "Prepaid Expenses", value: 0 },
+				{ label: "Marketable Securities", value: 0 },
+				{ label: "Loans", value: 0 },
+				{ label: "Advances", value: 0 },
+				{ label: "Supplies", value: 0 },
+				{ label: "Deposits", value: 0 },
+				{ label: "Accrued Income", value: 0 },
 			],
 		},
 	];
@@ -60,6 +76,14 @@ const DebitCredit: React.FC<DebitCreditProps> = ({
 			values: [
 				{ label: "Accounts Payable", value: 0 },
 				{ label: "Loans", value: 0 },
+				{ label: "Accrued Expenses", value: 0 },
+				{ label: "Taxes Payable", value: 0 },
+				{ label: "Wages", value: 0 },
+				{ label: "Interest", value: 0 },
+				{ label: "Deferred Revenue", value: 0 },
+				{ label: "Interest Payable", value: 0 },
+				{ label: "Long-term Debt", value: 0 },
+				{ label: "Bills", value: 0 },
 			],
 		},
 		{
@@ -67,6 +91,9 @@ const DebitCredit: React.FC<DebitCreditProps> = ({
 			values: [
 				{ label: "Common Stock", value: 0 },
 				{ label: "Preferred Stock", value: 0 },
+				{ label: "Retained Earnings", value: 0 },
+				{ label: "Treasury Stock", value: 0 },
+				{ label: "Equity Reserves", value: 0 },
 			],
 		},
 	];
