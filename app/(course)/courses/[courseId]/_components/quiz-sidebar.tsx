@@ -117,7 +117,7 @@ const QuizSidebar: React.FC<QuizTypeProps> = ({ courseId }) => {
 				</div>
 			</button>
 			{isActive && (
-				<div className="mt-2 p-3 mb-5 border rounded">
+				<div className="mt-2 p-3 mb-5 border border-sec500 rounded">
 					{linksLoading ? (
 						<div className="my-3 flex justify-center items-center">
 							<Spinner />
@@ -136,10 +136,10 @@ const QuizSidebar: React.FC<QuizTypeProps> = ({ courseId }) => {
 											className={`cursor-pointer font-semibold rounded text-lg p-2 mb-1 ${
 												activeLinkId === link.id
 													? "bg-prim300 text-prim50 hover:bg-prim400"
-													: "text-sec400 hover:bg-slate-100/20"
+													: "text-sec400 hover:bg-slate-100 bg-slate-100/20"
 											}`}
 										>
-											<span className="text-2xl font-bold">
+											<span className="text-lg font-bold">
 												{index + 1}: {link.title}
 											</span>
 										</div>
