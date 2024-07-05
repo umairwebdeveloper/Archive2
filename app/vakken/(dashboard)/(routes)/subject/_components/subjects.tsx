@@ -4,8 +4,42 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Spinner } from "@/components/spinner";
 import { useRouter } from "next/navigation";
+import { ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
+
+
+type Exam = {
+	id: number;
+	subject: string;
+	level: string;
+	date: string;
+	questions: string;
+};
+
+const initialExams: Exam[] = [
+	{
+		id: 1,
+		subject: "Aardrijkskunde",
+		level: "HAVO",
+		date: "02-07-2024",
+		questions: "2 / 31 opgaven",
+	},
+	{
+		id: 2,
+		subject: "Aardrijkskunde",
+		level: "HAVO",
+		date: "02-07-2024",
+		questions: "2 / 31 opgaven",
+	},
+	{
+		id: 3,
+		subject: "Aardrijkskunde",
+		level: "HAVO",
+		date: "02-07-2024",
+		questions: "2 / 31 opgaven",
+	},
+];
 
 interface Subject {
 	id: string;
@@ -28,6 +62,11 @@ const SubjectsAndLevels: React.FC = () => {
 	const [error, setError] = useState<Error | null>(null);
 	const [loading, setLoading] = useState<boolean>(false);
 	const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
+	const [exams, setExams] = useState<Exam[]>(initialExams);
+
+	const handleDeleteExam = (id: number) => {
+		setExams(exams.filter((exam) => exam.id !== id));
+	};
 
 	const router = useRouter();
 
@@ -125,39 +164,184 @@ const SubjectsAndLevels: React.FC = () => {
 			{subjects.length === 0 ? (
 				<p className="text-center my-4">No Subjects found</p>
 			) : (
-				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-					{subjects.map((subject) => (
-						<>
-							<div
-								key={subject.id}
-								className="border max-w-sm rounded-2xl overflow-hidden shadow-sm transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg bg-prim50 cursor-pointer "
-								onClick={() =>
-									router.push(`/vakken/subject/${subject.id}`)
-								}
-							>
-								{subject.imageUrl ? (
-									<img
-										src={`${subject.imageUrl.startsWith("https") ? subject.imageUrl : "/uploads/" + subject.imageUrl}`}
-										alt={subject.title}
-										className="mb-4 w-full h-48 object-cover rounded-md"
-									/>
-								) : (
-									<>
-										<div className="bg-gray-400 h-48 w-full rounded-md">
-											<div className="flex items-center justify-center h-full text-white text-2xl font-bold">
-												{subject.title[0]}
+				<div className="flex">
+					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-4/6 h-full">
+						{subjects.map((subject) => (
+							<>
+								<div
+									key={subject.id}
+									className="border max-w-sm rounded-2xl overflow-hidden shadow-sm transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg bg-prim50 cursor-pointer "
+									onClick={() =>
+										router.push(
+											`/vakken/subject/${subject.id}`
+										)
+									}
+								>
+									{subject.imageUrl ? (
+										<img
+											src={`${subject.imageUrl.startsWith("https") ? subject.imageUrl : "/uploads/" + subject.imageUrl}`}
+											alt={subject.title}
+											className="mb-4 w-full h-48 object-cover rounded-md"
+										/>
+									) : (
+										<>
+											<div className="bg-gray-400 h-48 w-full rounded-md">
+												<div className="flex items-center justify-center h-full text-white text-2xl font-bold">
+													{subject.title[0]}
+												</div>
 											</div>
+										</>
+									)}
+									<div className="px-6 py-2">
+										<div className="font-bold text-xl mb-2">
+											{subject.title} -{" "}
+											{subject.level.title}
 										</div>
-									</>
-								)}
-								<div className="px-6 py-4">
-									<div className="font-bold text-xl mb-2">
-										{subject.title} - {subject.level.title}
+									</div>
+									<div className="mx-6 p-3 bg-prim100 mb-3 rounded-xl">
+										<span className="flex justify-between items-center">
+											<img
+												src="/assets/svg/ai-magic.svg"
+												width="20px"
+												alt="ai"
+											/>
+											<p>8</p>
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												width="3"
+												height="20"
+												viewBox="0 0 3 20"
+												fill="none"
+											>
+												<path
+													d="M1.5 1V19"
+													stroke="url(#paint0_linear_227_4193)"
+													stroke-width="2"
+													stroke-linecap="round"
+												/>
+												<defs>
+													<linearGradient
+														id="paint0_linear_227_4193"
+														x1="2"
+														y1="1"
+														x2="2"
+														y2="19"
+														gradientUnits="userSpaceOnUse"
+													>
+														<stop
+															stop-color="#CDCED4"
+															stop-opacity="0"
+														/>
+														<stop
+															offset="0.5"
+															stop-color="#CDCED4"
+														/>
+														<stop
+															offset="1"
+															stop-color="#CDCED4"
+															stop-opacity="0"
+														/>
+													</linearGradient>
+												</defs>
+											</svg>
+											<img
+												src="/assets/svg/clock-01.svg"
+												width="20px"
+												alt="clock"
+											/>
+											<p>1 hr 30 min</p>
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												width="3"
+												height="20"
+												viewBox="0 0 3 20"
+												fill="none"
+											>
+												<path
+													d="M1.5 1V19"
+													stroke="url(#paint0_linear_227_4193)"
+													stroke-width="2"
+													stroke-linecap="round"
+												/>
+												<defs>
+													<linearGradient
+														id="paint0_linear_227_4193"
+														x1="2"
+														y1="1"
+														x2="2"
+														y2="19"
+														gradientUnits="userSpaceOnUse"
+													>
+														<stop
+															stop-color="#CDCED4"
+															stop-opacity="0"
+														/>
+														<stop
+															offset="0.5"
+															stop-color="#CDCED4"
+														/>
+														<stop
+															offset="1"
+															stop-color="#CDCED4"
+															stop-opacity="0"
+														/>
+													</linearGradient>
+												</defs>
+											</svg>
+											<img
+												src="/assets/svg/user-group.svg"
+												width="20px"
+												alt="clock"
+											/>
+											<p>99</p>
+										</span>
+									</div>
+									<div className="px-6 mb-2 flex items-center gap-2">
+										<p className="text-lg underline">
+											Start vak
+										</p>
+										<ChevronRight />
 									</div>
 								</div>
+							</>
+						))}
+					</div>
+					<div className="w-2/6 bg-white rounded h-full p-3">
+						<h3 className="font-bold text-xl mb-3">Oude examens</h3>
+						{exams.map((exam) => (
+							<div
+								key={exam.id}
+								className="p-3 border rounded-xl mb-3 hover:bg-prim100 hover:shadow"
+							>
+								<div className="flex justify-between items-center mb-2">
+									<p>{`${exam.subject} - ${exam.level}`}</p>
+									<img
+										src="/assets/svg/delete-02.svg"
+										alt="delete"
+										className="cursor-pointer"
+										onClick={() => handleDeleteExam(exam.id)}
+									/>
+								</div>
+								<div className="flex gap-1 justify-center items-center">
+									<img
+										src="/assets/svg/calendar-02.svg"
+										alt="calendar"
+									/>
+									<p>{exam.date}</p>
+									<img
+										src="/assets/svg/clock-02.svg"
+										alt="clock"
+									/>
+									<p>{exam.date}</p>
+									<img
+										src="/assets/svg/flag-02.svg"
+										alt="flag"
+									/>
+									<p>{exam.questions}</p>
+								</div>
 							</div>
-						</>
-					))}
+						))}
+					</div>
 				</div>
 			)}
 		</div>
