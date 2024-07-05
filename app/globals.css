@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "flowbite";
+
 html,
 body,
 :root {
@@ -11,8 +13,20 @@ body,
 	position: relative;
 }
 
+.cusRad {
+	accent-color: #FF512D !important;
+}
 
+.custom-quill .ql-toolbar {
+	background-color: #FFE1D4 !important; /* Replace with your desired color */
+	margin: 10px !important;
+	border-radius: 8px !important;
+	border: none !important;
+}
 
+.custom-quill .ql-container {
+	border: none !important;
+}
 
 .bg-lightgreen {
 	background-color: #f5dd61;

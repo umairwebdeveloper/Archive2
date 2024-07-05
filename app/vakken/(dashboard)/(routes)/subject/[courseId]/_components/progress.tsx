@@ -62,7 +62,7 @@ const Progress: React.FC = () => {
 	return (
 		<div className="ml-64 fixed top-1/5 left-0 w-60">
 			<div className="flex justify-start mb-5">
-				<Link href="/vakken/subject">
+				<Link href="/vakken/subject">	
 					<span className="text-blue-400 hover:underline hover:text-blue-600">
 						Subject
 					</span>
@@ -70,7 +70,7 @@ const Progress: React.FC = () => {
 				<span className="mx-2 text-blue-600">&gt;</span>
 				<span className="text-blue-600">{title}</span>
 			</div>
-			<div className="bg-white text-dark p-4 rounded-lg shadow-sm border">
+			<div className="text-dark bg-sec400 p-4 rounded-lg shadow-sm border">
 				<h3 className="text-xl font-semibold mb-4">Voortgang</h3>
 				<div>
 					{loading ? (

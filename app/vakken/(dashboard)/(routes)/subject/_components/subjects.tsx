@@ -86,25 +86,39 @@ const SubjectsAndLevels: React.FC = () => {
 	}
 
 	return (
-		<div className="container">
-			<div className="flex flex-wrap justify-center gap-3 mb-4">
-				<button
-					onClick={() => handleLevelClick(null)}
-					className={`py-2 px-3 text-sm border border-slate-200 rounded-full flex items-center gap-x-1 hover:border-sky-700 transition ${activeLevelId === null && "border-sky-700 bg-sky-200/20 text-sky-800"}`}
+		<div className="">
+			<div className="flex flex-wrap justify-start gap-3 mb-4">
+				<label
+					className={`py-2 px-3 text-sm border border-sec600 rounded-full flex items-center gap-x-1 hover:border-sec700 transition cursor-pointer ${activeLevelId === null && "bg-prim400 text-prim50 border-none"}`}
 				>
+					<input
+						type="radio"
+						name="level"
+						value="all"
+						checked={activeLevelId === null}
+						onChange={() => handleLevelClick(null)}
+						className={`me-2 ${activeLevelId === null && "bg-prim300 text-prim300"}`}
+					/>
 					All Levels
-				</button>
+				</label>
 				{levels.map((level) => (
-					<button
+					<label
 						key={level.id}
-						onClick={() => handleLevelClick(level.id)}
-						className={`py-2 px-3 text-sm border border-slate-200 rounded-full flex items-center gap-x-1 hover:border-sky-700 transition ${
+						className={`py-2 px-3 text-sm border border-sec600 rounded-full flex items-center gap-x-1 hover:border-sec700 transition cursor-pointer ${
 							activeLevelId === level.id &&
-							"border-sky-700 bg-sky-200/20 text-sky-800"
+							"bg-prim400 text-prim50 border-none"
 						}`}
 					>
+						<input
+							type="radio"
+							name="level"
+							value={level.id}
+							checked={activeLevelId === level.id}
+							onChange={() => handleLevelClick(level.id)}
+							className={`me-2 ${activeLevelId === level.id && "bg-prim300 text-prim300"}`}
+						/>
 						{level.title}
-					</button>
+					</label>
 				))}
 			</div>
 
@@ -116,7 +130,7 @@ const SubjectsAndLevels: React.FC = () => {
 						<>
 							<div
 								key={subject.id}
-								className="border max-w-sm rounded overflow-hidden shadow-sm transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg bg-white cursor-pointer"
+								className="border max-w-sm rounded-2xl overflow-hidden shadow-sm transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg bg-prim50 cursor-pointer "
 								onClick={() =>
 									router.push(`/vakken/subject/${subject.id}`)
 								}
@@ -136,18 +150,10 @@ const SubjectsAndLevels: React.FC = () => {
 										</div>
 									</>
 								)}
-
-								<hr />
-
 								<div className="px-6 py-4">
 									<div className="font-bold text-xl mb-2">
-										{subject.title}
+										{subject.title} - {subject.level.title}
 									</div>
-								</div>
-								<div className="px-6 pt-4 pb-2">
-									<span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-										{subject.level.title}
-									</span>
 								</div>
 							</div>
 						</>

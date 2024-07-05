@@ -7,58 +7,49 @@ import { cn } from "@/lib/utils";
 
 import { db } from "@/lib/db";
 
-
 interface CourseSidebarItemProps {
-  label: string;
-  id: string;
-  isCompleted: boolean;
-  courseId: string;
-};
+	label: string;
+	id: string;
+	isCompleted: boolean;
+	courseId: string;
+}
 
 export const CourseSidebarItem = ({
-  label,
-  id,
-  isCompleted,
-  courseId,
+	label,
+	id,
+	isCompleted,
+	courseId,
 }: CourseSidebarItemProps) => {
-  const pathname = usePathname();
-  const router = useRouter();
+	const pathname = usePathname();
+	const router = useRouter();
 
-  const Icon = (isCompleted ? CheckCircle : PlayCircle);  //LATER VERWIJDEREN
-  const isActive = pathname?.includes(id);
+	const Icon = isCompleted ? CheckCircle : PlayCircle; //LATER VERWIJDEREN
+	const isActive = pathname?.includes(id);
 
-  const onClick = () => {
-    router.push(`/courses/${courseId}/chapters/${id}`);
-  }
+	const onClick = () => {
+		router.push(`/courses/${courseId}/chapters/${id}`);
+	};
 
-  return (
-    
-    <button
-      onClick={onClick}
-      type="button"
-      className={cn(
-        "flex items-center gap-x-2 text-slate-500 text-sm font-[500] pl-6 transition-all hover:text-slate-600 hover:bg-slate-300/20",
-        isActive && "text-slate-700 bg-slate-200/20 hover:bg-slate-200/20 hover:text-slate-700",
-        isCompleted && "text-emerald-700 hover:text-emerald-700",
-        isCompleted && isActive && "bg-emerald-200/20",
-      )}
-    >
-      <div className="flex items-center gap-x-2 py-4">
-        <Icon
-          size={22}
-          className={cn(
-            "text-slate-500",
-            isActive && "text-slate-700",
-            isCompleted && "text-emerald-700"
-          )}
-        />
-        {label}
-      </div>
-      <div className={cn(
-        "ml-auto opacity-0 border-2 border-slate-700 h-full transition-all",
-        isActive && "opacity-100",
-        isCompleted && "border-emerald-700"
-      )} />
-    </button>
-  )
-}
+	return (
+		<button
+			onClick={onClick}
+			type="button"
+			className={cn(
+				"flex items-center rounded-xl gap-x-2 text-sec400 text-sm font-[500] pl-6 transition-all hover:bg-slate-100/20",
+				isActive &&
+					"text-white bg-prim400 hover:text-prim50 hover:bg-prim500"
+			)}
+		>
+			<div className="flex items-center gap-x-2 py-4">
+				<Icon
+					size={22}
+					className={cn(
+						"text-sec400",
+						isActive && "text-prim50 ",
+					)}
+				/>
+				{label}
+			</div>
+		</button>
+	);
+};

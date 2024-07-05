@@ -188,7 +188,7 @@ const Resume: React.FC<CourseIdProps> = ({ courseId }) => {
 	return (
 		<div className="container mx-auto">
 			<h1 className="text-3xl font-bold text-center mb-6">Resume</h1>
-			<div className="card border rounded-lg p-4">
+			<div className="card border rounded-xl p-4 bg-white">
 				{loading ? (
 					<div className="flex items-center justify-center mt-5">
 						<Spinner size="lg" />

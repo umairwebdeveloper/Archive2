@@ -102,7 +102,7 @@ const VideoNote = ({
 
 	return (
 		<>
-			<div className="mx-4 border rounded p-3">
+			<div className="mx-4 border rounded-lg p-3 bg-white">
 				<h3 className="font-bold text-lg">Your Notes</h3>
 				<div className="py-3">
 					<ReactQuill

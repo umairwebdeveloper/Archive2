@@ -204,7 +204,7 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 	return (
 		<div className="container mx-auto mt-5">
 			<div className="">
-				<div className="p-6">
+				<div className="px-6">
 					<h1 className="text-center text-3xl font-bold mb-3">
 						Quiz Questions
 					</h1>
@@ -221,15 +221,20 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 										ref={(el: any) =>
 											(questionRefs.current[index] = el)
 										}
-										className="card mb-6 border rounded-lg shadow-sm"
+										className="card mb-6 border rounded-2xl bg-white shadow-sm"
 									>
 										<div className="card-body p-4">
-											<h5 className="card-title font-bold text-start">
-												{index + 1}: {question.title}
+											<h5 className="flex justify-between items-center card-title font-bold text-start mb-3">
+												<span>
+													{index + 1}:{" "}
+													{question.title}
+												</span>
+												<span className="w-8 h-8 bg-prim100 rounded-lg flex items-center justify-center">
+													1P
+												</span>
 											</h5>
-											<hr className="my-3" />
 											<p
-												className="card-text text-start mb-3 bg-gray-100 p-3 rounded-lg"
+												className="card-text text-start mb-3 p-3"
 												dangerouslySetInnerHTML={{
 													__html: question.questionText,
 												}}
@@ -244,10 +249,29 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 														(option) => (
 															<div
 																key={option.id}
-																className="flex items-center"
+																className={`flex items-center w-full border p-3 rounded-xl cursor-pointer ${
+																	selectedAnswers[
+																		question
+																			.id
+																	] ===
+																	option.label
+																		? isCorrect[
+																				question
+																					.id
+																			]
+																			? "bg-green-200 border-green-400 border-l-4"
+																			: "bg-red-200 border-red-400 border-l-4"
+																		: "hover:bg-sec100/20"
+																}`}
+																onClick={() =>
+																	handleOptionClick(
+																		question.id,
+																		option.label
+																	)
+																}
 															>
 																<div
-																	className={`w-12 font-semibold h-8 border rounded-lg flex justify-center items-center cursor-pointer user-select-none ${
+																	className={`w-8 font-semibold h-8 border rounded-lg flex justify-center items-center cursor-pointer user-select-none ${
 																		selectedAnswers[
 																			question
 																				.id
@@ -257,16 +281,10 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 																					question
 																						.id
 																				]
-																				? "bg-green-200 text-white border-green-200"
-																				: "bg-red-200 text-white border-red-200"
-																			: "border-sky-200"
+																				? "bg-green-400 text-white border-green-400"
+																				: "bg-red-400 text-white border-red-400"
+																			: "border-sky-200 bg-sec100"
 																	}`}
-																	onClick={() =>
-																		handleOptionClick(
-																			question.id,
-																			option.label
-																		)
-																	}
 																>
 																	{
 																		option.label
@@ -278,6 +296,43 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 																			option.value
 																		}
 																	</p>
+																</div>
+
+																<div className="ml-auto">
+																	<input
+																		type="radio"
+																		name={`question${question.id}`}
+																		value={
+																			option.label
+																		}
+																		checked={
+																			selectedAnswers[
+																				question
+																					.id
+																			] ===
+																			option.label
+																		}
+																		onChange={() =>
+																			handleOptionClick(
+																				question.id,
+																				option.label
+																			)
+																		}
+																		className={`mr-3 ${
+																			selectedAnswers[
+																				question
+																					.id
+																			] ===
+																			option.label
+																				? isCorrect[
+																						question
+																							.id
+																					]
+																					? "text-green-400"
+																					: "text-red-400"
+																				: "text-sky-200"
+																		}`}
+																	/>
 																</div>
 															</div>
 														)
@@ -319,7 +374,7 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 																value
 															)
 														}
-														className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
+														className="mt-1 block w-full rounded shadow-sm bg-sec50 border custom-quill"
 														modules={modules}
 													/>
 												</div>

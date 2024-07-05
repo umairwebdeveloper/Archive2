@@ -13,15 +13,15 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
 	return (
 		<div className="h-full">
 			<div
-				className="h-[80px] fixed inset-y-0 w-full z-50"
+				className="h-[80px] fixed inset-y-0 w-full z-50 bg-prim50"
 				style={{ paddingLeft: `${sidebarWidth}px` }}
 			>
 				<Navbar />
 			</div>
 			<Sidebar onResize={handleSidebarResize} />
 			<main
-				className="pt-[80px] h-full"
-				style={{ paddingLeft: `${sidebarWidth}px` }}
+				className="pt-[80px] bg-prim50"
+				style={{ paddingLeft: `${sidebarWidth}px`, minHeight: "100vh" }}
 			>
 				{children}
 			</main>

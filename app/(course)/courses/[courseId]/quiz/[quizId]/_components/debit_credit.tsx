@@ -180,10 +180,12 @@ const DebitCredit: React.FC<DebitCreditProps> = ({
 	return (
 		<div className="">
 			<Toaster />
-			<div className="flex flex-col w-full mx-auto">
-				<h3 className="text-xl font-bold border w-full p-3">Debits</h3>
-				<div className="bg-white mb-4 border w-full h-full">
-					<ul className="mt-4 p-4">
+			<div className="flex flex-col w-full mx-auto border mb-4 rounded-lg">
+				<h3 className="text-xl font-bold w-full p-3 bg-prim100">
+					Debits
+				</h3>
+				<div className="bg-white w-full h-full">
+					<ul className="mt-3 px-3">
 						{debits.map((debit, index) => (
 							<li
 								key={index}
@@ -221,16 +223,18 @@ const DebitCredit: React.FC<DebitCreditProps> = ({
 							Add Item
 						</button>
 					</div>
-					<div className="mt-4 border-t p-4">
+					<div className="mt-4 bg-sec50 p-4">
 						<strong>Total:</strong> {totalDebits}
 					</div>
 				</div>
 			</div>
 
-			<div className="flex flex-col w-full mx-auto">
-				<h3 className="text-xl font-bold border w-full p-3">Credits</h3>
-				<div className="bg-white mb-4 border w-full h-full">
-					<ul className="mt-4 p-4">
+			<div className="flex flex-col w-full mx-auto border mb-4 rounded-lg">
+				<h3 className="text-xl font-bold w-full p-3 bg-prim100">
+					Credits
+				</h3>
+				<div className="bg-white w-full h-full">
+					<ul className="mt-3 px-3">
 						{credits.map((credit, index) => (
 							<li
 								key={index}
@@ -267,7 +271,7 @@ const DebitCredit: React.FC<DebitCreditProps> = ({
 							Add Item
 						</button>
 					</div>
-					<div className="mt-4 border-t p-4">
+					<div className="mt-4 bg-sec50 p-4">
 						<strong>Total:</strong> {totalCredits}
 					</div>
 				</div>

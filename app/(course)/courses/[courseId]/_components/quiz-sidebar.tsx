@@ -93,17 +93,17 @@ const QuizSidebar: React.FC<QuizTypeProps> = ({ courseId }) => {
 			<button
 				onClick={onClick}
 				type="button"
-				className={`mt-3 flex items-center gap-x-2 text-sm font-[500] pl-6 transition-all py-4 w-full pr-3 ${
+				className={`mt-3 flex items-center rounded-xl gap-x-2 text-sm font-[500] pl-6 transition-all py-4 w-full pr-3 ${
 					isActive
-						? "text-slate-700 bg-slate-200/20"
-						: "text-slate-500 hover:text-slate-600 hover:bg-slate-300/20"
+						? "text-white bg-prim400 hover:text-prim50 hover:bg-prim500"
+						: "text-sec400 hover:bg-slate-100/20"
 				}`}
 			>
 				<div className="flex items-center justify-between gap-x-2 w-full">
 					<span className="flex gap-2">
 						<Pen
 							size={22}
-							className={`${isActive ? "text-slate-700" : "text-slate-500"}`}
+							className={`${isActive ? "text-prim50" : "text-sec400"}`}
 						/>
 						Questions
 					</span>
@@ -117,7 +117,7 @@ const QuizSidebar: React.FC<QuizTypeProps> = ({ courseId }) => {
 				</div>
 			</button>
 			{isActive && (
-				<div className="mt-2 pl-6 pr-3">
+				<div className="mt-2 p-3 mb-5 border rounded">
 					{linksLoading ? (
 						<div className="my-3 flex justify-center items-center">
 							<Spinner />
@@ -126,21 +126,20 @@ const QuizSidebar: React.FC<QuizTypeProps> = ({ courseId }) => {
 						<div className="text-sm text-slate-600">
 							{links.map((link: any, index: number) => (
 								<>
-									<div key={index}>
-										<hr className="my-3" />
+									<div className="mb-3 shadow" key={index}>
 										<div
 											onClick={() =>
 												router.push(
 													`/courses/${courseId}/quiz/${link.id}`
 												)
 											}
-											className={`cursor-pointer text-slate-700 font-semibold text-lg p-2 hover:bg-slate-100 hover:rounded mb-1 ${
+											className={`cursor-pointer font-semibold rounded text-lg p-2 mb-1 ${
 												activeLinkId === link.id
-													? "bg-slate-200/20 rounded"
-													: ""
+													? "bg-prim300 text-prim50 hover:bg-prim400"
+													: "text-sec400 hover:bg-slate-100/20"
 											}`}
 										>
-											<span className="text-xl">
+											<span className="text-2xl font-bold">
 												{index + 1}: {link.title}
 											</span>
 										</div>
@@ -162,8 +161,13 @@ const QuizSidebar: React.FC<QuizTypeProps> = ({ courseId }) => {
 															className="mb-1"
 														>
 															<a
-																href={`#question${questionIndex + 1}`}
-																className={`px-2 w-100 hover:bg-blue-50 text-lg ${getAnswerColor(
+																href={
+																	pathname ===
+																	`/courses/${courseId}/quiz/${link.id}`
+																		? `#question${questionIndex + 1}`
+																		: `/courses/${courseId}/quiz/${link.id}/#question${questionIndex + 1}`
+																}
+																className={`px-2 w-100 rounded text-sec300 hover:bg-blue-50 text-lg ${getAnswerColor(
 																	question,
 																	userAnswer
 																)}`}

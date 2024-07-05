@@ -32,12 +32,12 @@ export const CourseSidebar = ({
 
 	return (
 		<div
-			className="hidden md:flex h-full flex-col fixed inset-y-0 z-50"
+			className="hidden md:flex h-full flex-col fixed inset-y-0 z-50 bg-primBlack"
 			ref={sidebarRef}
 			style={{ width: sidebarWidth }}
 		>
-			<div className="h-full border-r flex flex-col overflow-y-auto shadow-sm">
-				<div className="p-8 flex flex-col border-b">
+			<div className="h-full flex flex-col overflow-y-auto shadow-sm">
+				<div className="p-8 flex flex-col">
 					<h1>
 						<Link href="/vakken/subject">
 							<span className="text-sm text-blue-400 hover:text-blue-600 hover:underline">
@@ -64,7 +64,7 @@ export const CourseSidebar = ({
 						/>
 					</div>
 				</div>
-				<div className="flex flex-col w-full">
+				<div className="flex flex-col w-full px-6">
 					{course.chapters.map((chapter) => (
 						<CourseSidebarItem
 							key={chapter.id}
@@ -82,8 +82,12 @@ export const CourseSidebar = ({
 			</div>
 			<div
 				ref={resizeHandleRef}
-				className="absolute top-0 right-0 h-full w-2 bg-gray-200 cursor-ew-resize"
-			></div>
+				className="absolute top-0 right-0 h-full w-2 bg-sec400 cursor-ew-resize flex flex-col justify-center"
+			>
+				<span className="bg-prim300 text-sec800 mx-auto my-auto rounded-lg">
+					|
+				</span>
+			</div>
 		</div>
 	);
 };

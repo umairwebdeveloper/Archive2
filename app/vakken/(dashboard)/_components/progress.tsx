@@ -60,7 +60,7 @@ const Progress: React.FC = () => {
 		videosCount > 0 ? (completedVideos / videosCount) * 100 : 0;
 
 	return (
-		<div className="m-5">
+		<div className="mx-5 mb-3">
 			<div className="flex justify-start mb-5">
 				<Link href="/vakken/subject">
 					<span className="text-blue-400 hover:underline hover:text-blue-600">
@@ -70,7 +70,7 @@ const Progress: React.FC = () => {
 				<span className="mx-2 text-blue-600">&gt;</span>
 				<span className="text-blue-600">{title}</span>
 			</div>
-			<div className="bg-white text-dark p-4 rounded-lg shadow-sm border">
+			<div className="bg-prim50 text-dark p-4 rounded-lg shadow-sm border">
 				<h3 className="text-xl font-semibold mb-4">Voortgang</h3>
 				<div>
 					{loading ? (
@@ -81,12 +81,12 @@ const Progress: React.FC = () => {
 						<>
 							<div className="flex mb-4">
 								<div className="mr-2">
-									<Pen className="h-4 w-4 mr-2 text-blue-500" />
+									<Pen className="h-4 w-4 mr-2 text-prim400" />
 								</div>
 								<div className="w-full">
-									<div className="flex w-full h-1.5 bg-gray-200 rounded-full overflow-hidden dark:bg-neutral-700">
+									<div className="flex w-full h-1.5 bg-sec200 rounded-full overflow-hidden dark:bg-neutral-700">
 										<div
-											className="flex flex-col justify-center rounded-full overflow-hidden bg-blue-600 text-xs text-white text-center whitespace-nowrap transition duration-500 dark:bg-blue-500"
+											className="flex flex-col justify-center rounded-full overflow-hidden bg-prim400 text-xs text-white text-center whitespace-nowrap transition duration-500 dark:bg-blue-500"
 											style={{
 												width: `${progressPercentage}%`,
 											}}
@@ -102,12 +102,12 @@ const Progress: React.FC = () => {
 							</div>
 							<div className="flex mb-4">
 								<div className="mr-2">
-									<Youtube className="h-4 w-4 mr-2 text-blue-500" />
+									<Youtube className="h-4 w-4 mr-2 text-prim400" />
 								</div>
 								<div className="w-full">
-									<div className="flex w-full h-1.5 bg-gray-200 rounded-full overflow-hidden dark:bg-neutral-700">
+									<div className="flex w-full h-1.5 bg-sec200 rounded-full overflow-hidden dark:bg-neutral-700">
 										<div
-											className="flex flex-col justify-center rounded-full overflow-hidden bg-blue-600 text-xs text-white text-center whitespace-nowrap transition duration-500 dark:bg-blue-500"
+											className="flex flex-col justify-center rounded-full overflow-hidden bg-prim400 text-xs text-white text-center whitespace-nowrap transition duration-500 dark:bg-blue-500"
 											style={{
 												width: `${videoProgressPercentage}%`,
 											}}
@@ -123,12 +123,12 @@ const Progress: React.FC = () => {
 							</div>
 							<div className="flex mb-4">
 								<div className="mr-2">
-									<Book className="h-4 w-4 mr-2 text-blue-500" />
+									<Book className="h-4 w-4 mr-2 text-prim400" />
 								</div>
 								<div className="w-full">
-									<div className="flex w-full h-1.5 bg-gray-200 rounded-full overflow-hidden dark:bg-neutral-700">
+									<div className="flex w-full h-1.5 bg-sec200 rounded-full overflow-hidden dark:bg-neutral-700">
 										<div
-											className="flex flex-col justify-center rounded-full overflow-hidden bg-blue-600 text-xs text-white text-center whitespace-nowrap transition duration-500 dark:bg-blue-500"
+											className="flex flex-col justify-center rounded-full overflow-hidden bg-prim400 text-xs text-white text-center whitespace-nowrap transition duration-500 dark:bg-blue-500"
 											style={{
 												width: `0`,
 											}}
@@ -142,12 +142,12 @@ const Progress: React.FC = () => {
 							</div>
 							<div className="flex">
 								<div className="mr-2">
-									<StickyNote className="h-4 w-4 mr-2 text-blue-500" />
+									<StickyNote className="h-4 w-4 mr-2 text-prim400" />
 								</div>
 								<div className="w-full">
-									<div className="flex w-full h-1.5 bg-gray-200 rounded-full overflow-hidden dark:bg-neutral-700">
+									<div className="flex w-full h-1.5 bg-sec200 rounded-full overflow-hidden dark:bg-neutral-700">
 										<div
-											className="flex flex-col justify-center rounded-full overflow-hidden bg-blue-600 text-xs text-white text-center whitespace-nowrap transition duration-500 dark:bg-blue-500"
+											className="flex flex-col justify-center rounded-full overflow-hidden bg-prim400 text-xs text-white text-center whitespace-nowrap transition duration-500 dark:bg-blue-500"
 											style={{
 												width: `0`,
 											}}
