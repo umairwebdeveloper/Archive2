@@ -86,7 +86,7 @@ const VideoPlayer = ({
 		<>
 			<h1 className="text-2xl mb-3">{title}</h1>
 			<div className="flex">
-				<div className="w-3/4 video-player">
+				<div className="w-3/4 video-player videoPlayerPlyr">
 					<video ref={playerRef} controls>
 						<source src={videoUrl} type="video/mp4" />
 					</video>

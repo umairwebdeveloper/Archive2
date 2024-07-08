@@ -102,7 +102,7 @@ const VideoNote = ({
 
 	return (
 		<>
-			<div className="mx-4 border rounded-lg p-3 bg-white">
+			<div className="mx-4 border rounded-xl p-3 bg-white">
 				<h3 className="font-bold text-lg">Your Notes</h3>
 				<div className="py-3">
 					<ReactQuill
@@ -110,6 +110,7 @@ const VideoNote = ({
 						value={noteContent}
 						onChange={setNoteContent}
 						modules={modules}
+						className="mt-1 block w-full rounded shadow-sm bg-sec50 border custom-quill"
 					/>
 				</div>
 				<div className="flex justify-end">
@@ -125,16 +126,16 @@ const VideoNote = ({
 						</div>
 					) : (
 						notes?.map((note) => (
-							<div key={note.id} className="border-t py-2">
+							<div key={note.id} className="border-b py-2">
 								<div className="flex justify-between">
 									<div className="max-w-[90%]">
 										<span
-											className="cursor-pointer font-bold text-blue-400 hover:text-blue-600 hover:underline"
+											className="cursor-pointer font-bold text-sec600 hover:text-blue-600 hover:underline flex items-center gap-2"
 											onClick={() =>
 												handleTimeClick(note.time)
 											}
 										>
-											{note.time}
+											<img src="/assets/svg/clock-02.svg" width="20px" alt="clock" />{note.time}
 										</span>
 										<div
 											className="break-words"
@@ -148,7 +149,7 @@ const VideoNote = ({
 											className="cursor-pointer text-red-500"
 											onClick={() => deleteNote(note.id)}
 										>
-											<Trash size={20} />
+											<img src="/assets/svg/delete-02.svg" width="20px" alt="delete" />
 										</span>
 									</div>
 								</div>

@@ -124,3 +124,14 @@ body,
 }
 
 @import "~@uploadthing/react/styles.css";
+
+
+
+.videoPlayerPlyr {
+  border-radius: 12px; /* Adjust the value as needed */
+  overflow: hidden; /* Ensure the corners are clipped */
+}
+
+.videoPlayerPlyr .plyr__video-wrapper {
+  border-radius: inherit;
+}
