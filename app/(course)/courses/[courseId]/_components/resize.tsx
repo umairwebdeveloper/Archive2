@@ -30,7 +30,7 @@ const ResizeComp = ({ course, courses, progressCount, children }: any) => {
 				onResize={handleSidebarResize}
 			/>
 			<main
-				className="pt-[80px] bg-prim50"
+				className="pt-[80px] bg-sec50"
 				style={{ paddingLeft: `${sidebarWidth}px`, minHeight: "100vh" }}
 			>
 				{children}

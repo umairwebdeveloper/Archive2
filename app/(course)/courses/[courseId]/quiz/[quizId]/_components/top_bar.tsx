@@ -39,8 +39,8 @@ const TopBar: React.FC<ProgressBarProps> = ({ courseId }) => {
 		: 0;
 
 	return (
-		<div className="w-full flex gap-3 items-center justify-between">
-			<div className="w-full">
+		<div className=" flex gap-3 items-center justify-between">
+			<div className="">
 				<h3 className="font-bold text-2xl">Examen 2024</h3>
 				<p>Module 01</p>
 			</div>
@@ -49,7 +49,7 @@ const TopBar: React.FC<ProgressBarProps> = ({ courseId }) => {
                     <Spinner/>
                 </div>
 			) : (
-				<div className="flex flex-col items-center w-10/12 me-20">
+				<div className="flex flex-col items-center mx-20 flex-1">
 					<div className="w-full bg-gray-200 rounded-full h-3">
 						<div
 							className="bg-green-400 h-3 rounded-full"

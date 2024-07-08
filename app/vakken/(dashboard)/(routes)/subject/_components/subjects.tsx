@@ -168,7 +168,7 @@ const SubjectsAndLevels: React.FC = () => {
 						<>
 							<div
 								key={subject.id}
-								className="border max-w-sm rounded-2xl overflow-hidden shadow-sm transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg bg-prim50 cursor-pointer "
+								className="border max-w-sm rounded-2xl overflow-hidden shadow transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg cursor-pointer "
 								onClick={() =>
 									router.push(`/vakken/subject/${subject.id}`)
 								}

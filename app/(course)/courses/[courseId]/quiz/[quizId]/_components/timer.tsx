@@ -49,16 +49,13 @@ const Timer: React.FC = () => {
 					)}
 				</button>
 			</div>
-			<div className="flex items-center bg-white p-3 rounded-2xl gap-3 ">
-				<div>
-					<img
-						src="/assets/svg/clock-timer.svg"
-                        className=""
-						width="44px"
-                        height="44px"
-						alt="clock-logo"
-					/>
-				</div>
+			<div className="flex items-center bg-white p-3 rounded-2xl gap-3 w-full">
+				<img
+					src="/assets/svg/clock-timer.svg"
+					width="44px"
+					height="44px"
+					alt="clock logo"
+				/>
 				<div>
 					<h3 className="text-3xl font-semibold">
 						{formatTime(time)}
