@@ -205,9 +205,7 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 		<div className="container mx-auto mt-5">
 			<div className="">
 				<div className="px-6">
-					<h1 className="text-center text-3xl font-bold mb-3">
-						Quiz Questions
-					</h1>
+					
 					<div className="flex justify-center">
 						<div
 							id="quiz-container"
