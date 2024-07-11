@@ -21,7 +21,7 @@ export const NavbarRoutes = () => {
 
     return (
 		<>
-			<div className="px-5">
+			<div className="px-5 hidden md:block">
 				<h3 className="font-bold text-2xl">Hello 👋</h3>
 				<p>Let’s learn something new today!</p>
 			</div>

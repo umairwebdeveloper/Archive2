@@ -1,0 +1,325 @@
+"use client";
+
+import { Navbar } from "./_components/navbar";
+import { Sidebar } from "./_components/sidebar";
+
+const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
+	// const [sidebarWidth, setSidebarWidth] = useState(320); // Default width in pixels
+
+	// const handleSidebarResize = (newWidth: any) => {
+	// 	setSidebarWidth(newWidth);
+	// };
+
+	return (
+		<div className="h-full">
+			<div
+				className="h-[80px] fixed inset-y-0 w-full z-50 bg-sec50 md:pl-[320px]" // md:pl- for medium screens and up
+				style={{ paddingLeft: `calc(${sidebarWidth}px - 100vw)` }} // Calculate based on sidebar width and viewport width
+			>
+				<Navbar />
+			</div>
+			<Sidebar onResize={handleSidebarResize} />
+			<main
+				className="pt-[80px] bg-sec50 md:pl-[320px]" // md:pl- for medium screens and up
+				style={{ minHeight: "100vh" }}
+			>
+				{children}
+			</main>
+		</div>
+	);
+};
+
+export default DashboardLayout;
+
+
+import { useEffect, useState } from "react";
+import { Logo } from "./logo";
+import { SidebarRoutes } from "./sidebar-routes";
+import useResizableSidebar from "@/hooks/use-resize-sidebar";
+
+interface SidebarProps {
+	onResize: (newWidth: number) => void;
+}
+
+export const Sidebar = ({ onResize }: SidebarProps) => {
+	const { sidebarRef, resizeHandleRef, sidebarWidth } = useResizableSidebar({
+		initialWidth: 320,
+		onResize,
+	});
+
+	const [isMobile, setIsMobile] = useState(false);
+	const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+
+	useEffect(() => {
+		const handleResize = () => {
+			setIsMobile(window.innerWidth < 768);
+			setIsSidebarVisible(window.innerWidth >= 768); // Show sidebar by default on larger screens
+		};
+
+		handleResize();
+		window.addEventListener("resize", handleResize);
+
+		return () => window.removeEventListener("resize", handleResize);
+	}, []);
+
+	const toggleSidebar = () => {
+		setIsSidebarVisible(!isSidebarVisible);
+	};
+
+	return (
+		<>
+			{isMobile && (
+				<button
+					className="fixed top-4 left-4 z-50 p-2 bg-sec400 rounded-md md:hidden"
+					onClick={toggleSidebar}
+				>
+					Menu
+				</button>
+			)}
+			<div
+				className={`h-full flex-col fixed inset-y-0 z-50 bg-primBlack transition-transform ${
+					isSidebarVisible ? "translate-x-0" : "-translate-x-full"
+				} ${isMobile ? "w-full" : ""}`}
+				ref={sidebarRef}
+				style={{ width: isMobile ? "100%" : sidebarWidth }}
+			>
+				<div className="h-full border-r flex flex-col overflow-y-auto shadow-sm">
+					<div className="p-6">
+						<Logo />
+					</div>
+					<div className="flex flex-col w-full mt-6">
+						<SidebarRoutes />
+					</div>
+				</div>
+				{!isMobile && (
+					<div
+						ref={resizeHandleRef}
+						className="absolute top-0 right-0 h-full w-2 bg-sec400 cursor-ew-resize flex flex-col justify-center"
+					>
+						<span className="bg-prim300 text-sec800 mx-auto my-auto rounded-lg">
+							|
+						</span>
+					</div>
+				)}
+			</div>
+		</>
+	);
+};
+
+
+"use client";
+
+import { useState, useEffect } from "react";
+import { CourseSidebar } from "./course-sidebar";
+import { CourseNavbar } from "./course-navbar";
+
+const ResizeComp = ({ course, courses, progressCount, children }: any) => {
+	const [sidebarWidth, setSidebarWidth] = useState(320); // Default width in pixels
+
+	const handleSidebarResize = (newWidth: any) => {
+		setSidebarWidth(newWidth);
+	};
+
+	return (
+		<>
+			<div
+				className="h-[80px] fixed inset-y-0 w-full z-50"
+				style={{ paddingLeft: `${sidebarWidth}px` }}
+			>
+				<CourseNavbar
+					course={course}
+					courses={courses}
+					progressCount={progressCount}
+				/>
+			</div>
+			<CourseSidebar
+				course={course}
+				courses={courses}
+				progressCount={progressCount}
+				onResize={handleSidebarResize}
+			/>
+			<main
+				className="pt-[80px] bg-sec50"
+				style={{ paddingLeft: `${sidebarWidth}px`, minHeight: "100vh" }}
+			>
+				{children}
+			</main>
+		</>
+	);
+};
+
+export default ResizeComp;
+
+import { auth } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
+
+import { db } from "@/lib/db";
+import { getProgress } from "@/actions/get-progress";
+
+import ResizeComp from "./_components/resize";
+
+const CourseLayout = async ({
+	children,
+	params,
+}: {
+	children: React.ReactNode;
+	params: { courseId: string };
+}) => {
+	const { userId } = auth();
+	console.log(userId);
+
+	if (!userId) {
+		return redirect("/");
+	}
+
+	const course = await db.course.findUnique({
+		where: {
+			id: params.courseId,
+		},
+		include: {
+			chapters: {
+				where: {
+					isPublished: true,
+				},
+				include: {
+					userProgress: {
+						where: {
+							userId,
+						},
+					},
+				},
+				orderBy: {
+					position: "asc",
+				},
+			},
+		},
+	});
+
+	const courses: any = await db.course.findUnique({
+		where: {
+			id: course?.id,
+		},
+		include: {
+			category: {
+				include: {
+					subject: true,
+				},
+			},
+		},
+	});
+
+	if (!course) {
+		return redirect("/");
+	}
+
+	const progressCount = await getProgress(userId, course.id);
+
+	return (
+		<div className="h-full">
+			<ResizeComp
+				course={course}
+				courses={courses}
+				progressCount={progressCount}
+				children={children}
+			/>
+		</div>
+	);
+};
+
+export default CourseLayout;
+
+
+"use client";
+
+import { Chapter, Course, UserProgress } from "@prisma/client";
+import { CourseSidebarItem } from "./course-sidebar-item";
+import { CourseProgress } from "@/components/course-progress";
+import QuizSidebar from "./quiz-sidebar";
+import Link from "next/link";
+import ResumeSidebar from "./resume-sidebar";
+import useResizableSidebar from "@/hooks/use-resize-sidebar";
+
+interface CourseSidebarProps {
+	course: Course & {
+		chapters: (Chapter & {
+			userProgress: UserProgress[] | null;
+		})[];
+	};
+	courses: any;
+	progressCount: number;
+	onResize: (newWidth: number) => void;
+}
+
+export const CourseSidebar = ({
+	course,
+	courses,
+	progressCount,
+	onResize,
+}: CourseSidebarProps) => {
+	const { sidebarRef, resizeHandleRef, sidebarWidth } = useResizableSidebar({
+		initialWidth: 320,
+		onResize,
+	});
+
+	return (
+		<div
+			className="hidden md:flex h-full flex-col fixed inset-y-0 z-50 bg-primBlack"
+			ref={sidebarRef}
+			style={{ width: sidebarWidth }}
+		>
+			<div className="h-full flex flex-col overflow-y-auto shadow-sm">
+				<div className="p-8 flex flex-col">
+					<h1>
+						<Link href="/vakken/subject">
+							<span className="text-sm text-blue-400 hover:text-blue-600 hover:underline">
+								Subject
+							</span>
+						</Link>
+						<span className="text-sm text-blue-600"> &gt; </span>
+						<Link
+							href={`/vakken/subject/${courses?.category?.subject?.id}`}
+						>
+							<span className="text-sm text-blue-400 hover:text-blue-600 hover:underline">
+								{courses?.category?.subject?.title}
+							</span>
+						</Link>
+						<span className="text-sm text-blue-600"> &gt; </span>
+						<span className="text-sm text-blue-600">
+							{course.title}
+						</span>
+					</h1>
+					<div className="mt-10">
+						<CourseProgress
+							variant="success"
+							value={progressCount}
+						/>
+					</div>
+				</div>
+				<div className="flex flex-col w-full px-6">
+					{course.chapters.map((chapter) => (
+						<CourseSidebarItem
+							key={chapter.id}
+							id={chapter.id}
+							label={chapter.title}
+							isCompleted={
+								!!chapter.userProgress?.[0]?.isCompleted
+							}
+							courseId={course.id}
+						/>
+					))}
+					<ResumeSidebar courseId={course.id} />
+					<QuizSidebar courseId={course.id} />
+				</div>
+			</div>
+			<div
+				ref={resizeHandleRef}
+				className="absolute top-0 right-0 h-full w-2 bg-sec400 cursor-ew-resize flex flex-col justify-center"
+			>
+				<span className="bg-prim300 text-sec800 mx-auto my-auto rounded-lg">
+					|
+				</span>
+			</div>
+		</div>
+	);
+};
+

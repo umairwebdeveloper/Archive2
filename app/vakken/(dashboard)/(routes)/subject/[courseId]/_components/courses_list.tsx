@@ -60,14 +60,14 @@ const QuizList: React.FC<QuizTypeProps> = ({ quizTypeId }) => {
 	};
 
 	return (
-		<div className="container mx-auto mt-5">
+		<div className="container mt-5">
 			{loading ? (
 				<div className="flex items-center justify-center mt-5">
 					<Spinner size="lg" />
 				</div>
 			) : (
 				<>
-					<div className="p-6">
+					<div className="p-0 md:p-6">
 						<h1 className="text-center text-3xl font-bold">
 							{quizzes.title}
 						</h1>
@@ -78,7 +78,7 @@ const QuizList: React.FC<QuizTypeProps> = ({ quizTypeId }) => {
 									No Courses found
 								</p>
 							) : (
-								<div className="grid grid-cols-1 gap-3 w-1/2">
+								<div className="grid grid-cols-1 gap-3 w-full md:w-1/2 ">
 									{quizzes.categorys.map(
 										(quiz: any, index: number) => (
 											<div key={index}>

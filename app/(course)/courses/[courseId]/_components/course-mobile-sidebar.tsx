@@ -22,17 +22,14 @@ export const CourseMobileSidebar = ({
 }: CourseMobileSidebarProps) => {
 	return (
 		<Sheet>
-			<SheetTrigger className="md:hidden pr-4 hover:opacity-75 transition">
+			<SheetTrigger className="md:hidden p-2 bg-white rounded-xl hover:opacity-75 transition">
 				<Menu />
 			</SheetTrigger>
-			<SheetContent side="left" className="p-0 bg-white w-72">
+			<SheetContent side="left" className="p-0 bg-primBlack w-72">
 				<CourseSidebar
 					course={course}
 					courses={courses}
 					progressCount={progressCount}
-					onResize={(newWidth: any) => {
-						console.log(newWidth);
-					}}
 				/>
 			</SheetContent>
 		</Sheet>

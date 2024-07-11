@@ -85,13 +85,13 @@ const VideoPlayer = ({
 	return (
 		<>
 			<h1 className="text-2xl mb-3">{title}</h1>
-			<div className="flex">
-				<div className="w-3/4 video-player videoPlayerPlyr">
-					<video ref={playerRef} controls>
+			<div className="flex gap-3 flex-col md:flex-row">
+				<div className="w-full md:w-3/4 video-player videoPlayerPlyr">
+					<video ref={playerRef} controls className="w-full h-auto">
 						<source src={videoUrl} type="video/mp4" />
 					</video>
 				</div>
-				<div className="w-1/4">
+				<div className="w-full md:w-1/4">
 					<VideoNote
 						chapterId={chapterId}
 						currentTime={currentTime}

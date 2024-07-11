@@ -20,7 +20,6 @@ const CourseLayout = async ({
 		return redirect("/");
 	}
 
-
 	const course = await db.course.findUnique({
 		where: {
 			id: params.courseId,
@@ -65,13 +64,12 @@ const CourseLayout = async ({
 
 	return (
 		<div className="h-full">
-			
 			<ResizeComp
-        course={course}
-        courses={courses}
-        progressCount={progressCount}
-        children={children}
-      />
+				course={course}
+				courses={courses}
+				progressCount={progressCount}
+				children={children}
+			/>
 		</div>
 	);
 };

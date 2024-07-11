@@ -202,14 +202,14 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 	}
 
 	return (
-		<div className="container mx-auto mt-5">
+		<div className="container mt-5">
 			<div className="">
-				<div className="px-6">
+				<div className="px-0 md:px-6">
 					
 					<div className="flex justify-center">
 						<div
 							id="quiz-container"
-							className="mt-4 grid grid-cols-1 gap-3 w-1/2"
+							className="mt-4 grid grid-cols-1 gap-3 w-full md:w-1/2"
 						>
 							{quiz.questions && quiz.questions.length > 0 ? (
 								quiz.questions.map((question, index) => (

@@ -6,15 +6,11 @@ import { Sidebar } from "./sidebar";
 export const MobileSidebar = () => {
 	return (
 		<Sheet>
-			<SheetTrigger className="md:hidden pr-4 hover:opacity-75 transition">
+			<SheetTrigger className="md:hidden p-2 bg-white rounded-xl hover:opacity-75 transition">
 				<Menu />
 			</SheetTrigger>
-			<SheetContent side="left" className="p-0 bg-white">
-				<Sidebar
-					onResize={(newWidth: any) => {
-						console.log(newWidth);
-					}}
-				/>
+			<SheetContent side="left" className="p-0 bg-primBlack">
+				<Sidebar />
 			</SheetContent>
 		</Sheet>
 	);

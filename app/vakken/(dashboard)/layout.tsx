@@ -1,27 +1,18 @@
-"use client";
-
-import { useState, useEffect } from "react";
 import { Navbar } from "./_components/navbar";
 import { Sidebar } from "./_components/sidebar";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
-  const [sidebarWidth, setSidebarWidth] = useState(320); // Default width in pixels
-
-  const handleSidebarResize = (newWidth: any) => {
-		setSidebarWidth(newWidth);
-  };
 	return (
 		<div className="h-full">
-			<div
-				className="h-[80px] fixed inset-y-0 w-full z-50 bg-sec50"
-				style={{ paddingLeft: `${sidebarWidth}px` }}
-			>
+			<div className="h-[80px] md:pl-80 fixed inset-y-0 w-full z-50 bg-sec50">
 				<Navbar />
 			</div>
-			<Sidebar onResize={handleSidebarResize} />
+			<div className="hidden md:flex h-full w-80 flex-col fixed inset-y-0 z-50 bg-primBlack">
+				<Sidebar />
+			</div>
 			<main
-				className="pt-[80px] bg-sec50"
-				style={{ paddingLeft: `${sidebarWidth}px`, minHeight: "100vh" }}
+				className="md:pl-80 pt-[80px] bg-sec50"
+				style={{ minHeight: "100vh" }}
 			>
 				{children}
 			</main>

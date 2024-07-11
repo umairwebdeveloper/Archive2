@@ -9,7 +9,7 @@ const QuizQuestionsPage = ({
 	params: { courseId: string; quizId: string };
 }) => {
 	return (
-		<div className="p-6">
+		<div className="px-0 md:px-6 py-6">
 			<TopBar courseId={params.courseId} />
 			<QuizQuestions quizId={params.quizId} />
 		</div>
