@@ -55,6 +55,7 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 	const [selectedAnswers, setSelectedAnswers] = useState<{
 		[key: number]: string;
 	}>({});
+	const [sendAns, setSendAns] = useState([]);
 	const [isSubmitting, setIsSubmitting] = useState<{
 		[key: number]: boolean;
 	}>({});
@@ -86,6 +87,8 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 			const response = await fetch(`/api/quiz/${quizId}/answers`);
 			if (response.ok) {
 				const data = await response.json();
+				setSendAns(data);
+				console.log(data);
 				const initialAnswers = data.reduce(
 					(acc: { [key: number]: string }, answer: Answer) => {
 						acc[answer.questionId] = answer.answer;
@@ -93,6 +96,7 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 					},
 					{}
 				);
+				console.log(initialAnswers);
 				setSelectedAnswers(initialAnswers);
 				const initialIsCorrect = questions.reduce(
 					(acc: { [key: number]: boolean }, question) => {
@@ -104,6 +108,7 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 					{}
 				);
 				setIsCorrect(initialIsCorrect);
+				console.log(initialIsCorrect);
 			}
 		};
 
@@ -111,17 +116,33 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 	}, [quizId]);
 
 	const handleOptionClick = (questionId: number, option: string) => {
+		// Find the corresponding question
 		const question = quiz?.questions.find((q) => q.id === questionId);
+
+		// Check if the question has already been answered
+		const isAlreadyAnswered = sendAns.some(
+			(answer: any) => answer.questionId === questionId
+		);
+
+		console.log(isAlreadyAnswered);
+
+		// Determine if the selected option is the correct answer
 		const isAnswerCorrect = question?.correctAnswer === option;
 
+		// Update the selected answers state
 		setSelectedAnswers((prev) => ({
 			...prev,
 			[questionId]: option,
 		}));
 
+		console.log(selectedAnswers);
+
+		// Update the isCorrect state only if the question has not already been answered
 		setIsCorrect((prev) => ({
 			...prev,
-			[questionId]: isAnswerCorrect,
+			[questionId]: isAlreadyAnswered
+				? isAnswerCorrect
+				: prev[questionId],
 		}));
 	};
 
@@ -165,6 +186,7 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 				[questionId]: true,
 			}));
 			router.refresh();
+			location.reload();
 		} else {
 			toast.error("Failed to submit answer");
 		}
@@ -205,7 +227,6 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 		<div className="container mt-5">
 			<div className="">
 				<div className="px-0 md:px-6">
-					
 					<div className="flex justify-center">
 						<div
 							id="quiz-container"
@@ -244,96 +265,115 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 													data-question={`question${index}`}
 												>
 													{question.options?.map(
-														(option) => (
-															<div
-																key={option.id}
-																className={`flex items-center w-full border p-3 rounded-xl cursor-pointer ${
-																	selectedAnswers[
-																		question
-																			.id
-																	] ===
-																	option.label
-																		? isCorrect[
-																				question
-																					.id
-																			]
-																			? "bg-green-200 border-green-400 border-l-4"
-																			: "bg-red-200 border-red-400 border-l-4"
-																		: "hover:bg-sec100/20"
-																}`}
-																onClick={() =>
-																	handleOptionClick(
-																		question.id,
-																		option.label
-																	)
-																}
-															>
+														(option) => {
+															const isAlreadyAnswered =
+																sendAns.some(
+																	(
+																		answer: any
+																	) =>
+																		answer.questionId ===
+																		question.id
+																);
+
+															return (
 																<div
-																	className={`w-8 font-semibold h-8 border rounded-lg flex justify-center items-center cursor-pointer user-select-none ${
+																	key={
+																		option.id
+																	}
+																	className={`flex items-center w-full border p-3 rounded-xl cursor-pointer ${
 																		selectedAnswers[
 																			question
 																				.id
 																		] ===
 																		option.label
-																			? isCorrect[
-																					question
-																						.id
-																				]
-																				? "bg-green-400 text-white border-green-400"
-																				: "bg-red-400 text-white border-red-400"
-																			: "border-sky-200 bg-sec100"
-																	}`}
-																>
-																	{
-																		option.label
-																	}
-																</div>
-																<div className="ml-3">
-																	<p className="m-0">
-																		{
-																			option.value
-																		}
-																	</p>
-																</div>
-
-																<div className="ml-auto">
-																	<input
-																		type="radio"
-																		name={`question${question.id}`}
-																		value={
-																			option.label
-																		}
-																		checked={
-																			selectedAnswers[
-																				question
-																					.id
-																			] ===
-																			option.label
-																		}
-																		onChange={() =>
-																			handleOptionClick(
-																				question.id,
-																				option.label
-																			)
-																		}
-																		className={`mr-3 ${
-																			selectedAnswers[
-																				question
-																					.id
-																			] ===
-																			option.label
+																			? isAlreadyAnswered
 																				? isCorrect[
 																						question
 																							.id
 																					]
-																					? "text-green-400"
-																					: "text-red-400"
-																				: "text-sky-200"
+																					? "bg-green-200 border-green-400 border-l-4"
+																					: "bg-red-200 border-red-400 border-l-4"
+																				: "bg-blue-200 border-blue-400 border-l-4"
+																			: "hover:bg-sec100/20"
+																	}`}
+																	onClick={() =>
+																		handleOptionClick(
+																			question.id,
+																			option.label
+																		)
+																	}
+																>
+																	<div
+																		className={`w-8 font-semibold h-8 border rounded-lg flex justify-center items-center cursor-pointer user-select-none ${
+																			selectedAnswers[
+																				question
+																					.id
+																			] ===
+																			option.label
+																				? isAlreadyAnswered
+																					? isCorrect[
+																							question
+																								.id
+																						]
+																						? "bg-green-400 text-white border-green-400"
+																						: "bg-red-400 text-white border-red-400"
+																					: "bg-blue-400 text-white border-blue-400"
+																				: "border-sky-200 bg-sec100"
 																		}`}
-																	/>
+																	>
+																		{
+																			option.label
+																		}
+																	</div>
+																	<div className="ml-3">
+																		<p className="m-0">
+																			{
+																				option.value
+																			}
+																		</p>
+																	</div>
+
+																	<div className="ml-auto">
+																		<input
+																			type="radio"
+																			name={`question${question.id}`}
+																			value={
+																				option.label
+																			}
+																			checked={
+																				selectedAnswers[
+																					question
+																						.id
+																				] ===
+																				option.label
+																			}
+																			onChange={() =>
+																				handleOptionClick(
+																					question.id,
+																					option.label
+																				)
+																			}
+																			className={`mr-3 ${
+																				selectedAnswers[
+																					question
+																						.id
+																				] ===
+																				option.label
+																					? isAlreadyAnswered
+																						? isCorrect[
+																								question
+																									.id
+																							]
+																							? "text-green-400"
+																							: "text-red-400"
+																						: "text-blue-400"
+																					: "text-sky-200"
+																			}`}
+																		/>
+																	</div>
 																</div>
-															</div>
-														)
+															);
+														}
 													)}
 												</div>
 											) : question.type ===

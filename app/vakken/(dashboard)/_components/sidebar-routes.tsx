@@ -27,12 +27,7 @@ const guestRoutes = [
 		icon: BookCheck,
 		label: "Exam",
 		href: "/vakken/exam",
-	},
-	{
-		icon: ShoppingCart,
-		label: "Purchase Subjects",
-		href: "/vakken/purchase",
-	},
+	}
 ];
 
 const teacherRoutes = [
