@@ -80,9 +80,9 @@ const QuizSidebar: React.FC<QuizTypeProps> = ({ courseId }) => {
 			const userAnswerText = userAnswer.answer;
 			const correctAnswer = question.correctAnswer;
 			if (userAnswerText === correctAnswer) {
-				return "bg-green-200";
+				return "bg-green-300 text-green-800 hover:bg-green-400";
 			} else {
-				return "bg-red-200";
+				return "bg-red-300 text-red-800 hover:bg-red-400";
 			}
 		}
 		return "";
@@ -117,7 +117,7 @@ const QuizSidebar: React.FC<QuizTypeProps> = ({ courseId }) => {
 				</div>
 			</button>
 			{isActive && (
-				<div className="mt-2 p-3 mb-5 border border-sec500 rounded">
+				<div className="mt-2 p-3 mb-5">
 					{linksLoading ? (
 						<div className="my-3 flex justify-center items-center">
 							<Spinner />
@@ -135,8 +135,8 @@ const QuizSidebar: React.FC<QuizTypeProps> = ({ courseId }) => {
 											}
 											className={`cursor-pointer font-semibold rounded text-lg p-2 mb-1 ${
 												activeLinkId === link.id
-													? "bg-prim300 text-prim50 hover:bg-prim400"
-													: "text-sec400 hover:bg-slate-100 bg-slate-100/20"
+													? "bg-prim400 text-prim50 hover:bg-prim400"
+													: "text-sec400 hover:bg-sec700 hover:text-sec200 bg-slate-100/20"
 											}`}
 										>
 											<span className="text-lg font-bold">
@@ -158,7 +158,7 @@ const QuizSidebar: React.FC<QuizTypeProps> = ({ courseId }) => {
 													return (
 														<div
 															key={questionIndex}
-															className="mb-1"
+															className="mb-1 w-full"
 														>
 															<a
 																href={
@@ -167,7 +167,7 @@ const QuizSidebar: React.FC<QuizTypeProps> = ({ courseId }) => {
 																		? `#question${questionIndex + 1}`
 																		: `/courses/${courseId}/quiz/${link.id}/#question${questionIndex + 1}`
 																}
-																className={`px-2 w-100 rounded text-sec300 hover:bg-blue-50 text-lg ${getAnswerColor(
+																className={`px-2 block w-full rounded text-sec300 hover:bg-sec400 text-lg ${getAnswerColor(
 																	question,
 																	userAnswer
 																)}`}

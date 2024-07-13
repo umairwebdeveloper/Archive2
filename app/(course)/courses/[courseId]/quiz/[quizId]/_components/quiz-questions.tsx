@@ -69,6 +69,34 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 	const questionRefs = useRef<(HTMLDivElement | null)[]>([]);
 	const router = useRouter();
 
+	const fetchSubmittedAnswers = async (questions: Question[]) => {
+		const response = await fetch(`/api/quiz/${quizId}/answers`);
+		if (response.ok) {
+			const data = await response.json();
+			setSendAns(data);
+			console.log(data);
+			const initialAnswers = data.reduce(
+				(acc: { [key: number]: string }, answer: Answer) => {
+					acc[answer.questionId] = answer.answer;
+					return acc;
+				},
+				{}
+			);
+			console.log(initialAnswers);
+			setSelectedAnswers(initialAnswers);
+			const initialIsCorrect = questions.reduce(
+				(acc: { [key: number]: boolean }, question) => {
+					acc[question.id] =
+						initialAnswers[question.id] === question.correctAnswer;
+					return acc;
+				},
+				{}
+			);
+			setIsCorrect(initialIsCorrect);
+			console.log(initialIsCorrect);
+		}
+	};
+
 	useEffect(() => {
 		const fetchQuiz = async () => {
 			if (!quizId) return;
@@ -80,35 +108,6 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 				await fetchSubmittedAnswers(data.quiz.questions);
 			} else {
 				console.error("Failed to fetch quiz");
-			}
-		};
-
-		const fetchSubmittedAnswers = async (questions: Question[]) => {
-			const response = await fetch(`/api/quiz/${quizId}/answers`);
-			if (response.ok) {
-				const data = await response.json();
-				setSendAns(data);
-				console.log(data);
-				const initialAnswers = data.reduce(
-					(acc: { [key: number]: string }, answer: Answer) => {
-						acc[answer.questionId] = answer.answer;
-						return acc;
-					},
-					{}
-				);
-				console.log(initialAnswers);
-				setSelectedAnswers(initialAnswers);
-				const initialIsCorrect = questions.reduce(
-					(acc: { [key: number]: boolean }, question) => {
-						acc[question.id] =
-							initialAnswers[question.id] ===
-							question.correctAnswer;
-						return acc;
-					},
-					{}
-				);
-				setIsCorrect(initialIsCorrect);
-				console.log(initialIsCorrect);
 			}
 		};
 
@@ -185,8 +184,8 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 				...prev,
 				[questionId]: true,
 			}));
+			await fetchSubmittedAnswers(quiz.questions);
 			router.refresh();
-			location.reload();
 		} else {
 			toast.error("Failed to submit answer");
 		}
