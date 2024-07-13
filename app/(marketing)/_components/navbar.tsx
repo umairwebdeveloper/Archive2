@@ -35,7 +35,7 @@ export const Navbar = () => {
                </SignInButton>
                <SignInButton mode="modal">
                 <Button size="sm">
-                    Get Jotion Free
+                    Get Started
                 </Button>
                </SignInButton>
                </>
@@ -43,8 +43,8 @@ export const Navbar = () => {
                {isAuthenticated && !isLoading && (
                 <>
                  <Button variant="ghost" size="sm" asChild>
-                    <Link href="/documents">
-                        Enter Jotion
+                    <Link href="/vakken/subject">
+                        Ik ben leerling
                     </Link>
                  </Button>
                  <UserButton 
