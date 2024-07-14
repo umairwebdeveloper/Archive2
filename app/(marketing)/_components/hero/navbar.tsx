@@ -19,7 +19,7 @@ const Navbar = () => {
 					className="flex items-center space-x-3 rtl:space-x-reverse"
 				>
 					<img
-						src="/assets/svg/logo.svg"
+						src="/assets/svg/Logo.svg"
 						className="h-8"
 						alt="Logo"
 					/>
