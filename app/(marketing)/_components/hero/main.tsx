@@ -9,6 +9,7 @@ const Hero = () => {
 			className="bg-gradient-to-r from-prim950 to-prim900 rounded-b-3xl py-5"
 		>
 			<div className="container">
+				<Navbar />
 				<Heading />
 			</div>
 			<Companies />

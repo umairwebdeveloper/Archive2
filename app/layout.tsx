@@ -18,19 +18,20 @@ const CrispWithNoSSR = dynamic(() => import("../components/crisp"), {
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-	title: "Jotion",
-	description: "The connected workspace where better faster work happens",
+	title: "Gotutor",
+	description:
+		"Easily create dynamic user journeys to activate, retain, and understand users, without engineering effort.",
 	icons: {
 		icon: [
 			{
 				media: "(prefers-color-scheme: light)",
-				url: "/logo.svg",
-				href: "/logo.svg",
+				url: "/assets/svg/logo-icon.svg",
+				href: "/assets/svg/logo-icon.svg",
 			},
 			{
 				media: "(prefers-color-scheme: dark)",
-				url: "/logo.svg",
-				href: "/logo.svg",
+				url: "/assets/svg/logo-icon.svg",
+				href: "/assets/svg/logo-icon.svg",
 			},
 		],
 	},

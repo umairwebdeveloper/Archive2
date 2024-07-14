@@ -1,11 +1,16 @@
 "use client";
 
+import { useConvexAuth } from "convex/react";
+import { SignInButton, UserButton } from "@clerk/clerk-react";
 import { useState } from "react";
 import { ArrowRight } from "lucide-react";
+import { Spinner } from "@/components/spinner";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 const Navbar = () => {
 	const [isOpen, setIsOpen] = useState(false);
-
+	const { isAuthenticated, isLoading } = useConvexAuth();
 	return (
 		<nav className="bg-gray-100 bg-opacity-75 py-4 md:rounded-full rounded-lg">
 			<div className="container mx-auto flex flex-wrap items-center justify-between px-4">
@@ -18,16 +23,34 @@ const Navbar = () => {
 						className="h-8"
 						alt="Logo"
 					/>
-					
 				</a>
 				<div className="flex items-center md:order-2 space-x-3 rtl:space-x-reverse">
-					<button
-						type="button"
-						className="flex items-center justify-between gap-3 text-white bg-prim400 hover:bg-prim500 shadow-sm font-medium rounded-full text-sm px-5 py-2 text-center"
-					>
-						<span></span>
-						<span>Sign in</span> <ArrowRight />
-					</button>
+					{isLoading && <Spinner />}
+					{!isAuthenticated && !isLoading && (
+						<>
+							<SignInButton mode="modal">
+								<button
+									type="button"
+									className="flex items-center justify-between gap-3 text-white bg-prim400 hover:bg-prim500 shadow-sm font-medium rounded-full text-sm px-5 py-2 text-center"
+								>
+									<span></span>
+									<span>Sign in</span> <ArrowRight />
+								</button>
+							</SignInButton>
+						</>
+					)}
+
+					{isAuthenticated && !isLoading && (
+						<>
+							<Button variant="ghost" size="sm" asChild>
+								<Link href="/vakken/subject">
+									Ik ben leerling
+								</Link>
+							</Button>
+							<UserButton afterSignOutUrl="/" />
+						</>
+					)}
+
 					<button
 						onClick={() => setIsOpen(!isOpen)}
 						type="button"
@@ -63,10 +86,10 @@ const Navbar = () => {
 						<li>
 							<a
 								href="#"
-								className="block py-2 px-3 md:p-0 text-gray-900 rounded bg-gray-200 md:bg-transparent md:text-prim400 dark:text-white"
+								className="block py-2 px-3 md:p-0 text-gray-900 rounded bg-gray-200 md:bg-transparent md:hover:text-prim400 dark:text-white"
 								aria-current="page"
 							>
-								Home
+								Examentrainingen
 							</a>
 						</li>
 						<li>
@@ -74,7 +97,7 @@ const Navbar = () => {
 								href="#"
 								className="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-300 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-prim400 dark:text-white dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
 							>
-								About
+								Examenboekjes
 							</a>
 						</li>
 						<li>
@@ -82,7 +105,7 @@ const Navbar = () => {
 								href="#"
 								className="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-300 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-prim400 dark:text-white dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
 							>
-								Services
+								Voor Scholen
 							</a>
 						</li>
 						<li>
@@ -90,7 +113,7 @@ const Navbar = () => {
 								href="#"
 								className="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-300 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-prim400 dark:text-white dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
 							>
-								Contact
+								Exameninfo
 							</a>
 						</li>
 					</ul>
