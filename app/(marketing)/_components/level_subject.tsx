@@ -276,7 +276,7 @@ const LevelAndSubjectSelector: React.FC = () => {
 	const levelName = levels.find((level) => level.id === selectedLevel)?.name;
 
 	return (
-		<div className="w-2/3 mx-auto p-4">
+		<div className="md:w-2/3 w-full mx-auto p-4">
 			<h2 className="text-start text-xl font-bold mb-2">
 				Choose your subjects
 			</h2>

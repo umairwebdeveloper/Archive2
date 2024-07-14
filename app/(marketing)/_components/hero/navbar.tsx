@@ -42,11 +42,13 @@ const Navbar = () => {
 
 					{isAuthenticated && !isLoading && (
 						<>
-							<Button variant="ghost" size="sm" asChild>
-								<Link href="/vakken/subject">
-									Ik ben leerling
-								</Link>
-							</Button>
+							<div className="md:block hidden">
+								<Button variant="ghost" size="sm" asChild>
+									<Link href="/vakken/subject">
+										Ik ben leerling
+									</Link>
+								</Button>
+							</div>
 							<UserButton afterSignOutUrl="/" />
 						</>
 					)}

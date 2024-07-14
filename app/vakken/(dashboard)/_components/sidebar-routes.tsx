@@ -27,7 +27,7 @@ const guestRoutes = [
 		icon: BookCheck,
 		label: "Exam",
 		href: "/vakken/exam",
-	}
+	},
 ];
 
 const teacherRoutes = [
@@ -45,11 +45,6 @@ const teacherRoutes = [
 		icon: BookCheck,
 		label: "Exam",
 		href: "/vakken/teacher/exam",
-	},
-	{
-		icon: Radio,
-		label: "Livestream",
-		href: "/livestream",
 	},
 ];
 

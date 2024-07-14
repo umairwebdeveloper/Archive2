@@ -78,7 +78,7 @@ const QuizList: React.FC<QuizTypeProps> = ({ quizTypeId }) => {
 									No Courses found
 								</p>
 							) : (
-								<div className="grid grid-cols-1 gap-3 w-full md:w-1/2 ">
+								<div className="grid grid-cols-1 gap-3 w-full">
 									{quizzes.categorys.map(
 										(quiz: any, index: number) => (
 											<div key={index}>
@@ -106,7 +106,7 @@ const QuizList: React.FC<QuizTypeProps> = ({ quizTypeId }) => {
 																			key={
 																				course.id
 																			}
-																			className="block p-4 border rounded-lg shadow hover:border-blue-500 transition-shadow duration-300 cursor-pointer mb-3"
+																			className="block p-4 border rounded-lg shadow hover:border-prim500 transition-shadow duration-300 cursor-pointer mb-3"
 																			onClick={() =>
 																				handlePush(
 																					course.id

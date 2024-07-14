@@ -18,9 +18,17 @@ export const NavbarRoutes = () => {
     const isTeacherPage = pathname?.startsWith("/vakken/teacher")
     const isCoursePage = pathname?.includes("/courses");
     const isSearchPage = pathname === "/vakken/search";
+    const isSubjectPage = pathname === "/vakken/subject";
+
 
     return (
 		<>
+			{isSubjectPage && (
+				<div className="px-4 hidden md:block">
+					<h3 className="font-bold text-2xl">Hello 👋</h3>
+					<p>Let’s learn something new today!</p>
+				</div>
+			)}
 			{isSearchPage && (
 				<div className="hidden md:block">
 					<SearchInput />

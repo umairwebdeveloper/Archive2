@@ -167,7 +167,7 @@ const QuizSidebar: React.FC<QuizTypeProps> = ({ courseId }) => {
 																		? `#question${questionIndex + 1}`
 																		: `/courses/${courseId}/quiz/${link.id}/#question${questionIndex + 1}`
 																}
-																className={`px-2 block w-full rounded text-sec300 hover:bg-sec400 text-lg ${getAnswerColor(
+																className={`px-2 block w-full rounded hover:bg-sec400 text-lg ${getAnswerColor(
 																	question,
 																	userAnswer
 																)}`}
