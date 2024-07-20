@@ -12,7 +12,7 @@ const Navbar = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	const { isAuthenticated, isLoading } = useConvexAuth();
 	return (
-		<nav className="bg-gray-100 bg-opacity-75 py-4 md:rounded-full rounded-lg">
+		<nav className="bg-gray-100 bg-opacity-75 py-4 lg:rounded-full rounded-lg">
 			<div className="container mx-auto flex flex-wrap items-center justify-between px-4">
 				<a
 					href="#"
@@ -24,7 +24,7 @@ const Navbar = () => {
 						alt="Logo"
 					/>
 				</a>
-				<div className="flex items-center md:order-2 space-x-3 rtl:space-x-reverse">
+				<div className="flex items-center lg:order-2 space-x-3 rtl:space-x-reverse">
 					{isLoading && <Spinner />}
 					{!isAuthenticated && !isLoading && (
 						<>
@@ -42,7 +42,7 @@ const Navbar = () => {
 
 					{isAuthenticated && !isLoading && (
 						<>
-							<div className="md:block hidden">
+							<div className="lg:block hidden">
 								<Button variant="ghost" size="sm" asChild>
 									<Link href="/vakken/subject">
 										Ik ben leerling
@@ -56,7 +56,7 @@ const Navbar = () => {
 					<button
 						onClick={() => setIsOpen(!isOpen)}
 						type="button"
-						className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+						className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
 						aria-controls="navbar-cta"
 						aria-expanded={isOpen}
 					>
@@ -81,14 +81,14 @@ const Navbar = () => {
 				<div
 					className={`${
 						isOpen ? "block" : "hidden"
-					} w-full md:flex md:items-center md:w-auto md:order-1`}
+					} w-full lg:flex lg:items-center lg:w-auto lg:order-1`}
 					id="navbar-cta"
 				>
-					<ul className="flex flex-col md:flex-row md:space-x-8 rtl:space-x-reverse font-medium p-4 md:p-0 mt-4 md:mt-0 bg-gray-100 rounded-lg md:bg-transparent md:dark:bg-transparent dark:bg-gray-800 md:dark:bg-opacity-50">
+					<ul className="flex flex-col lg:flex-row lg:space-x-8 rtl:space-x-reverse font-medium p-4 lg:p-0 mt-4 lg:mt-0 bg-gray-100 rounded-lg lg:bg-transparent lg:dark:bg-transparent dark:bg-gray-800 lg:dark:bg-opacity-50">
 						<li>
 							<a
 								href="#"
-								className="block py-2 px-3 md:p-0 text-gray-900 rounded bg-gray-200 md:bg-transparent md:hover:text-prim400 dark:text-white"
+								className="block py-2 px-3 lg:p-0 text-gray-900 rounded bg-gray-200 lg:bg-transparent lg:hover:text-prim400 dark:text-white"
 								aria-current="page"
 							>
 								Examentrainingen
@@ -97,7 +97,7 @@ const Navbar = () => {
 						<li>
 							<a
 								href="#"
-								className="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-300 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-prim400 dark:text-white dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
+								className="block py-2 px-3 lg:p-0 text-gray-900 rounded hover:bg-gray-300 hover:bg-gray-100 lg:hover:bg-transparent lg:hover:text-prim400 dark:text-white dark:hover:bg-gray-700 lg:dark:hover:bg-transparent"
 							>
 								Examenboekjes
 							</a>
@@ -105,7 +105,7 @@ const Navbar = () => {
 						<li>
 							<a
 								href="#"
-								className="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-300 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-prim400 dark:text-white dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
+								className="block py-2 px-3 lg:p-0 text-gray-900 rounded hover:bg-gray-300 hover:bg-gray-100 lg:hover:bg-transparent lg:hover:text-prim400 dark:text-white dark:hover:bg-gray-700 lg:dark:hover:bg-transparent"
 							>
 								Voor Scholen
 							</a>
@@ -113,7 +113,7 @@ const Navbar = () => {
 						<li>
 							<a
 								href="#"
-								className="block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-300 hover:bg-gray-100 md:hover:bg-transparent md:hover:text-prim400 dark:text-white dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
+								className="block py-2 px-3 lg:p-0 text-gray-900 rounded hover:bg-gray-300 hover:bg-gray-100 lg:hover:bg-transparent lg:hover:text-prim400 dark:text-white dark:hover:bg-gray-700 lg:dark:hover:bg-transparent"
 							>
 								Exameninfo
 							</a>

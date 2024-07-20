@@ -12,9 +12,9 @@ const Heading = () => {
 
 	return (
 		<>
-			<div className="flex flex-col md:flex-row justify-between items-center mt-10">
-				<div className="text-center md:text-left md:w-1/2">
-					<h3 className="font-bold text-4xl md:text-6xl text-white mb-3">
+			<div className="flex flex-col lg:flex-row justify-between items-center mt-10">
+				<div className="text-center lg:text-left lg:w-1/2">
+					<h3 className="font-bold text-4xl lg:text-6xl text-white mb-3">
 						Build Online <br />
 						Examentrainingen
 					</h3>
@@ -22,7 +22,7 @@ const Heading = () => {
 						Easily create dynamic user journeys to activate, retain,
 						and understand users, without engineering effort.
 					</p>
-					<div className="flex gap-3 justify-center md:justify-start mt-3">
+					<div className="flex gap-3 justify-center lg:justify-start mt-3">
 						{isLoading && (
 							<div className="flex items-center justify-center">
 								<Spinner size="lg" />
@@ -31,7 +31,7 @@ const Heading = () => {
 						{isAuthenticated && !isLoading && (
 							<>
 								<button
-									className="bg-white hover:bg-primWhite rounded-full py-3 px-6"
+									className="text-sm lg:text-md bg-white hover:bg-primWhite rounded-full py-3 px-6"
 									onClick={() =>
 										router.push("/vakken/subject")
 									}
@@ -39,7 +39,7 @@ const Heading = () => {
 									Ik ben leerling
 								</button>
 								<button
-									className="bg-prim400 hover:bg-prim500 rounded-full py-3 px-8 text-white flex items-center justify-between gap-3"
+									className="text-sm lg:text-md bg-prim400 hover:bg-prim500 rounded-full py-3 px-8 text-white flex items-center justify-between gap-3"
 									onClick={() =>
 										router.push("/vakken/teacher/courses")
 									}
@@ -51,7 +51,7 @@ const Heading = () => {
 						)}
 						{!isAuthenticated && !isLoading && (
 							<SignInButton mode="modal">
-								<button className="bg-prim400 hover:bg-prim500 rounded-full py-3 px-8 text-white flex items-center justify-between gap-3">
+								<button className="text-sm lg:text-md bg-prim400 hover:bg-prim500 rounded-full py-3 px-8 text-white flex items-center justify-between gap-3">
 									<span></span>
 									<span>Get Started</span> <ArrowRight />
 								</button>
@@ -59,7 +59,7 @@ const Heading = () => {
 						)}
 					</div>
 				</div>
-				<div className="mt-10 md:mt-0 md:ml-10 md:w-1/2 relative">
+				<div className="mt-10 lg:mt-0 lg:ml-10 lg:w-1/2 relative">
 					<img
 						className="w-full h-auto"
 						src="/assets/png/landing.png"
@@ -73,7 +73,7 @@ const Heading = () => {
 					/>
 				</div>
 			</div>
-			<div className="text-center text-white mt-5 md:mt-10 w-full">
+			<div className="text-center text-white mt-5 lg:mt-10 w-full">
 				<p>Loved by product & marketing teams</p>
 			</div>
 		</>

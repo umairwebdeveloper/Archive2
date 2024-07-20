@@ -39,8 +39,8 @@ const TopBar: React.FC<ProgressBarProps> = ({ courseId }) => {
 		: 0;
 
 	return (
-		<div className="flex flex-col gap-3 items-center md:flex-row md:justify-between px-4 md:px-0">
-			<div className="text-center md:text-left">
+		<div className="flex flex-col gap-3 items-center lg:flex-row lg:justify-between px-4 lg:px-0">
+			<div className="text-center lg:text-left">
 				<h3 className="font-bold text-2xl">Examen 2024</h3>
 				<p>Module 01</p>
 			</div>
@@ -49,20 +49,20 @@ const TopBar: React.FC<ProgressBarProps> = ({ courseId }) => {
 					<Spinner />
 				</div>
 			) : (
-				<div className="flex flex-col items-center mx-4 md:mx-20 flex-1 w-full md:w-auto">
+				<div className="flex flex-col items-center mx-4 lg:mx-20 flex-1 w-full lg:w-auto">
 					<div className="w-full bg-gray-200 rounded-full h-3">
 						<div
 							className="bg-green-400 h-3 rounded-full"
 							style={{ width: `${progressPercentage}%` }}
 						/>
 					</div>
-					<p className="mt-2 text-gray-700 text-center md:text-left">
+					<p className="mt-2 text-gray-700 text-center lg:text-left">
 						{userAnswers} out of {totalQuestions} questions answered
 						({progressPercentage.toFixed(2)}%)
 					</p>
 				</div>
 			)}
-			<div className="mt-3 md:mt-0">
+			<div className="mt-3 lg:mt-0">
 				<Timer />
 			</div>
 		</div>

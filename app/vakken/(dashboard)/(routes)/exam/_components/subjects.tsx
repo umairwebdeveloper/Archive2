@@ -70,7 +70,7 @@ const SubjectsLevels: React.FC<Props> = ({ examLevels = [] }) => {
 	return (
 		<>
 			<div className="flex justify-center items-center">
-				<div className="border rounded border shadow-sm w-2/3">
+				<div className="border rounded border shadow-sm w-full">
 					<div className="p-6 border-b flex items-center gap-3">
 						<h1 className="font-bold text-2xl">Exams</h1>
 						<p>{selectedLevelName}</p>

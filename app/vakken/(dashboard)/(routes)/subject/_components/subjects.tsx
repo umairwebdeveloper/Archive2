@@ -163,12 +163,12 @@ const SubjectsAndLevels: React.FC = () => {
 			{subjects.length === 0 ? (
 				<p className="text-center my-4">No Subjects found</p>
 			) : (
-				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+				<div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4">
 					{subjects.map((subject) => (
 						<>
 							<div
 								key={subject.id}
-								className="border max-w-sm rounded-2xl overflow-hidden shadow transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg cursor-pointer"
+								className="border rounded-2xl overflow-hidden shadow transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg cursor-pointer"
 								onClick={() =>
 									router.push(`/vakken/subject/${subject.id}`)
 								}

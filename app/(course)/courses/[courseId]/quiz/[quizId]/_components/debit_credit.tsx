@@ -162,6 +162,10 @@ const DebitCredit: React.FC<DebitCreditProps> = ({
 
 
 	const handleCheckTotals = () => {
+		if (debits.length === 0 && credits.length === 0) {
+			toast.error("Please add some entries before checking your answer.");
+			return;
+		}
 		if (
 			totalDebits === parseFloat(answerDebitAmount) &&
 			totalCredits === parseFloat(answerCreditAmount) &&

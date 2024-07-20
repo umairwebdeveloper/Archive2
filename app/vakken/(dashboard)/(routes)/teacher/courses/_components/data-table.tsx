@@ -71,27 +71,27 @@ export function DataTable<TData, TValue>({
 					}
 					className="max-w-sm"
 				/>
-				<div className="">
+				<div className="flex flex-wrap gap-3 justify-center">
 					<Link href="/vakken/teacher/create">
-						<Button>
+						<Button className="w-full md:w-auto">
 							<PlusCircle className="h-4 w-4 mr-2" />
 							New Course
 						</Button>
 					</Link>
 					<Link href="/vakken/teacher/resume">
-						<Button className="ml-2">
+						<Button className="w-full md:w-auto">
 							<PlusCircle className="h-4 w-4 mr-2" />
 							New Resume
 						</Button>
 					</Link>
 					<Link href="/vakken/teacher/quiz/create">
-						<Button className="mx-2">
+						<Button className="w-full md:w-auto">
 							<PlusCircle className="h-4 w-4 mr-2" />
-							New quiz
+							New Quiz
 						</Button>
 					</Link>
 					<Link href="/vakken/teacher/subject/create">
-						<Button>
+						<Button className="w-full md:w-auto">
 							<PlusCircle className="h-4 w-4 mr-2" />
 							New Subject
 						</Button>

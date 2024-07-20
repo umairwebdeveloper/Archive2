@@ -4,6 +4,7 @@ import { Spinner } from "@/components/spinner";
 import { Highlighter } from "react-selection-highlighter";
 import { Button } from "@/components/ui/button";
 import { Trash, StickyNote, Save, X } from "lucide-react";
+import "react-quill/dist/quill.snow.css";
 
 interface CourseIdProps {
 	courseId: string;

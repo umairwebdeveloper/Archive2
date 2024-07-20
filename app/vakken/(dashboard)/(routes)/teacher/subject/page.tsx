@@ -15,27 +15,27 @@ const SubjectPage = () => {
 	return (
 		<>
 			<div className="p-6">
-				<div className="flex justify-end gap-2 pr-8">
+				<div className="flex flex-wrap gap-3 justify-end mb-3 pr-8">
 					<Link href="/vakken/teacher/create">
-						<Button>
+						<Button className="w-full md:w-auto">
 							<PlusCircle className="h-4 w-4 mr-2" />
 							New Course
 						</Button>
 					</Link>
 					<Link href="/vakken/teacher/resume">
-						<Button>
+						<Button className="w-full md:w-auto">
 							<PlusCircle className="h-4 w-4 mr-2" />
 							New Resume
 						</Button>
 					</Link>
 					<Link href="/vakken/teacher/quiz/create">
-						<Button>
+						<Button className="w-full md:w-auto">
 							<PlusCircle className="h-4 w-4 mr-2" />
-							New quiz
+							New Quiz
 						</Button>
 					</Link>
 					<Link href="/vakken/teacher/subject/create">
-						<Button>
+						<Button className="w-full md:w-auto">
 							<PlusCircle className="h-4 w-4 mr-2" />
 							New Subject
 						</Button>

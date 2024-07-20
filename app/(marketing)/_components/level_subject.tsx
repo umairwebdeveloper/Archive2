@@ -276,15 +276,15 @@ const LevelAndSubjectSelector: React.FC = () => {
 	const levelName = levels.find((level) => level.id === selectedLevel)?.name;
 
 	return (
-		<div className="md:w-2/3 w-full mx-auto p-4">
+		<div className="lg:w-2/3 w-full mx-auto p-4">
 			<h2 className="text-start text-xl font-bold mb-2">
 				Choose your subjects
 			</h2>
 			<p className="text-start mb-4">
 				€29.00 per subject or €180 for all subjects
 			</p>
-			<div className="flex flex-col md:flex-row justify-between items-start h-full gap-3">
-				<div className="mb-4 flex flex-col justify-start items-start bg-white rounded-xl border p-6 w-full h-full md:w-1/4">
+			<div className="flex flex-col lg:flex-row justify-between items-start h-full gap-3">
+				<div className="mb-4 flex flex-col justify-start items-start bg-white rounded-xl border p-6 w-full h-full lg:w-1/4">
 					<h3 className="text-start text-2xl font-bold mb-4">
 						Select Level
 					</h3>
@@ -302,7 +302,7 @@ const LevelAndSubjectSelector: React.FC = () => {
 						</label>
 					))}
 				</div>
-				<div className="border rounded-xl p-6 bg-white w-full md:w-3/4">
+				<div className="border rounded-xl p-6 bg-white w-full lg:w-3/4">
 					{currentLevel && (
 						<div className="">
 							<h3 className="text-start text-2xl font-bold mb-4">
@@ -323,7 +323,7 @@ const LevelAndSubjectSelector: React.FC = () => {
 									(category) => (
 										<div
 											key={category}
-											className="w-full md:w-1/3 mb-4"
+											className="w-full lg:w-1/3 mb-4"
 										>
 											<h3 className="text-start text-xl font-bold mb-4">
 												{category}

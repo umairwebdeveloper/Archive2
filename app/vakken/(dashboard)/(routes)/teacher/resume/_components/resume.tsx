@@ -85,8 +85,14 @@ const Resume: React.FC = () => {
 	const modules = {
 		toolbar: {
 			container: [
-				["image"], // Add video
-				["clean"], // Remove formatting button
+				[{ header: [1, 2, 3, 4, 5, 6] }],
+				[{ size: [] }],
+				[{ color: [] }, { background: [] }],
+				["bold", "italic", "underline", "strike", "blockquote"],
+				[{ list: "ordered" }, { list: "bullet" }],
+				["link", "image", "video"],
+				["clean"],
+				["code-block"],
 			],
 		},
 	};
