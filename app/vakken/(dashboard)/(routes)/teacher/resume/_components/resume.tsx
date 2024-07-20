@@ -8,6 +8,10 @@ import "react-quill/dist/quill.snow.css";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
+if (typeof window !== 'undefined') {
+  (window as any).katex = require('katex');
+}
+
 const Resume: React.FC = () => {
 	const [courses, setCourses] = useState<any[]>([]);
 	const [loading, setLoading] = useState(false);
@@ -81,20 +85,12 @@ const Resume: React.FC = () => {
 			setLoading(false);
 		}
 	};
-
+	
 	const modules = {
 		toolbar: {
-			container: [
-				[{ header: [1, 2, 3, 4, 5, 6] }],
-				[{ size: [] }],
-				[{ color: [] }, { background: [] }],
-				["bold", "italic", "underline", "strike", "blockquote"],
-				[{ list: "ordered" }, { list: "bullet" }],
-				["link", "image", "video"],
-				["clean"],
-				["code-block"],
-			],
+			container: [["formula"], ["image"], ["clean"]],
 		},
+		formula: true,
 	};
 
 	return (
