@@ -60,6 +60,7 @@ model Resume {
   highlights Highlight[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  style     String @db.Text @default("")  
 }
 
 model Highlight {

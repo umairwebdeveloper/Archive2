@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Resume from "./_components/resume";
+import Resume from "./_components/editor";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 

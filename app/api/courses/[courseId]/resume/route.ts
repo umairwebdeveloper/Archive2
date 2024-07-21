@@ -36,7 +36,7 @@ export async function POST(
 ) {
 	try {
 		const { userId } = auth();
-		const { content } = await req.json();
+		const { content, style } = await req.json();
 
 		if (!userId) {
 			return new NextResponse("Unauthorized", { status: 401 });
@@ -50,13 +50,14 @@ export async function POST(
 		if (existingResume) {
 			newResume = await prisma.resume.update({
 				where: { courseId: params.courseId },
-				data: { text: content },
+				data: { text: content, style: style },
 			});
 		} else {
 			newResume = await prisma.resume.create({
 				data: {
 					courseId: params.courseId,
 					text: content,
+					style: style,
 				},
 			});
 		}

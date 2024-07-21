@@ -30,6 +30,7 @@ const Resume: React.FC<CourseIdProps> = ({ courseId }) => {
 			try {
 				const response = await fetch(`/api/courses/${courseId}/resume`);
 				const data = await response.json();
+				
 				setResume(data);
 				setLoading(false);
 			} catch (error) {
@@ -187,126 +188,133 @@ const Resume: React.FC<CourseIdProps> = ({ courseId }) => {
 	}, []);
 
 	return (
-		<div className="container mx-auto">
-			<h1 className="text-3xl font-bold text-center mb-6">Resume</h1>
-			<div className="card border rounded-xl p-4 bg-white">
-				{loading ? (
-					<div className="flex items-center justify-center mt-5">
-						<Spinner size="lg" />
-					</div>
-				) : resume ? (
-					<Highlighter
-						htmlString={applyHighlights(resume.text, highlights)}
-						disablePopover={true}
-						onSelection={handleSelection}
-					/>
-				) : (
-					<div className="text-center mt-5">Resume not found</div>
-				)}
+		<>
+			<div className="container mx-auto">
+				<h1 className="text-3xl font-bold text-center mb-6">Resume</h1>
+				<div className="card border rounded-xl p-4 bg-white">
+					{loading ? (
+						<div className="flex items-center justify-center mt-5">
+							<Spinner size="lg" />
+						</div>
+					) : resume ? (
+						<Highlighter
+							htmlString={applyHighlights(
+								resume.text,
+								highlights
+							)}
+							disablePopover={true}
+							onSelection={handleSelection}
+						/>
+					) : (
+						<div className="text-center mt-5">Resume not found</div>
+					)}
 
-				{hoveredHighlight &&
-					hoveredHighlightCoords[hoveredHighlight] && (
-						<div
-							className="absolute flex gap-2 pb-5 popover-buttons"
-							style={{
-								top:
-									hoveredHighlightCoords[hoveredHighlight]
-										.top - 5,
-								left: hoveredHighlightCoords[hoveredHighlight]
-									.left,
-							}}
-						>
-							<Button
-								size={"sm"}
-								onClick={() =>
-									removeSelection({
-										textId: hoveredHighlight,
-									})
-								}
-							>
-								<Trash className="h-4 w-4 mr-2" />
-								Remove
-							</Button>
-							<Button
-								size={"sm"}
-								onClick={() => {
-									const highlight = highlights.find(
-										(h) => h.textId === hoveredHighlight
-									);
-									setNoteContent((prevState) => ({
-										...prevState,
-										[hoveredHighlight]:
-											highlight?.note?.content || "",
-									}));
-									setShowTextarea((prevState) => ({
-										...prevState,
-										[hoveredHighlight]: true,
-									}));
+					{hoveredHighlight &&
+						hoveredHighlightCoords[hoveredHighlight] && (
+							<div
+								className="absolute flex gap-2 pb-5 popover-buttons"
+								style={{
+									top:
+										hoveredHighlightCoords[hoveredHighlight]
+											.top - 5,
+									left: hoveredHighlightCoords[
+										hoveredHighlight
+									].left,
 								}}
 							>
-								<StickyNote className="h-4 w-4 mr-2" />
-								Note
-							</Button>
-						</div>
-					)}
-
-				{showTextarea[hoveredHighlight] &&
-					hoveredHighlightCoords[hoveredHighlight] && (
-						<div
-							className="absolute bg-white shadow rounded p-2 textarea-container z-50"
-							style={{
-								top:
-									hoveredHighlightCoords[hoveredHighlight]
-										.top - 40,
-								left: hoveredHighlightCoords[hoveredHighlight]
-									.left,
-							}}
-						>
-							<textarea
-								className="w-full border rounded p-2 mb-2"
-								placeholder="Enter your note..."
-								value={noteContent[hoveredHighlight] || ""}
-								onChange={(e) =>
-									setNoteContent((prevState) => ({
-										...prevState,
-										[hoveredHighlight]: e.target.value,
-									}))
-								}
-							></textarea>
-							<div className="flex justify-between gap-2">
+								<Button
+									size={"sm"}
+									onClick={() =>
+										removeSelection({
+											textId: hoveredHighlight,
+										})
+									}
+								>
+									<Trash className="h-4 w-4 mr-2" />
+									Remove
+								</Button>
 								<Button
 									size={"sm"}
 									onClick={() => {
-										setShowTextarea((prevState) => ({
-											...prevState,
-											[hoveredHighlight]: false,
-										}));
+										const highlight = highlights.find(
+											(h) => h.textId === hoveredHighlight
+										);
 										setNoteContent((prevState) => ({
 											...prevState,
-											[hoveredHighlight]: "",
+											[hoveredHighlight]:
+												highlight?.note?.content || "",
+										}));
+										setShowTextarea((prevState) => ({
+											...prevState,
+											[hoveredHighlight]: true,
 										}));
 									}}
 								>
-									<X className="h-4 w-4 mr-2" />
-									Cancel
-								</Button>
-								<Button
-									size={"sm"}
-									onClick={() => {
-										saveNote(
-											hoveredHighlight,
-											noteContent[hoveredHighlight]
-										);
-									}}
-								>
-									<Save className="h-4 w-4 mr-2" />
-									Save
+									<StickyNote className="h-4 w-4 mr-2" />
+									Note
 								</Button>
 							</div>
-						</div>
-					)}
+						)}
+
+					{showTextarea[hoveredHighlight] &&
+						hoveredHighlightCoords[hoveredHighlight] && (
+							<div
+								className="absolute bg-white shadow rounded p-2 textarea-container z-50"
+								style={{
+									top:
+										hoveredHighlightCoords[hoveredHighlight]
+											.top - 40,
+									left: hoveredHighlightCoords[
+										hoveredHighlight
+									].left,
+								}}
+							>
+								<textarea
+									className="w-full border rounded p-2 mb-2"
+									placeholder="Enter your note..."
+									value={noteContent[hoveredHighlight] || ""}
+									onChange={(e) =>
+										setNoteContent((prevState) => ({
+											...prevState,
+											[hoveredHighlight]: e.target.value,
+										}))
+									}
+								></textarea>
+								<div className="flex justify-between gap-2">
+									<Button
+										size={"sm"}
+										onClick={() => {
+											setShowTextarea((prevState) => ({
+												...prevState,
+												[hoveredHighlight]: false,
+											}));
+											setNoteContent((prevState) => ({
+												...prevState,
+												[hoveredHighlight]: "",
+											}));
+										}}
+									>
+										<X className="h-4 w-4 mr-2" />
+										Cancel
+									</Button>
+									<Button
+										size={"sm"}
+										onClick={() => {
+											saveNote(
+												hoveredHighlight,
+												noteContent[hoveredHighlight]
+											);
+										}}
+									>
+										<Save className="h-4 w-4 mr-2" />
+										Save
+									</Button>
+								</div>
+							</div>
+						)}
+				</div>
 			</div>
-		</div>
+		</>
 	);
 };
 
