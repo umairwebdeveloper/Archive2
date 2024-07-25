@@ -69,6 +69,7 @@ const Form = () => {
 				value={formData[name]}
 				onChange={handleChange}
 				className="mt-1 p-2 w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
 			/>
 		</div>
 	);
@@ -85,6 +86,7 @@ const Form = () => {
 				value={formData[name]}
 				onChange={handleChange}
 				className="mt-1 p-2 w-full border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+				required
 			>
 				<option value="">Select {label}</option>
 				{options.map((option) => (
