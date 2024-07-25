@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 export async function POST(req: Request) {
 	try {
 		const { formData } = await req.json();
-		const savedData = await prisma.TutoringForm.create({
+		const savedData = await prisma.tutoringForm.create({
 			data: {
 				fullName: formData.fullName,
 				email: formData.email,
