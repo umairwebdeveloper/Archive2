@@ -314,3 +314,18 @@ enum ExamPdfCategory {
   WORK_APPENDIX
   CORRECTION_MODEL_ADDITION
 }
+
+model TutoringForm {
+  id                Int   @id @default(autoincrement())
+  fullName          String
+  email             String
+  phone             String
+  studentName       String
+  educationType     String
+  schoolYear        String
+  tutoringSubjects  String
+  address           String
+  postalCode        String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}

@@ -14,11 +14,11 @@ body,
 }
 
 .cusRad {
-	accent-color: #FF512D !important;
+	accent-color: #ff512d !important;
 }
 
 .custom-quill .ql-toolbar {
-	background-color: #FFE1D4 !important; /* Replace with your desired color */
+	background-color: #ffe1d4 !important; /* Replace with your desired color */
 	margin: 10px !important;
 	border-radius: 8px !important;
 	border: none !important;
@@ -125,11 +125,9 @@ body,
 
 @import "~@uploadthing/react/styles.css";
 
-
-
 .videoPlayerPlyr {
-  border-radius: 12px; /* Adjust the value as needed */
-  overflow: hidden; /* Ensure the corners are clipped */
+	border-radius: 12px; /* Adjust the value as needed */
+	overflow: hidden; /* Ensure the corners are clipped */
 }
 
 /* styles/global.css */
@@ -137,15 +135,47 @@ body,
 /* Hide the spinners in input type number */
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+	-webkit-appearance: none;
+	margin: 0;
 }
 
 input[type="number"] {
-  -moz-appearance: textfield; /* Hides the arrows in Firefox */
+	-moz-appearance: textfield; /* Hides the arrows in Firefox */
 }
 
-.quill{
+.quill {
 	height: auto;
 }
 
+/* styles/globals.css */
+.toggle-checkbox {
+	appearance: none;
+	width: 40px;
+	height: 20px;
+	background: #ccc;
+	border-radius: 10px;
+	position: relative;
+	outline: none;
+	cursor: pointer;
+	transition: background 0.3s;
+}
+
+.toggle-checkbox:checked {
+	background: #1e201f;
+}
+
+.toggle-checkbox:before {
+	content: "";
+	position: absolute;
+	top: 1px;
+	left: 1px;
+	width: 16px;
+	height: 16px;
+	background: white;
+	border-radius: 50%;
+	transition: transform 0.3s;
+}
+
+.toggle-checkbox:checked:before {
+	transform: translateX(20px);
+}
