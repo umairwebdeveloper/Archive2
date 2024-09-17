@@ -75,6 +75,24 @@ const SubjectsAndLevels: React.FC = () => {
 				setLoading(true);
 				const response = await axios.get<Level[]>("/api/level");
 				setLevels(response.data);
+				// Check localStorage for userLevel
+				const storedUserLevel = localStorage.getItem("userLevel");
+				if (storedUserLevel) {
+					// Find the matching level by title
+					const matchingLevel = response.data.find(
+						(level) => level.title === storedUserLevel
+					);
+					// If a match is found, set it as the active level
+					if (matchingLevel) {
+						setActiveLevelId(matchingLevel.id);
+					} else {
+						// If no match is found, default to "All Levels"
+						setActiveLevelId(null);
+					}
+				} else {
+					// Default to "All Levels" if no userLevel is found in localStorage
+					setActiveLevelId(null);
+				}
 			} catch (error) {
 				console.error("Error fetching levels:", error);
 				setError(error as Error);
