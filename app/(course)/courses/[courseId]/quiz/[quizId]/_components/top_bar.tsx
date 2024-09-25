@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Timer from "./timer";
 import { Spinner } from "@/components/spinner";
+import { Button } from "@/components/ui/button";
+import toast from "react-hot-toast";
 
 interface ProgressBarProps {
 	courseId: string;
@@ -11,6 +13,7 @@ const TopBar: React.FC<ProgressBarProps> = ({ courseId }) => {
 	const [loading, setLoading] = useState(false);
 	const [totalQuestions, setTotalQuestions] = useState(0);
 	const [userAnswers, setUserAnswers] = useState(0);
+	const [btnLoading, setBtnLoading] = useState(false);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -34,6 +37,20 @@ const TopBar: React.FC<ProgressBarProps> = ({ courseId }) => {
 		fetchData();
 	}, [courseId]);
 
+	const resetAllAnswers = async () => {
+		setBtnLoading(true);
+		try {
+			const response = await axios.post("/api/questions/");
+			toast.success(response.data.message);
+			window.location.reload();
+		} catch (error) {
+			console.error("Error resetting all answers:", error);
+			toast.error("Failed to reset all answers");
+		} finally {
+			setBtnLoading(false);
+		}
+	};
+
 	const progressPercentage = totalQuestions
 		? (userAnswers / totalQuestions) * 100
 		: 0;
@@ -42,7 +59,10 @@ const TopBar: React.FC<ProgressBarProps> = ({ courseId }) => {
 		<div className="flex flex-col gap-3 items-center lg:flex-row lg:justify-between px-4 lg:px-0">
 			<div className="text-center lg:text-left">
 				<h3 className="font-bold text-2xl">Examen 2024</h3>
-				<p>Module 01</p>
+				<p className="mb-2">Module 01</p>
+				<Button onClick={resetAllAnswers} disabled={btnLoading}>
+					{btnLoading ? "Resetting..." : "Reset Answers"}
+				</Button>
 			</div>
 			{loading ? (
 				<div className="flex justify-center items-center">

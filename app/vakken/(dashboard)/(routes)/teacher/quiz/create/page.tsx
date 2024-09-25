@@ -2,6 +2,7 @@
 
 import AddQuestion from "@/components/quiz/add-question";
 import CreateQuiz from "@/components/quiz/create-quiz";
+import ManageQuestions from "@/components/quiz/manage-questions";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
@@ -22,7 +23,8 @@ const CreatePage = () => {
 				<div className="">
 					<CreateQuiz />
 					<AddQuestion />
-				</div>
+					<ManageQuestions />
+				</div>	
 			</div>
 		</>
 	);

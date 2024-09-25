@@ -1,6 +1,7 @@
 datasource db {
   provider     = "postgresql"
   url          = env("DATABASE_URL")
+  shadowDatabaseUrl = env("DATABASE_URL")
   relationMode = "prisma"
 }
 
@@ -229,7 +230,17 @@ model Question {
   debits        Debit[]
   credits       Credit[]
   answers       Answer[]
+  attachments   QuestionAttachment[]
   createdAt     DateTime      @default(now())
+}
+
+model QuestionAttachment {
+  id          Int       @id @default(autoincrement())
+  fileUrl     String    // Store the file URL or path
+  fileName    String    // Store the file name
+  questionId  Int
+  question    Question  @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  createdAt   DateTime  @default(now())
 }
 
 model Option {
