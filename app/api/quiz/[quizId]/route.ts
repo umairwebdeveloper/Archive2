@@ -16,6 +16,7 @@ export async function GET(
 						options: true,
 						debits: true,
 						credits: true,
+						attachments: true
 					},
 				},
 			},

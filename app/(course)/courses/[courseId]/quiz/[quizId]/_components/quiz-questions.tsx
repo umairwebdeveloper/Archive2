@@ -29,6 +29,7 @@ interface Question {
 	creditAmount: string;
 	explanation: string;
 	options: Option[];
+	attachments: any[];
 	debits: any[];
 	credits: any[];
 }
@@ -252,11 +253,44 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 												</span>
 											</h5>
 											<p
-												className="card-text text-start mb-3 p-3"
+												className="card-text text-start p-3"
 												dangerouslySetInnerHTML={{
 													__html: question.questionText,
 												}}
 											></p>
+											<p className="font-semibold">
+												Attachments:
+											</p>
+											{question.attachments.length > 0 ? (
+												<ul className="list-none my-2">
+													{question.attachments.map(
+														(attachment) => (
+															<li
+																key={
+																	attachment.id
+																}
+															>
+																<a
+																	href={
+																		attachment.fileUrl
+																	}
+																	target="_blank" // Opens the file in a new tab
+																	rel="noopener noreferrer"
+																	className="text-blue-500 hover:underline"
+																>
+																	{
+																		attachment.fileName
+																	}
+																</a>
+															</li>
+														)
+													)}
+												</ul>
+											) : (
+												<p className="text-gray-500">
+													No attachments available.
+												</p>
+											)}
 											{question.type ===
 											"multiple-choice" ? (
 												<div
@@ -289,7 +323,7 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 																				? isCorrect[
 																						question
 																							.id
-																					]
+																				  ]
 																					? "bg-green-200 border-green-400 border-l-4"
 																					: "bg-red-200 border-red-400 border-l-4"
 																				: "bg-blue-200 border-blue-400 border-l-4"
@@ -313,7 +347,7 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 																					? isCorrect[
 																							question
 																								.id
-																						]
+																					  ]
 																						? "bg-green-400 text-white border-green-400"
 																						: "bg-red-400 text-white border-red-400"
 																					: "bg-blue-400 text-white border-blue-400"
@@ -362,7 +396,7 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 																						? isCorrect[
 																								question
 																									.id
-																							]
+																						  ]
 																							? "text-green-400"
 																							: "text-red-400"
 																						: "text-blue-400"
