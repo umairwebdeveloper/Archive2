@@ -9,6 +9,7 @@ import Link from "next/link";
 import { SearchInput } from "./search-input";
 import toast from "react-hot-toast";
 import { isTeacher } from "@/lib/teacher";
+import axios from "axios";
 
 export const NavbarRoutes = () => {
 	const { userId } = useAuth();
@@ -26,10 +27,32 @@ export const NavbarRoutes = () => {
 		}
 	};
 	// Handle level selection
-	const handleLevelSelect = (level: any) => {
-		localStorage.setItem("userLevel", level); // Save to localStorage
-		setShowModal(false); // Close modal after selection
-		toast.success(`You have selected ${level} as your level!`);
+	const handleLevelSelect = async (level: any) => {
+		try {
+			localStorage.setItem("userLevel", level);
+			const response = await axios.get(
+				`/api/level/check-level?title=${encodeURIComponent(level)}`
+			);
+			const levelData = response.data;
+			if (
+				levelData &&
+				levelData.subjects &&
+				levelData.subjects.length > 0
+			) {
+				toast.success(`The level "${level}" has associated subjects.`);
+			} else {
+				toast.error(
+					`The level "${level}" does not have any associated subjects.`
+				);
+			}
+			setShowModal(false);
+		} catch (error) {
+			console.error(error);
+			toast.error(
+				"An error occurred while checking subjects for this level."
+			);
+			setShowModal(false);
+		}
 	};
 
 	return (
