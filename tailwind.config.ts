@@ -20,6 +20,8 @@ module.exports = withUt({
 		},
 		extend: {
 			colors: {
+				gr: "#6CC24A",
+				gr1: "#f4ffef",
 				prim: "#FF512D",
 				primWhite: "#E3E3F1",
 				primBlack: "#0F101C",

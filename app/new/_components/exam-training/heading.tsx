@@ -3,18 +3,14 @@ import { ArrowRight, CheckCircle2 } from "lucide-react";
 const Heading = () => {
 	return (
 		<>
-			<div className="flex flex-col md:flex-row justify-between items-center mt-10">
+			<div className="flex flex-col md:flex-row justify-between items-center">
 				<div className="md:text-left md:w-1/2">
-					<h3 className="font-bold text-3xl mb-3">
+					<h3 className="font-bold text-3xl mb-5">
 						Online exam training (CE + SE)
 					</h3>
-					<p className="mb-3">
-						Bereid je het gehele examenjaar optimaal voor op de
-						schoolexamens én het centraal <br /> eindexamen!
-					</p>
 					<div>
 						<div className="flex gap-3 items-center mb-3 check-list">
-							<span className="text-prim400">
+							<span className="text-gr">
 								<CheckCircle2 />
 							</span>
 							<p className="text-lg">Uitlegvideo's</p>
@@ -22,7 +18,7 @@ const Heading = () => {
 					</div>
 					<div>
 						<div className="flex gap-3 items-center mb-3 check-list">
-							<span className="text-prim400">
+							<span className="text-gr">
 								<CheckCircle2 />
 							</span>
 							<p className="text-lg">Samenvattingen</p>
@@ -30,7 +26,7 @@ const Heading = () => {
 					</div>
 					<div>
 						<div className="flex gap-3 items-center mb-3 check-list">
-							<span className="text-prim400">
+							<span className="text-gr">
 								<CheckCircle2 />
 							</span>
 							<p className="text-lg">
@@ -40,7 +36,7 @@ const Heading = () => {
 					</div>
 					<div>
 						<div className="flex gap-3 items-center mb-3 check-list">
-							<span className="text-prim400">
+							<span className="text-gr">
 								<CheckCircle2 />
 							</span>
 							<p className="text-lg">Digitale examenbundel</p>
@@ -48,7 +44,7 @@ const Heading = () => {
 					</div>
 					<div>
 						<div className="flex gap-3 items-center mb-3 check-list">
-							<span className="text-prim400">
+							<span className="text-gr">
 								<CheckCircle2 />
 							</span>
 							<p className="text-lg">
@@ -58,7 +54,7 @@ const Heading = () => {
 					</div>
 					<div>
 						<div className="flex gap-3 items-center mb-3 check-list">
-							<span className="text-prim400">
+							<span className="text-gr">
 								<CheckCircle2 />
 							</span>
 							<p className="text-lg">
@@ -66,25 +62,18 @@ const Heading = () => {
 							</p>
 						</div>
 					</div>
-					<div className="flex gap-3 justify-center md:justify-start mt-3">
-						<button className="bg-prim400 hover:bg-prim500 rounded-full py-3 px-8 text-white flex items-center justify-between gap-3">
-							<span></span>
-							<span>Kies je vakken</span> <ArrowRight />
+					<div className="flex gap-3 justify-center md:justify-start mt-5">
+						<button className="bg-gr hover:bg-green-600 text-white font-medium rounded-full px-4 py-2 sm:px-5 sm:py-3">
+							Kies je vakken
 						</button>
 					</div>
 				</div>
 
-				<div className="mt-10 md:mt-0 md:ml-10 md:w-1/2 relative">
+				<div className="md:w-1/2">
 					<img
-						className="w-full absolute z-50"
-						src="/assets/png/laptop.png"
-						style={{ top: "-4%", left: "6%" }}
+						className="w-full"
+						src="/assets/png/customer-service.png"
 						alt="laptop"
-					/>
-					<img
-						className="z-0 w-full"
-						src="/assets/svg/logo-icon.svg"
-						alt="logo"
 					/>
 				</div>
 			</div>
