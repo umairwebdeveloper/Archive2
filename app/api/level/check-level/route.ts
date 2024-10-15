@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Level } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -8,10 +8,10 @@ export async function GET(req: Request) {
 	const title = searchParams.get("title");
 
 	try {
-		const level = await prisma.level.findFirst({
+		const level: Level | null = await prisma.level.findFirst({
 			where: {
 				title: {
-					equals: title,
+					equals: title ?? '', // Provide a default value to avoid potential null issues
 					mode: "insensitive",
 				},
 			},

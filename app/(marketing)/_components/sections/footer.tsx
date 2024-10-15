@@ -1,30 +1,31 @@
+import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+
 const Footer = () => {
 	const useCasesLinks = [
-		{ name: "Link 1", href: "#" },
-		{ name: "Link 2", href: "#" },
-		{ name: "Link 3", href: "#" },
-		{ name: "Link 4", href: "#" },
+		{ name: "Trust & Safety", href: "#" },
+		{ name: "Terms of Service", href: "#" },
+		{ name: "Privacy Policy", href: "#" },
+		{ name: "Do Not Sell My Info", href: "#" },
 	];
 
 	const companyLinks = [
-		{ name: "Link 1", href: "#" },
-		{ name: "Link 2", href: "#" },
-		{ name: "Link 3", href: "#" },
-		{ name: "Link 4", href: "#" },
+		{ name: "Blog", href: "#" },
+		{ name: "Guides", href: "#" },
+		{ name: "FAQ", href: "#" },
+		{ name: "Help Center", href: "#" },
 	];
 
 	const modulesLinks = [
-		{ name: "Link 1", href: "#" },
-		{ name: "Link 2", href: "#" },
-		{ name: "Link 3", href: "#" },
-		{ name: "Link 4", href: "#" },
+		{ name: "Contact", href: "#" },
+		{ name: "FAQ", href: "#" },
 	];
 
-	const footerLinks = [
-		{ name: "Link 1", href: "#" },
-		{ name: "Link 2", href: "#" },
-		{ name: "Link 3", href: "#" },
+	const socialMediaLinks = [
+		{ icon: <Facebook className="w-6 h-6" />, href: "#" },
+		{ icon: <Twitter className="w-6 h-6" />, href: "#" },
+		{ icon: <Instagram className="w-6 h-6" />, href: "#" },
 	];
+
 	return (
 		<>
 			<div className="bg-gr1 py-10">
@@ -46,13 +47,13 @@ const Footer = () => {
 						</div>
 						<div className="flex-auto">
 							<h3 className="font-bold text-lg mb-5">
-								Use Cases
+								Terms & privacy
 							</h3>
 							<ul className="">
 								{useCasesLinks.map((link, index) => (
 									<li
 										key={index}
-										className="mb-2 hover:text-sec300 hover:underline cursor-pointer"
+										className="mb-2 hover:text-gr hover:underline cursor-pointer"
 									>
 										{link.name}
 									</li>
@@ -60,12 +61,14 @@ const Footer = () => {
 							</ul>
 						</div>
 						<div className="flex-auto">
-							<h3 className="font-bold text-lg mb-5">Company</h3>
+							<h3 className="font-bold text-lg mb-5">
+								Resources
+							</h3>
 							<ul className="">
 								{companyLinks.map((link, index) => (
 									<li
 										key={index}
-										className="mb-2 hover:text-sec300 hover:underline cursor-pointer"
+										className="mb-2 hover:text-gr hover:underline cursor-pointer"
 									>
 										{link.name}
 									</li>
@@ -73,12 +76,12 @@ const Footer = () => {
 							</ul>
 						</div>
 						<div className="flex-auto">
-							<h3 className="font-bold text-lg mb-5">Modules</h3>
+							<h3 className="font-bold text-lg mb-5">About</h3>
 							<ul className="">
 								{modulesLinks.map((link, index) => (
 									<li
 										key={index}
-										className="mb-2 hover:text-sec300 hover:underline cursor-pointer"
+										className="mb-2 hover:text-gr hover:underline cursor-pointer"
 									>
 										{link.name}
 									</li>
@@ -89,14 +92,17 @@ const Footer = () => {
 					<hr className="my-8 border-sec200" />
 					<div className="flex justify-between items-center">
 						<p>© 2024 Gotutor</p>
-						<div>
-							{footerLinks.map((link, index) => (
-								<span
+						<div className="flex space-x-4">
+							{socialMediaLinks.map((link, index) => (
+								<a
 									key={index}
-									className="hover:text-sec300 hover:underline cursor-pointer ml-3"
+									href={link.href}
+									className="text-gray-500 hover:text-gr transition-colors"
+									target="_blank"
+									rel="noopener noreferrer"
 								>
-									{link.name}
-								</span>
+									{link.icon}
+								</a>
 							))}
 						</div>
 					</div>

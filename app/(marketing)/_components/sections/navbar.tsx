@@ -1,9 +1,7 @@
-"use client";
-
+import { useState, useEffect, useRef } from "react";
 import { useConvexAuth } from "convex/react";
 import { SignInButton, UserButton } from "@clerk/clerk-react";
-import { useState, useEffect } from "react";
-import { ArrowRight, Settings, X } from "lucide-react";
+import { Settings, X } from "lucide-react";
 import { Spinner } from "@/components/spinner";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -14,28 +12,55 @@ const Navbar = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [showModal, setShowModal] = useState(false);
 	const { isAuthenticated, isLoading } = useConvexAuth();
-	const [selectedLevel, setSelectedLevel] = useState(null);
+	const menuRef = useRef<HTMLDivElement | null>(null);
 
-	// Show modal after successful login
+	const toggleMenu = () => {
+		setIsOpen((prev) => !prev);
+	};
+
+	const navLinks = [
+		{ name: "Home", href: "#", current: true },
+		{ name: "About", href: "#", current: false },
+		{ name: "How it works", href: "#", current: false },
+		{ name: "Validation", href: "#", current: false },
+		{ name: "Blog", href: "#", current: false },
+	];
+
 	useEffect(() => {
 		if (isAuthenticated && !isLoading) {
 			const level = localStorage.getItem("userLevel");
 			if (!level) {
-				// If level is not selected, show the modal
 				setShowModal(true);
 			}
 		}
 	}, [isAuthenticated, isLoading]);
-	
+
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (
+				menuRef.current &&
+				!menuRef.current.contains(event.target as Node)
+			) {
+				setIsOpen(false);
+			}
+		};
+
+		document.addEventListener("mousedown", handleClickOutside);
+
+		// Cleanup event listener on component unmount
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside);
+		};
+	}, []);
+
 	const handleBackdropClick = (event: any) => {
 		if (event.target === event.currentTarget) {
 			setShowModal(false);
 		}
 	};
-	// Handle level selection
+
 	const handleLevelSelect = async (level: any) => {
 		try {
-			setSelectedLevel(level);
 			localStorage.setItem("userLevel", level);
 			const response = await axios.get(
 				`/api/level/check-level?title=${encodeURIComponent(level)}`
@@ -64,39 +89,34 @@ const Navbar = () => {
 
 	return (
 		<>
-			<nav className="bg-gray-100 bg-opacity-75 py-4 lg:rounded-full rounded-lg">
-				<div className="container mx-auto flex flex-wrap items-center justify-between px-4">
-					<a
-						href="#"
-						className="flex items-center space-x-3 rtl:space-x-reverse"
-					>
+			<nav className="bg-white w-full z-20">
+				<div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto py-4">
+					<a className="flex items-center space-x-3 rtl:space-x-reverse">
 						<img
-							src="/assets/svg/Logo.svg"
+							src="/assets/svg/new_logo.svg"
 							className="h-8"
-							alt="Logo"
+							alt="Flowbite Logo"
 						/>
 					</a>
-					<div className="flex items-center lg:order-2 space-x-3 rtl:space-x-reverse">
+					<div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
 						{isLoading && <Spinner />}
 						{!isAuthenticated && !isLoading && (
 							<>
 								<SignInButton mode="modal">
 									<button
 										type="button"
-										className="flex items-center justify-between gap-3 text-white bg-prim400 hover:bg-prim500 shadow-sm font-medium rounded-full text-sm px-5 py-2 text-center"
+										className="text-white bg-gr hover:bg-green-500 font-medium rounded-full px-5 py-2 text-center"
 									>
-										<span></span>
-										<span>Sign in</span> <ArrowRight />
+										Sign in
 									</button>
 								</SignInButton>
 							</>
 						)}
-
 						{isAuthenticated && !isLoading && (
 							<>
 								<button
 									onClick={() => setShowModal(true)}
-									className="ml-3 text-gray-600 hover:text-prim400"
+									className="mr-2 text-gray-600 hover:text-gr"
 								>
 									<Settings className="w-6 h-6" />
 								</button>
@@ -110,12 +130,11 @@ const Navbar = () => {
 								<UserButton afterSignOutUrl="/" />
 							</>
 						)}
-
 						<button
-							onClick={() => setIsOpen(!isOpen)}
+							onClick={toggleMenu}
 							type="button"
-							className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-							aria-controls="navbar-cta"
+							className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+							aria-controls="navbar-sticky"
 							aria-expanded={isOpen}
 						>
 							<span className="sr-only">Open main menu</span>
@@ -137,51 +156,34 @@ const Navbar = () => {
 						</button>
 					</div>
 					<div
-						className={`${
+						ref={menuRef}
+						className={`items-center justify-between ${
 							isOpen ? "block" : "hidden"
-						} w-full lg:flex lg:items-center lg:w-auto lg:order-1`}
-						id="navbar-cta"
+						} w-full md:flex md:w-auto md:order-1`}
+						id="navbar-sticky"
 					>
-						<ul className="flex flex-col lg:flex-row lg:space-x-8 rtl:space-x-reverse font-medium p-4 lg:p-0 mt-4 lg:mt-0 bg-gray-100 rounded-lg lg:bg-transparent lg:dark:bg-transparent dark:bg-gray-800 lg:dark:bg-opacity-50">
-							<li>
-								<a
-									href="#"
-									className="block py-2 px-3 lg:p-0 text-gray-900 rounded bg-gray-200 lg:bg-transparent lg:hover:text-prim400 dark:text-white"
-									aria-current="page"
-								>
-									Examentrainingen
-								</a>
-							</li>
-							<li>
-								<a
-									href="#"
-									className="block py-2 px-3 lg:p-0 text-gray-900 rounded hover:bg-gray-300 hover:bg-gray-100 lg:hover:bg-transparent lg:hover:text-prim400 dark:text-white dark:hover:bg-gray-700 lg:dark:hover:bg-transparent"
-								>
-									Examenboekjes
-								</a>
-							</li>
-							<li>
-								<a
-									href="#"
-									className="block py-2 px-3 lg:p-0 text-gray-900 rounded hover:bg-gray-300 hover:bg-gray-100 lg:hover:bg-transparent lg:hover:text-prim400 dark:text-white dark:hover:bg-gray-700 lg:dark:hover:bg-transparent"
-								>
-									Voor Scholen
-								</a>
-							</li>
-							<li>
-								<a
-									href="#"
-									className="block py-2 px-3 lg:p-0 text-gray-900 rounded hover:bg-gray-300 hover:bg-gray-100 lg:hover:bg-transparent lg:hover:text-prim400 dark:text-white dark:hover:bg-gray-700 lg:dark:hover:bg-transparent"
-								>
-									Exameninfo
-								</a>
-							</li>
+						<ul className="flex flex-col p-4 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:py-3 md:px-6 md:rounded-full">
+							{navLinks.map((link, index) => (
+								<li key={index}>
+									<a
+										href={link.href}
+										className={`block py-2 px-3 ${
+											link.current
+												? "text-gr rounded"
+												: "text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gr"
+										} md:p-0 cursor-pointer`}
+										aria-current={
+											link.current ? "page" : undefined
+										}
+									>
+										{link.name}
+									</a>
+								</li>
+							))}
 						</ul>
 					</div>
 				</div>
 			</nav>
-
-			{/* Modal */}
 			{showModal && (
 				<div
 					className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50"

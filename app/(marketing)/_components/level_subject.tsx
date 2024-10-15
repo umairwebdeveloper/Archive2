@@ -364,7 +364,7 @@ const LevelAndSubjectSelector: React.FC = () => {
 				<Button
 					onClick={handleButtonClick}
 					disabled={totalPrice === 0 || buttonLoading}
-					className={`px-4 py-2 font-bold text-white rounded ${totalPrice === 0 ? "bg-gray-400 cursor-not-allowed" : "bg-gray-800 hover:bg-gray-900"} ${buttonLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+					className={`px-4 py-2 font-bold text-white rounded ${totalPrice === 0 ? "bg-green-300 cursor-not-allowed" : "bg-gr hover:bg-green-500"} ${buttonLoading ? "opacity-50 cursor-not-allowed" : ""}`}
 				>
 					{buttonLoading ? (
 						"Loading..."
