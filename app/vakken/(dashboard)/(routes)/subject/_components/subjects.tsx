@@ -47,6 +47,7 @@ interface Subject {
 	isPublished: boolean;
 	title: string;
 	level: Level;
+	subjectType?: string;
 }
 
 interface Level {
@@ -69,7 +70,7 @@ const SubjectsAndLevels: React.FC = () => {
 
 	const router = useRouter();
 
-	const groupSubjectsByType = (subjects: any[]) => {
+	const groupSubjectsByType = (subjects: Subject[]) => {
 		return subjects.reduce((acc, subject) => {
 			const subjectType = subject.subjectType || "Unknown Type";
 			if (!acc[subjectType]) {
@@ -77,7 +78,7 @@ const SubjectsAndLevels: React.FC = () => {
 			}
 			acc[subjectType].push(subject);
 			return acc;
-		}, {} as { [key: string]: any[] });
+		}, {} as { [key: string]: Subject[] });
 	};
 
 	const groupedSubjects = groupSubjectsByType(subjects);
@@ -213,7 +214,7 @@ const SubjectsAndLevels: React.FC = () => {
 
 								{/* Subjects Grid */}
 								<div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4">
-									{subjectsInGroup.map((subject: any) => (
+									{subjectsInGroup.map((subject) => (
 										<div
 											key={subject.id}
 											className="border rounded-2xl overflow-hidden shadow transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg cursor-pointer"
