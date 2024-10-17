@@ -26,6 +26,7 @@ model Subject {
   isPublished Boolean @default(false)
   title String
   categorys Category[]
+  subjectType String?
 }
 
 model Course {

@@ -28,6 +28,7 @@ export async function POST(req: Request) {
 	try {
 		const data = await req.formData();
 		const title = data.get("title");
+		const type = data.get("type");
 		const levelId = data.get("levelId");
 		const image = data.get("image") as File;
 
@@ -51,6 +52,7 @@ export async function POST(req: Request) {
 				title: title as string,
 				levelId: levelId as string,
 				imageUrl: upload.url,
+				subjectType: type as string,
 			},
 		});
 		return NextResponse.json({

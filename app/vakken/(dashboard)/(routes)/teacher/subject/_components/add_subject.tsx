@@ -7,6 +7,7 @@ import Link from "next/link";
 import React from "react";
 
 const AddSubject: React.FC = () => {
+	const [quizCategory, setQuizCategory] = useState("");
 	const [quizTitle, setQuizTitle] = useState("");
 	const [courses, setCourses] = useState<any[]>([]);
 	const [loading, setLoading] = useState(false);
@@ -39,6 +40,7 @@ const AddSubject: React.FC = () => {
 		setLoading(true);
 
 		const formData = new FormData();
+		formData.append("type", quizCategory);
 		formData.append("title", quizTitle);
 		formData.append("levelId", selectedCourse);
 		if (imageFile) {
@@ -124,6 +126,19 @@ const AddSubject: React.FC = () => {
 								</svg>
 							</div>
 						)}
+					</div>
+					<div>
+						<label className="block text-lg font-medium text-gray-700">
+							Subject Category
+						</label>
+						<input
+							type="text"
+							className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
+							placeholder="Subject Category"
+							value={quizCategory}
+							onChange={(e) => setQuizCategory(e.target.value)}
+							required
+						/>
 					</div>
 					<div>
 						<label className="block text-lg font-medium text-gray-700">

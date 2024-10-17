@@ -19,6 +19,7 @@ CREATE TABLE "Subject" (
     "imageUrl" TEXT,
     "isPublished" BOOLEAN NOT NULL DEFAULT false,
     "title" TEXT NOT NULL,
+    "subjectType" TEXT,
 
     CONSTRAINT "Subject_pkey" PRIMARY KEY ("id")
 );

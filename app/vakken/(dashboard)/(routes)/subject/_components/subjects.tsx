@@ -69,6 +69,19 @@ const SubjectsAndLevels: React.FC = () => {
 
 	const router = useRouter();
 
+	const groupSubjectsByType = (subjects: any[]) => {
+		return subjects.reduce((acc, subject) => {
+			const subjectType = subject.subjectType || "Unknown Type";
+			if (!acc[subjectType]) {
+				acc[subjectType] = [];
+			}
+			acc[subjectType].push(subject);
+			return acc;
+		}, {} as { [key: string]: any[] });
+	};
+
+	const groupedSubjects = groupSubjectsByType(subjects);
+
 	useEffect(() => {
 		const fetchLevels = async () => {
 			try {
@@ -145,7 +158,10 @@ const SubjectsAndLevels: React.FC = () => {
 		<div className="">
 			<div className="flex flex-wrap justify-start gap-3 mb-4">
 				<label
-					className={`py-2 px-3 text-sm border border-sec600 rounded-full flex items-center gap-x-1 hover:border-sec700 transition cursor-pointer ${activeLevelId === null && "bg-prim400 text-prim50 border-none"}`}
+					className={`py-2 px-3 text-sm border border-sec600 rounded-full flex items-center gap-x-1 hover:border-sec700 transition cursor-pointer ${
+						activeLevelId === null &&
+						"bg-prim400 text-prim50 border-none"
+					}`}
 				>
 					<input
 						type="radio"
@@ -153,7 +169,9 @@ const SubjectsAndLevels: React.FC = () => {
 						value="all"
 						checked={activeLevelId === null}
 						onChange={() => handleLevelClick(null)}
-						className={`me-2 ${activeLevelId === null && "bg-prim300 text-prim300"}`}
+						className={`me-2 ${
+							activeLevelId === null && "bg-prim300 text-prim300"
+						}`}
 					/>
 					All Levels
 				</label>
@@ -171,153 +189,79 @@ const SubjectsAndLevels: React.FC = () => {
 							value={level.id}
 							checked={activeLevelId === level.id}
 							onChange={() => handleLevelClick(level.id)}
-							className={`me-2 ${activeLevelId === level.id && "bg-prim300 text-prim300"}`}
+							className={`me-2 ${
+								activeLevelId === level.id &&
+								"bg-prim300 text-prim300"
+							}`}
 						/>
 						{level.title}
 					</label>
 				))}
 			</div>
 
-			{subjects.length === 0 ? (
+			{Object.keys(groupedSubjects).length === 0 ? (
 				<p className="text-center my-4">No Subjects found</p>
 			) : (
-				<div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4">
-					{subjects.map((subject) => (
-						<>
-							<div
-								key={subject.id}
-								className="border rounded-2xl overflow-hidden shadow transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg cursor-pointer"
-								onClick={() =>
-									router.push(`/vakken/subject/${subject.id}`)
-								}
-							>
-								{subject.imageUrl ? (
-									<img
-										src={`${subject.imageUrl.startsWith("https") ? subject.imageUrl : "/uploads/" + subject.imageUrl}`}
-										alt={subject.title}
-										className="mb-4 w-full h-48 object-cover rounded-md"
-									/>
-								) : (
-									<>
-										<div className="bg-gray-400 h-48 w-full rounded-md">
-											<div className="flex items-center justify-center h-full text-white text-2xl font-bold">
-												{subject.title[0]}
+				<div className="space-y-8">
+					{Object.entries(groupedSubjects).map(
+						([subjectType, subjectsInGroup]) => (
+							<div key={subjectType}>
+								{/* SubjectType Title */}
+								<h2 className="text-2xl font-bold mb-4">
+									{subjectType}
+								</h2>
+
+								{/* Subjects Grid */}
+								<div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4">
+									{subjectsInGroup.map((subject:any) => (
+										<div
+											key={subject.id}
+											className="border rounded-2xl overflow-hidden shadow transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg cursor-pointer"
+											onClick={() =>
+												router.push(
+													`/vakken/subject/${subject.id}`
+												)
+											}
+										>
+											{subject.imageUrl ? (
+												<img
+													src={`${
+														subject.imageUrl.startsWith(
+															"https"
+														)
+															? subject.imageUrl
+															: "/uploads/" +
+															  subject.imageUrl
+													}`}
+													alt={subject.title}
+													className="mb-4 w-full h-48 object-cover rounded-md"
+												/>
+											) : (
+												<div className="bg-gray-400 h-48 w-full rounded-md">
+													<div className="flex items-center justify-center h-full text-white text-2xl font-bold">
+														{subject.title[0]}
+													</div>
+												</div>
+											)}
+											<div className="px-6 py-2">
+												<div className="font-bold text-xl mb-2">
+													{subject.title} -{" "}
+													{subject.level.title}
+												</div>
+											</div>
+
+											<div className="px-6 mb-2 flex items-center gap-2">
+												<p className="text-lg underline">
+													Start vak
+												</p>
+												<ChevronRight />
 											</div>
 										</div>
-									</>
-								)}
-								<div className="px-6 py-2">
-									<div className="font-bold text-xl mb-2">
-										{subject.title} - {subject.level.title}
-									</div>
-								</div>
-								<div className="mx-6 p-3 bg-prim100 mb-3 rounded-xl">
-									<span className="flex justify-between items-center">
-										<img
-											src="/assets/svg/ai-magic.svg"
-											width="20px"
-											alt="ai"
-										/>
-										<p>8</p>
-										<svg
-											xmlns="http://www.w3.org/2000/svg"
-											width="3"
-											height="20"
-											viewBox="0 0 3 20"
-											fill="none"
-										>
-											<path
-												d="M1.5 1V19"
-												stroke="url(#paint0_linear_227_4193)"
-												stroke-width="2"
-												stroke-linecap="round"
-											/>
-											<defs>
-												<linearGradient
-													id="paint0_linear_227_4193"
-													x1="2"
-													y1="1"
-													x2="2"
-													y2="19"
-													gradientUnits="userSpaceOnUse"
-												>
-													<stop
-														stop-color="#CDCED4"
-														stop-opacity="0"
-													/>
-													<stop
-														offset="0.5"
-														stop-color="#CDCED4"
-													/>
-													<stop
-														offset="1"
-														stop-color="#CDCED4"
-														stop-opacity="0"
-													/>
-												</linearGradient>
-											</defs>
-										</svg>
-										<img
-											src="/assets/svg/clock-01.svg"
-											width="20px"
-											alt="clock"
-										/>
-										<p>1 hr 30 min</p>
-										<svg
-											xmlns="http://www.w3.org/2000/svg"
-											width="3"
-											height="20"
-											viewBox="0 0 3 20"
-											fill="none"
-										>
-											<path
-												d="M1.5 1V19"
-												stroke="url(#paint0_linear_227_4193)"
-												stroke-width="2"
-												stroke-linecap="round"
-											/>
-											<defs>
-												<linearGradient
-													id="paint0_linear_227_4193"
-													x1="2"
-													y1="1"
-													x2="2"
-													y2="19"
-													gradientUnits="userSpaceOnUse"
-												>
-													<stop
-														stop-color="#CDCED4"
-														stop-opacity="0"
-													/>
-													<stop
-														offset="0.5"
-														stop-color="#CDCED4"
-													/>
-													<stop
-														offset="1"
-														stop-color="#CDCED4"
-														stop-opacity="0"
-													/>
-												</linearGradient>
-											</defs>
-										</svg>
-										<img
-											src="/assets/svg/user-group.svg"
-											width="20px"
-											alt="clock"
-										/>
-										<p>99</p>
-									</span>
-								</div>
-								<div className="px-6 mb-2 flex items-center gap-2">
-									<p className="text-lg underline">
-										Start vak
-									</p>
-									<ChevronRight />
+									))}
 								</div>
 							</div>
-						</>
-					))}
+						)
+					)}
 				</div>
 			)}
 		</div>

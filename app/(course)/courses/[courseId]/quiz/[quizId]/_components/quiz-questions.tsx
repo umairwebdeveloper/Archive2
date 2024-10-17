@@ -214,6 +214,13 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 			[questionID]: true,
 		}));
 	};
+	function truncateFileName(fileName:any, wordLimit = 10) {
+		const words = fileName.split(" ");
+		if (words.length > wordLimit) {
+			return words.slice(0, wordLimit).join(" ") + " ...";
+		}
+		return fileName;
+	}
 
 	if (!quiz) {
 		return (
@@ -278,9 +285,9 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 																	rel="noopener noreferrer"
 																	className="text-blue-500 hover:underline"
 																>
-																	{
+																	{truncateFileName(
 																		attachment.fileName
-																	}
+																	)}
 																</a>
 															</li>
 														)
