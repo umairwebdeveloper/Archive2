@@ -213,7 +213,7 @@ const SubjectsAndLevels: React.FC = () => {
 
 								{/* Subjects Grid */}
 								<div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4">
-									{subjectsInGroup.map((subject:any) => (
+									{subjectsInGroup.map((subject: any) => (
 										<div
 											key={subject.id}
 											className="border rounded-2xl overflow-hidden shadow transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg cursor-pointer"
@@ -249,7 +249,104 @@ const SubjectsAndLevels: React.FC = () => {
 													{subject.level.title}
 												</div>
 											</div>
-
+											<div className="mx-6 p-3 bg-prim100 mb-3 rounded-xl">
+												<span className="flex justify-between items-center">
+													<img
+														src="/assets/svg/ai-magic.svg"
+														width="20px"
+														alt="ai"
+													/>
+													<p>8</p>
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														width="3"
+														height="20"
+														viewBox="0 0 3 20"
+														fill="none"
+													>
+														<path
+															d="M1.5 1V19"
+															stroke="url(#paint0_linear_227_4193)"
+															stroke-width="2"
+															stroke-linecap="round"
+														/>
+														<defs>
+															<linearGradient
+																id="paint0_linear_227_4193"
+																x1="2"
+																y1="1"
+																x2="2"
+																y2="19"
+																gradientUnits="userSpaceOnUse"
+															>
+																<stop
+																	stop-color="#CDCED4"
+																	stop-opacity="0"
+																/>
+																<stop
+																	offset="0.5"
+																	stop-color="#CDCED4"
+																/>
+																<stop
+																	offset="1"
+																	stop-color="#CDCED4"
+																	stop-opacity="0"
+																/>
+															</linearGradient>
+														</defs>
+													</svg>
+													<img
+														src="/assets/svg/clock-01.svg"
+														width="20px"
+														alt="clock"
+													/>
+													<p>1 hr 30 min</p>
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														width="3"
+														height="20"
+														viewBox="0 0 3 20"
+														fill="none"
+													>
+														<path
+															d="M1.5 1V19"
+															stroke="url(#paint0_linear_227_4193)"
+															stroke-width="2"
+															stroke-linecap="round"
+														/>
+														<defs>
+															<linearGradient
+																id="paint0_linear_227_4193"
+																x1="2"
+																y1="1"
+																x2="2"
+																y2="19"
+																gradientUnits="userSpaceOnUse"
+															>
+																<stop
+																	stop-color="#CDCED4"
+																	stop-opacity="0"
+																/>
+																<stop
+																	offset="0.5"
+																	stop-color="#CDCED4"
+																/>
+																<stop
+																	offset="1"
+																	stop-color="#CDCED4"
+																	stop-opacity="0"
+																/>
+															</linearGradient>
+														</defs>
+													</svg>
+													<img
+														src="/assets/svg/user-group.svg"
+														width="20px"
+														alt="clock"
+													/>
+													<p>99</p>
+												</span>
+											</div>
 											<div className="px-6 mb-2 flex items-center gap-2">
 												<p className="text-lg underline">
 													Start vak
