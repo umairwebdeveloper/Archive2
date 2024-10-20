@@ -16,7 +16,7 @@ const Footer = () => {
 	];
 
 	const modulesLinks = [
-		{ name: "Contact", href: "#" },
+		{ name: "Contact", href: "/contact" },
 		{ name: "FAQ", href: "#" },
 	];
 

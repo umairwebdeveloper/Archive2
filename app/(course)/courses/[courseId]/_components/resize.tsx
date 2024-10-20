@@ -13,7 +13,7 @@ const ResizeComp = ({ course, courses, progressCount, children }: any) => {
 					progressCount={progressCount}
 				/>
 			</div>
-			<div className="hidden md:flex h-full w-80 flex-col fixed inset-y-0 z-50 bg-primBlack">
+			<div className="hidden md:flex h-full w-80 flex-col fixed inset-y-0 z-50 bg-white">
 				<CourseSidebar
 					course={course}
 					courses={courses}

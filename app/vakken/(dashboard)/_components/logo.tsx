@@ -6,7 +6,7 @@ export const Logo = () => {
 			height={130}
 			width={130}
 			alt="logo"
-			src="/assets/svg/dark-logo.svg"
+			src="/assets/svg/new_logo.svg"
 		/>
 	);
 };

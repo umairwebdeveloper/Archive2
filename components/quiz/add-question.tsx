@@ -381,7 +381,7 @@ const AddQuestion: React.FC = () => {
 					)}
 					<input
 						type="file"
-						className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm"
+						className="mt-1 hidden w-full p-2 border border-gray-300 rounded-md shadow-sm"
 						onChange={handleFileChange}
 						ref={fileInputRef}
 						multiple

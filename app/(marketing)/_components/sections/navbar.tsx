@@ -7,23 +7,25 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [showModal, setShowModal] = useState(false);
 	const { isAuthenticated, isLoading } = useConvexAuth();
 	const menuRef = useRef<HTMLDivElement | null>(null);
+	const pathname = usePathname();
 
 	const toggleMenu = () => {
 		setIsOpen((prev) => !prev);
 	};
 
 	const navLinks = [
-		{ name: "Home", href: "#", current: true },
-		{ name: "About", href: "#", current: false },
-		{ name: "How it works", href: "#", current: false },
-		{ name: "Validation", href: "#", current: false },
-		{ name: "Blog", href: "#", current: false },
+		{ name: "Home", href: "/" },
+		{ name: "About", href: "#" },
+		{ name: "How it works", href: "#" },
+		{ name: "Validation", href: "#" },
+		{ name: "Contact", href: "/contact" },
 	];
 
 	useEffect(() => {
@@ -165,19 +167,22 @@ const Navbar = () => {
 						<ul className="flex flex-col p-4 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:py-3 md:px-6 md:rounded-full">
 							{navLinks.map((link, index) => (
 								<li key={index}>
-									<a
-										href={link.href}
-										className={`block py-2 px-3 ${
-											link.current
-												? "text-gr rounded"
-												: "text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gr"
-										} md:p-0 cursor-pointer`}
-										aria-current={
-											link.current ? "page" : undefined
-										}
-									>
-										{link.name}
-									</a>
+									<Link href={link.href}>
+										<span
+											className={`block py-2 px-3 ${
+												pathname === link.href
+													? "text-gr rounded"
+													: "text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gr"
+											} md:p-0 cursor-pointer`}
+											aria-current={
+												pathname === link.href
+													? "page"
+													: undefined
+											}
+										>
+											{link.name}
+										</span>
+									</Link>
 								</li>
 							))}
 						</ul>

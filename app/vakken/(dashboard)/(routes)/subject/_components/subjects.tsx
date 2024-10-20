@@ -156,7 +156,7 @@ const SubjectsAndLevels: React.FC = () => {
 	}
 
 	return (
-		<div className="">
+		<div className="pb-5">
 			<div className="flex flex-wrap justify-start gap-3 mb-4">
 				<label
 					className={`py-2 px-3 text-sm border border-sec600 rounded-full flex items-center gap-x-1 hover:border-sec700 transition cursor-pointer ${
@@ -281,16 +281,16 @@ const SubjectsAndLevels: React.FC = () => {
 																gradientUnits="userSpaceOnUse"
 															>
 																<stop
-																	stop-color="#CDCED4"
+																	stop-color="#40742C"
 																	stop-opacity="0"
 																/>
 																<stop
 																	offset="0.5"
-																	stop-color="#CDCED4"
+																	stop-color="#40742C"
 																/>
 																<stop
 																	offset="1"
-																	stop-color="#CDCED4"
+																	stop-color="#40742C"
 																	stop-opacity="0"
 																/>
 															</linearGradient>
@@ -325,16 +325,16 @@ const SubjectsAndLevels: React.FC = () => {
 																gradientUnits="userSpaceOnUse"
 															>
 																<stop
-																	stop-color="#CDCED4"
+																	stop-color="#40742C"
 																	stop-opacity="0"
 																/>
 																<stop
 																	offset="0.5"
-																	stop-color="#CDCED4"
+																	stop-color="#40742C"
 																/>
 																<stop
 																	offset="1"
-																	stop-color="#CDCED4"
+																	stop-color="#40742C"
 																	stop-opacity="0"
 																/>
 															</linearGradient>
@@ -347,12 +347,6 @@ const SubjectsAndLevels: React.FC = () => {
 													/>
 													<p>99</p>
 												</span>
-											</div>
-											<div className="px-6 mb-2 flex items-center gap-2">
-												<p className="text-lg underline">
-													Start vak
-												</p>
-												<ChevronRight />
 											</div>
 										</div>
 									))}

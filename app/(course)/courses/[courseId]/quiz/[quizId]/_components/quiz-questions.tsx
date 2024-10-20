@@ -29,7 +29,6 @@ interface Question {
 	creditAmount: string;
 	explanation: string;
 	options: Option[];
-	attachments: any[];
 	debits: any[];
 	credits: any[];
 }
@@ -67,6 +66,7 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 	const [isCorrect, setIsCorrect] = useState<{
 		[key: number]: boolean;
 	}>({});
+	const [simpleText, setSimpleText] = useState(null);
 	const questionRefs = useRef<(HTMLDivElement | null)[]>([]);
 	const router = useRouter();
 
@@ -162,6 +162,11 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 			return;
 		}
 
+		const storedAnswer:any = localStorage.getItem(`answer-${questionId}`);
+		if (storedAnswer) {
+			setSimpleText(storedAnswer);
+		}
+
 		setIsSubmitting((prev) => ({
 			...prev,
 			[questionId]: true,
@@ -214,13 +219,24 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 			[questionID]: true,
 		}));
 	};
-	function truncateFileName(fileName:any, wordLimit = 10) {
+	function truncateFileName(fileName: any, wordLimit = 10) {
 		const words = fileName.split(" ");
 		if (words.length > wordLimit) {
 			return words.slice(0, wordLimit).join(" ") + " ...";
 		}
 		return fileName;
 	}
+	const handleClick = (questionId: any, isCorrect: any) => {
+		const storedAnswer = localStorage.getItem(`answer-${questionId}`);
+		if (storedAnswer === isCorrect) {
+			localStorage.removeItem(`answer-${questionId}`);
+			setSimpleText(null);
+		} else {
+			setSimpleText(isCorrect);
+			localStorage.setItem(`answer-${questionId}`, isCorrect);
+		}
+		toast.success("Saved changes !");
+	};
 
 	if (!quiz) {
 		return (
@@ -265,39 +281,6 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 													__html: question.questionText,
 												}}
 											></p>
-											<p className="font-semibold">
-												Attachments:
-											</p>
-											{question.attachments.length > 0 ? (
-												<ul className="list-none my-2">
-													{question.attachments.map(
-														(attachment) => (
-															<li
-																key={
-																	attachment.id
-																}
-															>
-																<a
-																	href={
-																		attachment.fileUrl
-																	}
-																	target="_blank" // Opens the file in a new tab
-																	rel="noopener noreferrer"
-																	className="text-blue-500 hover:underline"
-																>
-																	{truncateFileName(
-																		attachment.fileName
-																	)}
-																</a>
-															</li>
-														)
-													)}
-												</ul>
-											) : (
-												<p className="text-gray-500">
-													No attachments available.
-												</p>
-											)}
 											{question.type ===
 											"multiple-choice" ? (
 												<div
@@ -520,11 +503,66 @@ const QuizQuestions: React.FC<QuizQuestionsProps> = ({ quizId }) => {
 																	<p className="font-semibold">
 																		Explanation:
 																	</p>
-																	<p>
-																		{
-																			question.explanation
-																		}
-																	</p>
+																	{question.type ===
+																	"text" ? (
+																		<>
+																			<p>
+																				{
+																					question.explanation
+																				}
+																			</p>
+																			<div className="mt-3">
+																				<button
+																					className={`mr-3 px-4 py-2 rounded ${
+																						simpleText ===
+																						"correct"
+																							? "bg-green-500 text-white"
+																							: "bg-gray-300 text-gray-700"
+																					}`}
+																					onClick={() =>
+																						handleClick(
+																							question.id,
+																							"correct"
+																						)
+																					}
+																				>
+																					I
+																					got
+																					the
+																					question
+																					right
+																				</button>
+																				<button
+																					className={`px-4 py-2 rounded ${
+																						simpleText ===
+																						"wrong"
+																							? "bg-red-500 text-white"
+																							: "bg-gray-300 text-gray-700"
+																					}`}
+																					onClick={() =>
+																						handleClick(
+																							question.id,
+																							"wrong"
+																						)
+																					}
+																				>
+																					I
+																					got
+																					the
+																					question
+																					wrong
+																				</button>
+																			</div>
+																		</>
+																	) : (
+																		<>
+																			<p>
+																				{
+																					question.explanation
+																				}
+																			</p>
+																		</>
+																	)}
 																</div>
 															)}
 														</>

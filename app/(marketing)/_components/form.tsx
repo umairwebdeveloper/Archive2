@@ -101,7 +101,7 @@ const Form = () => {
 	return (
 		<>
 			<h3 className="text-center text-2xl font-semibold mb-4">
-				Sign Up for Tutoring
+				Contact Us
 			</h3>
 			<form
 				onSubmit={handleSubmit}

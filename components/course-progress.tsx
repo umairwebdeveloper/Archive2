@@ -2,40 +2,30 @@ import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 
 interface CourseProgressProps {
-  value: number;
-  variant?: "default" | "success",
-  size?: "default" | "sm";
-};
+	value: number;
+	variant?: "default" | "success";
+	size?: "default" | "sm";
+}
 
 const colorByVariant = {
-  default: "text-sky-700",
-  success: "text-white",
-}
+	default: "text-sky-700",
+	success: "text-white",
+};
 
 const sizeByVariant = {
-  default: "text-sm",
-  sm: "text-xs",
-}
+	default: "text-sm",
+	sm: "text-xs",
+};
 
 export const CourseProgress = ({
-  value,
-  variant,
-  size,
+	value,
+	variant,
+	size,
 }: CourseProgressProps) => {
-  return (
-    <div>
-      <Progress
-        className="h-2"
-        value={value}
-        variant={variant}
-      />
-      <p className={cn(
-        "font-medium mt-2 text-prim600",
-        colorByVariant[variant || "default"],
-        sizeByVariant[size || "default"],
-      )}>
-        {Math.round(value)}% Video Complete
-      </p>
-    </div>
-  )
-}
+	return (
+		<div>
+			<Progress className="h-2" value={value} variant={variant} />
+			<p className="text-gray-700 mt-2">{Math.round(value)}% Video Complete</p>
+		</div>
+	);
+};
