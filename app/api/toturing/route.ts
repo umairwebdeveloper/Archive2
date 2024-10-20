@@ -24,3 +24,35 @@ export async function POST(req: Request) {
 		return new NextResponse("Internal Error", { status: 500 });
 	}
 }
+
+
+export async function GET(req: Request) {
+	try {
+		const allData = await prisma.tutoringForm.findMany(); // Fetch all records
+		return NextResponse.json(allData); // Return the fetched data in JSON format
+	} catch (error) {
+		return new NextResponse("Internal Error", { status: 500 });
+	}
+}
+
+
+export async function DELETE(req: Request) {
+	try {
+		const { searchParams } = new URL(req.url);
+		const id = searchParams.get("id");
+
+		if (!id) {
+			return new NextResponse("ID is required", { status: 400 });
+		}
+
+		const deletedData = await prisma.tutoringForm.delete({
+			where: {
+				id: parseInt(id),
+			},
+		});
+
+		return NextResponse.json(deletedData);
+	} catch (error) {
+		return new NextResponse("Internal Error", { status: 500 });
+	}
+}

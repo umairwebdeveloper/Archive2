@@ -101,11 +101,11 @@ const Form = () => {
 	return (
 		<>
 			<h3 className="text-center text-2xl font-semibold mb-4">
-				Contact Us
+				Tutoring Form
 			</h3>
 			<form
 				onSubmit={handleSubmit}
-				className="max-w-lg mx-auto p-5 bg-gray-100 shadow-sm rounded mb-5"
+				className="max-w-lg mx-auto p-5 bg-gr1 shadow-sm rounded mb-5"
 			>
 				{renderInput("Full Name", "fullName")}
 				{renderInput("Email", "email", "email")}

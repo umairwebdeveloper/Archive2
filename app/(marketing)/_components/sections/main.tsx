@@ -6,7 +6,7 @@ import Hero from "./hero";
 import Price from "./price";
 import Subscribe from "./subscibe";
 import LevelAndSubjectSelector from "../level_subject";
-
+import JourneyCards from "./journery-cards";
 
 const MainSections = () => {
 	return (
@@ -18,6 +18,7 @@ const MainSections = () => {
 			<div className="flex flex-col items-center justify-center md:justify-start text-center gap-y-8 flex-1 px-6 pb-10 mt-10">
 				<LevelAndSubjectSelector />
 			</div>
+			<JourneyCards />
 			<Faq />
 			<Subscribe />
 			<Footer />
