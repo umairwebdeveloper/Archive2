@@ -1,6 +1,5 @@
 "use client";
 
-import LevelAndSubjectSelector from "./_components/level_subject";
 import MainSections from "./_components/sections/main";
 const MarketingPage = () => {
 	return (
