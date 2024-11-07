@@ -39,32 +39,8 @@ export async function POST(req: Request) {
 				},
 			},
 		});
-		const files = formData.getAll("files") as File[];
-		const fileUrls: string[] = [];
 
-		for (const file of files) {
-			const arrayBuffer = await file.arrayBuffer();
-			const buffer = Buffer.from(arrayBuffer);
-			const blobResult = await put(file.name, buffer, {
-				access: "public",
-			});
-			fileUrls.push(blobResult.url);
-			await prisma.questionAttachment.create({
-				data: {
-					fileUrl: blobResult.url,
-					fileName: file.name,
-					questionId: createdQuestion.id,
-				},
-			});
-		}
-
-		return NextResponse.json(
-			{
-				message: "Question and files uploaded successfully",
-				fileUrls,
-			},
-			{ status: 200 }
-		);
+		return NextResponse.json(createdQuestion);
 	} catch (error) {
 		console.log("[ADD QUESTION]", error);
 		return new NextResponse("Internal Error", { status: 500 });

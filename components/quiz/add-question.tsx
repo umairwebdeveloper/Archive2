@@ -33,7 +33,6 @@ const AddQuestion: React.FC = () => {
 	const [credits, setCredits] = useState<Entry[]>([]);
 	const [totalDebits, setTotalDebits] = useState(0);
 	const [totalCredits, setTotalCredits] = useState(0);
-	const [files, setFiles] = useState<File[]>([]);
 
 	const router = useRouter();
 
@@ -63,22 +62,6 @@ const AddQuestion: React.FC = () => {
 	const handleAddOption = () => {
 		const newLabel = String.fromCharCode(65 + options.length); // ASCII 65 is 'A'
 		setOptions([...options, { label: newLabel, value: "" }]);
-	};
-	const maxFileSize = 2 * 1024 * 1024;
-	const fileInputRef = useRef<HTMLInputElement | null>(null);
-	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const selectedFiles = Array.from(e.target.files || []);
-		const oversizedFiles = selectedFiles.filter(
-			(file) => file.size > maxFileSize
-		);
-		if (oversizedFiles.length > 0) {
-			toast.error("File size must be less than 2 MB");
-			if (fileInputRef.current) {
-				fileInputRef.current.value = ""; // Reset the file input to empty
-			}
-			return;
-		}
-		setFiles(selectedFiles);
 	};
 
 	const handleOptionChange = (index: number, value: string) => {
@@ -124,10 +107,6 @@ const AddQuestion: React.FC = () => {
 		const formData = new FormData();
 		formData.append("title", selectedQuiz);
 		formData.append("question", JSON.stringify(question));
-
-		files.forEach((file) => {
-			formData.append("files", file);
-		});
 
 		const response = await fetch(`/api/quiz-question/`, {
 			method: "POST",
@@ -379,14 +358,6 @@ const AddQuestion: React.FC = () => {
 							/>
 						</>
 					)}
-					<input
-						type="file"
-						className="mt-1 hidden w-full p-2 border border-gray-300 rounded-md shadow-sm"
-						onChange={handleFileChange}
-						ref={fileInputRef}
-						multiple
-						required
-					/>
 					<button
 						type="submit"
 						disabled={loading}
