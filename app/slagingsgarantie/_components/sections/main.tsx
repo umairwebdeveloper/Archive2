@@ -1,5 +1,4 @@
 
-import Faq from "./faq";
 import Footer from "./footer";
 import Hero from "./hero";
 

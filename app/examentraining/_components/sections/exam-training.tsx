@@ -16,7 +16,7 @@ const ExamTraining = () => {
 
 	return (
 		<>
-			<div className=" md: pt-0">
+			<div className="mt-10 rounded">
 				<div className="container">
 					<div className="bg-[rgb(250,250,250)] flex flex-col items-center justify-center text-center py-10 md:mb-10">
 		

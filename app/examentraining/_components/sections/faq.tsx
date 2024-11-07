@@ -29,8 +29,8 @@ const Faq = () => {
 	];
 
 	return (
-		<div className="container bg-[rgb(250,250,250)]">
-			<h2 className="text-2xl md:text-3xl text-center font-semibold text-gray-800 mt-10 mb-2">
+		<div className="container bg-[rgb(250,250,250)] py-3 mt-5 rounded">
+			<h2 className="text-2xl md:text-3xl text-center font-semibold text-gray-800 mt-10 mb-4">
 				Veelgestelde vragen
 			</h2>
 			
