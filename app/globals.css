@@ -179,3 +179,4 @@ input[type="number"] {
 .toggle-checkbox:checked:before {
 	transform: translateX(20px);
 }
+
