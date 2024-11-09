@@ -25,7 +25,7 @@ const Info = () => {
 	];
 
 	return (
-		<section className="bg-[rgb(250,250,250)] py-12">
+		<section className="bg-[rgb(250,250,250)] pt-8">
 			<div className="container mx-auto px-6 lg:px-8">
 				<div className="text-center mb-12">
 					<h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6">

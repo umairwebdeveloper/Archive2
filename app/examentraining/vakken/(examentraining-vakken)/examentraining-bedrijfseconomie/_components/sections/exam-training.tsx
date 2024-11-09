@@ -16,7 +16,7 @@ const ExamTraining = () => {
               De voordelen van een examentraining
             </h2>
 
-            <p className="text-gray-700 text-lg mb-4 md:mb-6 max-w-md">
+            <p className="text-gray-700 text-lg mb-10 max-w-md">
               Een examentraining is onder andere geschikt voor leerlingen die moeite hebben met een of meerdere vakken,
               een goede cijferlijst nodig hebben voor een vervolgopleiding of die behoefte hebben aan extra zekerheid.
               Zo zitten er veel voordelen aan het volgen van een examentraining.

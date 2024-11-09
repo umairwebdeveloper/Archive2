@@ -8,7 +8,7 @@ const Hero = () => {
     const router = useRouter();
     return (
         <div className="bg-gr1 relative">
-            <div className="bg-white w-full pb-28 md:pb-32 rounded-b-[72px]">
+            <div className="bg-white w-full pb-20 rounded-b-[72px]">
                 <div className="container mx-auto flex flex-col items-center">
                     <Navbar />
                     <div className="flex flex-col items-center justify-center text-center py-10 md:py-16 px-4 space-y-4">
@@ -20,7 +20,7 @@ const Hero = () => {
                         </p>
                     </div>
 
-                    <div className="container md:rounded-3xl my-10 bg-[#245810] py-8 px-4 mx-auto max-w-screen-xl lg:py-12 lg:px-8">
+                    <div className="container rounded-3xl bg-[#245810] py-8 px-4 mx-auto max-w-screen-xl lg:py-12 lg:px-8">
                         <div className="max-w-screen-md text-center mx-auto space-y-4">
                             <h2 className="text-3xl sm:text-4xl text-white font-semibold mb-6 tracking-tight">
                                 Zoek een examentraining bij jou in de buurt

@@ -2,7 +2,7 @@ const Subscribe = () => {
 	return (
 		<>
 			<div
-				className="container md:rounded-3xl my-10"
+				className="container md:rounded-3xl mb-20"
 				style={{ background: "#245810" }}
 			>
 				<div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">

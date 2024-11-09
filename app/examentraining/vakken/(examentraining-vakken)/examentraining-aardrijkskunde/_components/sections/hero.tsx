@@ -16,7 +16,6 @@ const Hero = () => {
 					style={{
 						borderBottomRightRadius: "72px",
 						borderBottomLeftRadius: "72px",
-						paddingBottom: "200px",
 					}}
 				>
 					<div className="container">
