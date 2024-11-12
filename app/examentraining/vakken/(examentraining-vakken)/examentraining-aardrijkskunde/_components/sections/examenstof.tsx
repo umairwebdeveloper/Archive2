@@ -552,76 +552,107 @@ const Examenstof = () => {
   const topics = selectedLevel === "havo" ? havoTopics : vwoTopics;
 
   return (
-    <div className="bg-[250, 250, 250] pt-0">
-      <div className="container max-w-7xl mx-auto px-4 md:px-8">
-        <h2 className="text-3xl text-center font-bold text-gray-900 mt-10 py-8">
-          Onderwerpen {selectedLevel === "havo" ? "havo" : "vwo"}
-        </h2>
-        <p className="text-center mb-8 text-lg text-gray-700">
-          De volgende onderdelen komen aan bod bij de examentraining
-        </p>
-        <div className="flex justify-center gap-6 mb-8">
-          <button
-            onClick={() => setSelectedLevel("havo")}
-            className={`py-2 px-6 rounded-full font-bold transition-all duration-300 ${
-              selectedLevel === "havo" ? "bg-green-600 text-white shadow-lg" : "bg-green-200 text-gray-800"
-            }`}
-          >
-            havo
-          </button>
-          <button
-            onClick={() => setSelectedLevel("vwo")}
-            className={`py-2 px-6 rounded-full font-bold transition-all duration-300 ${
-              selectedLevel === "vwo" ? "bg-green-600 text-white shadow-lg" : "bg-green-200 text-gray-800"
-            }`}
-          >
-            Vwo
-          </button>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          {topics.map((topic, topicIndex) => (
-            <div key={topicIndex} className="space-y-8">
-              <h3 className="text-xl font-semibold text-gray-800 mb-4">{topic.title}</h3>
-              {topic.items.map((item) => (
-                <div
-                  key={item.id}
-                  className="border border-gray-300 bg-white rounded-[10px] shadow-[0_4px_6px_rgba(0,0,0,0.1)] p-1 flex items-center gap-[1.5rem] transition-transform transition-shadow duration-300"
-                  onMouseEnter={(e) => (e.currentTarget.style.boxShadow = "0 6px 10px rgba(0, 0, 0, 0.15)")}
-                  onMouseLeave={(e) => (e.currentTarget.style.boxShadow = "0 4px 6px rgba(0, 0, 0, 0.1)")}
-                >
-                  <div className="flex-grow">
-                    <h2 id={`accordion-heading-${item.id}`}>
-                      <button
-                        type="button"
-                        onClick={() => toggleItem(item.id)}
-                        className="flex items-center justify-between w-full font-medium text-gray-700 hover:text-gray-800 transition duration-200"
-                        aria-expanded={openItem === item.id}
-                        aria-controls={`accordion-body-${item.id}`}
-                      >
-                        <div className="flex-shrink-0 border-4 border-[#ebf6ea] bg-[#F5FAF3] rounded-[11px] p-2.5">
-                          <CheckCircle size={28} color="#00A210" />
-                        </div>
-                        <span className="text-lg font-medium text-gray-800 text-center">{item.question}</span>
-                        <div className="flex items-center gap-3">
-                          <span className="text-green-600 px-3 rounded-md font-semibold">{item.goals} leerdoelen</span>
-                          {openItem === item.id ? <Minus className="w-6 h-6" /> : <Plus className="w-6 h-6" />}
-                        </div>
-                      </button>
-                    </h2>
-                    <div
-                      id={`accordion-body-${item.id}`}
-                      className={`p-4 text-gray-700 ${openItem === item.id ? 'block' : 'hidden'} transition-all duration-300`}
-                    >
-                      {item.answer}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
+		<div className="bg-[250, 250, 250] pt-0">
+			<div className="container max-w-7xl mx-auto px-4 md:px-8">
+				<h2 className="text-3xl text-center font-bold text-gray-900 mt-10 py-8">
+					Onderwerpen {selectedLevel === "havo" ? "havo" : "vwo"}
+				</h2>
+				<p className="text-center mb-8 text-lg text-gray-700">
+					De volgende onderdelen komen aan bod bij de examentraining
+				</p>
+				<div className="flex justify-center gap-6 mb-8">
+					<button
+						onClick={() => setSelectedLevel("havo")}
+						className={`py-2 px-6 rounded-full font-bold transition-all duration-300 ${
+							selectedLevel === "havo"
+								? "bg-green-600 text-white shadow-lg"
+								: "bg-green-200 text-gray-800"
+						}`}
+					>
+						havo
+					</button>
+					<button
+						onClick={() => setSelectedLevel("vwo")}
+						className={`py-2 px-6 rounded-full font-bold transition-all duration-300 ${
+							selectedLevel === "vwo"
+								? "bg-green-600 text-white shadow-lg"
+								: "bg-green-200 text-gray-800"
+						}`}
+					>
+						Vwo
+					</button>
+				</div>
+				<div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+					{topics.map((topic, topicIndex) => (
+						<div key={topicIndex} className="space-y-8">
+							<h3 className="text-xl font-semibold text-gray-800 mb-4">
+								{topic.title}
+							</h3>
+							{topic.items.map((item) => (
+								<div
+									key={item.id}
+									className="border border-gray-300 bg-white rounded-[10px] shadow-[0_4px_6px_rgba(0,0,0,0.1)] p-1 flex items-center gap-[1.5rem] transition-transform transition-shadow duration-300"
+									onMouseEnter={(e) =>
+										(e.currentTarget.style.boxShadow =
+											"0 6px 10px rgba(0, 0, 0, 0.15)")
+									}
+									onMouseLeave={(e) =>
+										(e.currentTarget.style.boxShadow =
+											"0 4px 6px rgba(0, 0, 0, 0.1)")
+									}
+								>
+									<div className="flex-grow">
+										<h2 id={`accordion-heading-${item.id}`}>
+											<button
+												type="button"
+												onClick={() =>
+													toggleItem(item.id)
+												}
+												className="flex flex-wrap gap-2 md:flex-nowrap items-center justify-between w-full font-medium text-gray-700 hover:text-gray-800 transition duration-200"
+												aria-expanded={
+													openItem === item.id
+												}
+												aria-controls={`accordion-body-${item.id}`}
+											>
+												<div className="flex-shrink-0 border-4 border-[#ebf6ea] bg-[#F5FAF3] rounded-[11px] p-2.5">
+													<CheckCircle
+														size={28}
+														color="#00A210"
+													/>
+												</div>
+												<span className="text-lg font-medium text-gray-800 text-center">
+													{item.question}
+												</span>
+												<div className="flex items-center gap-3">
+													<span className="text-green-600 px-3 rounded-md font-semibold">
+														{item.goals} leerdoelen
+													</span>
+													{openItem === item.id ? (
+														<Minus className="w-6 h-6" />
+													) : (
+														<Plus className="w-6 h-6" />
+													)}
+												</div>
+											</button>
+										</h2>
+										<div
+											id={`accordion-body-${item.id}`}
+											className={`p-4 text-gray-700 ${
+												openItem === item.id
+													? "block"
+													: "hidden"
+											} transition-all duration-300`}
+										>
+											{item.answer}
+										</div>
+									</div>
+								</div>
+							))}
+						</div>
+					))}
+				</div>
+			</div>
+		</div>
   );
 };
 
