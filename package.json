@@ -78,6 +78,7 @@
 		"react-katex": "^3.0.1",
 		"react-quill": "^2.0.0",
 		"react-resizable": "^3.0.5",
+		"react-select": "^5.8.3",
 		"react-selection-highlighter": "^2.0.1",
 		"react-textarea-autosize": "^8.5.3",
 		"react-tooltip": "^5.26.4",
