@@ -554,10 +554,10 @@ const Examenstof = () => {
   return (
 		<div className="bg-[250, 250, 250] pt-0">
 			<div className="container max-w-7xl mx-auto px-4 md:px-8">
-				<h2 className="text-3xl text-center font-bold text-gray-900 mt-10 py-8">
+				<h2 className="text-3xl text-center font-bold text-gray-900 mt-10">
 					Onderwerpen {selectedLevel === "havo" ? "havo" : "vwo"}
 				</h2>
-				<p className="text-center mb-8 text-lg text-gray-700">
+				<p className="text-center mb-5 mt-3 text-lg text-gray-700 ">
 					De volgende onderdelen komen aan bod bij de examentraining
 				</p>
 				<div className="flex justify-center gap-6 mb-8">

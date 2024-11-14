@@ -30,7 +30,7 @@ const Faq = () => {
 
 	return (
 		<div className="container">
-			<h2 className="text-2xl md:text-3xl text-center font-semibold text-gray-800 mt-10 mb-2">
+			<h2 className="text-2xl md:text-3xl text-center font-semibold text-gray-800 mt-12 mb-2">
 				Veelgestelde vragen
 			</h2>
 			<p className="text-center mb-10">

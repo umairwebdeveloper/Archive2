@@ -48,7 +48,7 @@ const Agenda = () => {
 	return (
 		<div className="bg-gr1 pt-0 min-h-screen">
 			<div className="container max-w-4xl mx-auto">
-				<h2 className="text-3xl text-center font-bold text-gray-900 mt-10 py-8">
+				<h2 className="text-3xl text-center font-bold text-gray-900 py-8">
 					Een planning waar jij blij van wordt
 				</h2>
 
