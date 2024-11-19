@@ -9,21 +9,21 @@ const Info = () => {
 			description:
 				"Je volgt examentraining met maximaal 6 leerlingen tegelijk. Zo krijg je alle aandacht die je verdient. Geen grote klassen zoals bij regulier onderwijs. Alleen jij en maximaal 5 anderen.",
 			icon: "/assets/png/sales.png",
-			extraImage: "/assets/png/imageA.png",
+			extraImage: "/assets/png/building.png",
 		},
 		{
 			title: "Krijg handige strategieën en stappenplannen",
 			description:
 				"Onze examentrainingen bevatten alle stof voor het centraal eindexamen (CE) en de schoolexamens (SE). In het trainingsoverzicht zie je precies welke onderwerpen je moet kennen voor het CE en wat de SE onderwerpen zijn. Met OnlineSlagen bereid je je dus het hele examenjaar voor op de eindexamens!",
 			icon: "/assets/png/support.png",
-			extraImage: "/assets/png/imageB.png",
+			extraImage: "/assets/png/building2.png",
 		},
 		{
 			title: "Oefen het beantwoorden van examenvragen",
 			description:
 				"Op onze examentrainingen geven we een slagingsgarantie. Heb je na het volgen van onze examentraining toch een onvoldoende voor het vak gehaald? Wij storten het volledige bedrag terug. Lees hier meer over de slagingsgarantie.",
 			icon: "/assets/png/help.png",
-			extraImage: "/assets/png/imageC.png",
+			extraImage: "/assets/png/customer-service.png",
 		},
 	];
 
@@ -35,7 +35,7 @@ const Info = () => {
 						Examentraining van <span style={{ color: 'rgb(0, 162, 16)' }}>Gotutor</span>
 					</h2>
 				</div>
-				<div className="grid grid-cols-1 md:grid-cols-2 gap-8 pb-10">
+				<div className="grid grid-cols-1 md:grid-cols-2 gap-8 pb-5">
 					<div className="w-full flex flex-col items-center md:items-start">
 						{products.map((product, index) => (
 							<div
@@ -66,7 +66,7 @@ const Info = () => {
 						<img
 							src={products[selectedProduct].extraImage}
 							alt={`${products[selectedProduct].title} Extra Image`}
-							className="h-60 w-60 object-contain"
+							className="h-100 w-100 object-contain"
 						/>
 					</div>
 				</div>

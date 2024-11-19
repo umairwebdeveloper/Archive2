@@ -32,7 +32,7 @@ const Info = () => {
 						Examentraining van <span style={{ color: 'rgb(0, 162, 16)' }}>Gotutor</span>
 					</h2>
 				</div>
-				<div className="grid grid-cols-1 md:grid-cols-2 gap-8 pb-10">
+				<div className="grid grid-cols-1 md:grid-cols-2 gap-8 pb-5">
 					<div>
 						<h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
 							Zonder zorgen de examens in
