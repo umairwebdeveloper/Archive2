@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useConvexAuth } from "convex/react";
 import { SignInButton, UserButton } from "@clerk/clerk-react";
-import { Settings, X } from "lucide-react";
+import { Settings, X, Check } from "lucide-react";
 import { Spinner } from "@/components/spinner";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,8 @@ import { usePathname } from "next/navigation";
 const Navbar = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [showModal, setShowModal] = useState(false);
+	const [selectedLevels, setSelectedLevels] = useState<string[]>([]);
+	const [loadingLevels, setLoadingLevels] = useState<string[]>([]);
 	const { isAuthenticated, isLoading } = useConvexAuth();
 	const menuRef = useRef<HTMLDivElement | null>(null);
 	const pathname = usePathname();
@@ -30,9 +32,12 @@ const Navbar = () => {
 
 	useEffect(() => {
 		if (isAuthenticated && !isLoading) {
-			const level = localStorage.getItem("userLevel");
-			if (!level) {
+			const storedLevels = localStorage.getItem("userLevels");
+			if (storedLevels) {
+				setSelectedLevels(JSON.parse(storedLevels));
+			} else {
 				setShowModal(true);
+				
 			}
 		}
 	}, [isAuthenticated, isLoading]);
@@ -49,7 +54,6 @@ const Navbar = () => {
 
 		document.addEventListener("mousedown", handleClickOutside);
 
-		// Cleanup event listener on component unmount
 		return () => {
 			document.removeEventListener("mousedown", handleClickOutside);
 		};
@@ -61,34 +65,41 @@ const Navbar = () => {
 		}
 	};
 
-	const handleLevelSelect = async (level: any) => {
+	const handleLevelSelect = async (level: string) => {
+		// Add loading state
+		setLoadingLevels((prev) => [...prev, level]);
 		try {
-			localStorage.setItem("userLevel", level);
+			// Toggle level selection
+			setSelectedLevels((prev) => {
+				const updatedLevels = prev.includes(level)
+					? prev.filter((l) => l !== level)
+					: [...prev, level];
+				// Store updated levels in localStorage
+				localStorage.setItem("userLevels", JSON.stringify(updatedLevels));
+				return updatedLevels;
+			});
+	
+			// Simulate an API call to check level
 			const response = await axios.get(
 				`/api/level/check-level?title=${encodeURIComponent(level)}`
 			);
 			const levelData = response.data;
-			if (
-				levelData &&
-				levelData.subjects &&
-				levelData.subjects.length > 0
-			) {
+			if (levelData?.subjects?.length > 0) {
 				toast.success(`The level "${level}" has associated subjects.`);
 			} else {
 				toast.error(
 					`The level "${level}" does not have any associated subjects.`
 				);
 			}
-			setShowModal(false);
 		} catch (error) {
 			console.error(error);
-			toast.error(
-				"An error occurred while checking subjects for this level."
-			);
-			setShowModal(false);
+			toast.error("An error occurred while checking subjects for this level.");
+		} finally {
+			// Remove loading state
+			setLoadingLevels((prev) => prev.filter((l) => l !== level));
 		}
 	};
-
+	
 	return (
 		<>
 			<nav className="bg-white w-full z-20">
@@ -192,57 +203,44 @@ const Navbar = () => {
 			{showModal && (
 				<div
 					className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50"
-					onClick={
-						localStorage.getItem("userLevel")
-							? handleBackdropClick
-							: undefined
-					}
+					onClick={handleBackdropClick}
 				>
 					<div className="bg-white rounded-lg p-6 w-full max-w-md relative">
 						{/* Close Icon */}
-						{localStorage.getItem("userLevel") && (
-							<button
-								onClick={() => setShowModal(false)}
-								className="absolute top-4 right-5 text-gray-600 hover:text-gray-900"
-							>
-								<X />
-							</button>
-						)}
+						<button
+							onClick={() => setShowModal(false)}
+							className="absolute top-4 right-5 text-gray-600 hover:text-gray-900"
+						>
+							<X />
+						</button>
 						{/* Modal Content */}
 						<h3 className="text-xl font-semibold text-center mb-4">
-							Select Level
+							Select Levels
 						</h3>
 						<div className="space-y-4">
-							<button
-								onClick={() => handleLevelSelect("mavo")}
-								className={`w-full py-2 rounded-lg ${
-									localStorage.getItem("userLevel") === "mavo"
-										? "bg-green-500 hover:bg-green-600 text-white"
-										: "bg-prim400 hover:bg-prim500 text-white"
-								}`}
-							>
-								MAVO
-							</button>
-							<button
-								onClick={() => handleLevelSelect("havo")}
-								className={`w-full py-2 rounded-lg ${
-									localStorage.getItem("userLevel") === "havo"
-										? "bg-green-500 hover:bg-green-600 text-white"
-										: "bg-prim400 hover:bg-prim500 text-white"
-								}`}
-							>
-								HAVO
-							</button>
-							<button
-								onClick={() => handleLevelSelect("vwo")}
-								className={`w-full py-2 rounded-lg ${
-									localStorage.getItem("userLevel") === "vwo"
-										? "bg-green-500 hover:bg-green-600 text-white"
-										: "bg-prim400 hover:bg-prim500 text-white"
-								}`}
-							>
-								VWO
-							</button>
+							{["mavo", "havo", "vwo"].map((level) => (
+								<button
+									key={level}
+									onClick={() => handleLevelSelect(level)}
+									className={`w-full p-2 flex items-center justify-between rounded-lg ${
+										selectedLevels.includes(level)
+											? "bg-green-500 text-white"
+											: "bg-prim400 text-white"
+									} ${
+										loadingLevels.includes(level)
+											? "opacity-50 cursor-not-allowed"
+											: ""
+									}`}
+									disabled={loadingLevels.includes(level)}
+								>
+									<span>{level.toUpperCase()}</span>
+									{loadingLevels.includes(level) ? (
+										<Spinner />
+									) : selectedLevels.includes(level) ? (
+										<Check className="h-5 w-5 text-white" />
+									) : null}
+								</button>
+							))}
 						</div>
 					</div>
 				</div>
