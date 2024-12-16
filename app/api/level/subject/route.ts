@@ -10,17 +10,40 @@ export async function GET(req: Request) {
 	try {
 		const { userId } = auth();
 		if (!userId) {
-			return new NextResponse("Unauthorized", { status: 401 });
+		return new NextResponse("Unauthorized", { status: 401 });
 		}
+
+		// Parse the query parameters
+		const url = new URL(req.url);
+		const levels = url.searchParams.get("levels");
+
+		// Build the Prisma query
+		const whereCondition = levels
+		? {
+			level: {
+				title: {
+				in: levels.split(",").map((title) => title.trim()),
+				mode: "insensitive", // Case-insensitive filter
+				},
+			},
+			}
+		: undefined;
+
+		// Fetch subjects with optional filtering
 		const subjects = await prisma.subject.findMany({
+			where: whereCondition,
 			include: {
 				level: true,
 			},
 		});
+
 		return NextResponse.json(subjects);
 	} catch (error) {
 		console.error(error);
-		return NextResponse.json(error);
+		return NextResponse.json(
+		{ error: "An error occurred while fetching subjects" },
+		{ status: 500 }
+		);
 	}
 }
 
