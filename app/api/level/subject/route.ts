@@ -18,7 +18,7 @@ export async function GET(req: Request) {
 		const levels = url.searchParams.get("levels");
 
 		// Build the Prisma query
-		const whereCondition = levels
+		const whereCondition: any = levels
 		? {
 			level: {
 				title: {
