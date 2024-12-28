@@ -99,12 +99,20 @@ const DebitCredit: React.FC<DebitCreditProps> = ({
   useEffect(() => {
     // Fetch totals from localStorage by questionID
     const storedTotals = localStorage.getItem(`question_total_${questionID}`);
+    const storedData = localStorage.getItem(`entries_${questionID}`);
     if (storedTotals) {
       const { totalDebits: storedDebits, totalCredits: storedCredits } =
         JSON.parse(storedTotals);
       setTotalDebits(storedDebits);
       setTotalCredits(storedCredits);
     }
+    if (storedData) {
+        const { debits: savedDebits, credits: savedCredits } =
+            JSON.parse(storedData);
+        setDebits(savedDebits || []);
+        setCredits(savedCredits || []);
+    }
+
   }, [questionID]); // Run only when questionID changes
 
   useEffect(() => {
@@ -123,44 +131,51 @@ const DebitCredit: React.FC<DebitCreditProps> = ({
       setTotalCredits(updatedTotalCredits);
   }, [debits, credits]); // Recalculate totals only when debits or credits change
 
+  const updateLocalStorage = (
+      key: string,
+      debits: Entry[],
+      credits: Entry[]
+  ) => {
+      const data = { debits, credits };
+      localStorage.setItem(key, JSON.stringify(data));
+  };
+
   const handleAddDebit = (label: string, value: number, category: string) => {
-    setDebits([...debits, { label, value, category }]);
+      const updatedDebits = [...debits, { label, value, category }];
+      setDebits(updatedDebits);
+      updateLocalStorage(`entries_${questionID}`, updatedDebits, credits);
   };
 
   const handleAddCredit = (label: string, value: number, category: string) => {
-    // if (totalCredits + value > totalDebits) {
-    // 	toast.error("Total credits cannot exceed total debits.");
-    // 	return;
-    // }
-    setCredits([...credits, { label, value, category }]);
+      const updatedCredits = [...credits, { label, value, category }];
+      setCredits(updatedCredits);
+      updateLocalStorage(`entries_${questionID}`, debits, updatedCredits);
   };
 
   const handleDeleteDebit = (index: number) => {
-    setDebits(debits.filter((_, i) => i !== index));
+      const updatedDebits = debits.filter((_, i) => i !== index);
+      setDebits(updatedDebits);
+      updateLocalStorage(`entries_${questionID}`, updatedDebits, credits);
   };
 
   const handleDeleteCredit = (index: number) => {
-    setCredits(credits.filter((_, i) => i !== index));
+      const updatedCredits = credits.filter((_, i) => i !== index);
+      setCredits(updatedCredits);
+      updateLocalStorage(`entries_${questionID}`, debits, updatedCredits);
   };
 
   const handleDebitChange = (index: number, newValue: number) => {
-    const newDebits = [...debits];
-    newDebits[index].value = newValue;
-    setDebits(newDebits);
+      const updatedDebits = [...debits];
+      updatedDebits[index].value = newValue;
+      setDebits(updatedDebits);
+      updateLocalStorage(`entries_${questionID}`, updatedDebits, credits);
   };
 
   const handleCreditChange = (index: number, newValue: number) => {
-    const newCredits = [...credits];
-    // const updatedTotalCredits =
-    // 	totalCredits - newCredits[index].value + newValue;
-
-    // if (updatedTotalCredits > totalDebits) {
-    // 	toast.error("Total credits cannot exceed total debits.");
-    // 	return;
-    // }
-
-    newCredits[index].value = newValue;
-    setCredits(newCredits);
+      const updatedCredits = [...credits];
+      updatedCredits[index].value = newValue;
+      setCredits(updatedCredits);
+      updateLocalStorage(`entries_${questionID}`, debits, updatedCredits);
   };
 
   function matchLists(list1: any, list2: any): boolean {
